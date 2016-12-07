@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		  <title>Ascend Landing Page</title><!-- cdf-bootstrap-script-includes -->		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js/cdf-bootstrap-script-includes.js?v=4b882a2650d4c63fce58d7802308a537"></script>
+<!-- cdf-bootstrap-ie8script-includes --><!--[if lte IE 8]>
+		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js-legacy/lib/html5shiv/html5shiv.js?v=ee68da404bd6cbdab3adb3bf9219c207"></script>
+<![endif]-->
+<!-- cdf-bootstrap-style-includes -->		<link href="/pentaho/api/repos/pentaho-cdf/css/cdf-bootstrap-style-includes.css?v=8fff571c27b55af6ffd0805ebf6f22b6" rel="stylesheet" type="text/css" />
+<!-- bootstrap.css.map --><!-- cdf-bootstrap-ie8scriptAfterLink-includes --><!--[if lte IE 8]>
+		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js-legacy/lib/respond/respond.js?v=c03b5dcc8955c34fa65e59e7e7daacf0"></script>
+<![endif]-->
+  <script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf-dd/js/CDF.js?v=e752b25601e29d1d54a2bc6cd388b9ef"></script>
+  <link href="/pentaho/api/repos/pentaho-cdf-dd/css/CDF-CSS.css?v=f2b55b007fca25c54861edcb0831b7bc" rel="stylesheet" type="text/css" />
+
+<script language="javascript" type="text/javascript">
+Dashboards.context = {
+  "locale": "en_US",
+  "params": {},
+  "path": "/public/ascend/dashboards/landing_page.wcdf",
+  "queryData": {},
+  "roles": [
+    "Authenticated",
+    "Instructor",
+    "SSOUser"
+  ],
+  "serverLocalDate": 1476860695775,
+  "serverUTCDate": 1476860695775,
+  "sessionAttributes": {},
+  "sessionTimeout": 7200,
+  "user": "910001"
+}
+Dashboards.initialStorage = {}
+
+</script>
+
+	</head>
+	<body>
+		<script language="javascript">
+			// Init jQuery i18n plugin
+			loadMessageBundles = function(lang) {
+				jQuery.i18n.properties({
+					name:'messages',
+					path:'/pentaho/api/repos/pentaho-cdf-dd/tmp/.cache/public/ascend/dashboards/',
+					mode:'both',
+					language:(lang == 'browser' ? jQuery.i18n.browserLang() : lang),
+					callback: function() {
+						
+					}
+				});
+				Dashboards.setI18nSupport('en-US', jQuery.i18n);
+			}
+
+			$(document).ready(function(){
+				// Initialize jquery.i18n plugin - load message files
+				var userLocale = 'en-US';
+				var formProvider = cdo.format.language(userLocale);
+				cdo.format.language(formProvider);
+				moment.locale(userLocale);
+				loadMessageBundles(userLocale);
+			});
+		</script>
+	
+		
+  <div class='container'>
+  </div>
+<script language="javascript" type="text/javascript">
+wcdfSettings = {
+  "title": "Ascend Landing Page",
+  "author": "",
+  "description": "Ascend Landing Page",
+  "style": "Clean",
+  "widgetName": "",
+  "widget": false,
+  "rendererType": "bootstrap",
+  "require": false,
+  "widgetParameters": []
+};
+
+Dashboards.addParameter("roleTypeParam", "");
+Dashboards.setParameterViewMode("roleTypeParam", "unused");
+
+Dashboards.addParameter("roleIDParam", "");
+Dashboards.setParameterViewMode("roleIDParam", "unused");
+
+Dashboards.addParameter("isConParam", "");
+Dashboards.setParameterViewMode("isConParam", "unused");
+
+Dashboards.addParameter("newRoleParam", "");
+Dashboards.setParameterViewMode("newRoleParam", "unused");
+
+Dashboards.addParameter("userNameParam", "");
+Dashboards.setParameterViewMode("userNameParam", "unused");
+
+Dashboards.addParameter("userIDParam", "");
+Dashboards.setParameterViewMode("userIDParam", "unused");
+
+Dashboards.addParameter("sessionParam", "");
+Dashboards.setParameterViewMode("sessionParam", "unused");
+
+var render_sessionVarQueryComponent = {
+  type: "Query",
+  name: "render_sessionVarQueryComponent",
+  priority: 0,
+  parameters: [],
+  executeAtStart: true,
+  listeners: [],
+  postFetch: function f(data){
+    //example session variables
+    //var RoleType = "Student";           * Student, Director, etc
+    //var RoleID = "11";                  * institution Id (11,770) or consortium Id(923)
+    //var isCon = false;                  * True or False if consortium
+    //var newRole = "Student";            * if it is a director with isCon, then new role is “Consortium Director”. If director with isCon false, then “Institution Director”.  If not director, then it will have same value as RoleType.
+    //var userName = "abbitt, veronica";
+    //var userID = "1854931";
+    
+    var result = data.resultset;
+    
+    Dashboards.setParameter("roleTypeParam", result[0][1]);
+    Dashboards.setParameter("roleIDParam", result[1][1]);
+    Dashboards.setParameter("isConParam", result[2][1]);
+    Dashboards.setParameter("newRoleParam", result[3][1]);
+    Dashboards.setParameter("userNameParam", result[4][1]);
+    Dashboards.setParameter("userIDParam", result[5][1]);
+    
+    //set dashboard to open
+    if ( newRoleParam == "Student" ){
+        var bookmark = '{"impl"%3A"client"%2C"params"%3A {"studentIDParam"%3A+' + '"' + userIDParam + '"' + '+%2C"institutionIDParam"%3A+' + '"' + roleIDParam + '"' + '}}';
+        window.open("/pentaho/api/repos/:public:ascend:dashboards:student.wcdf/generatedContent?" + '&bookmarkState=' + bookmark, "_self");
+    }else if ( newRoleParam == "Institution Director" || newRoleParam == "Instructor" ){
+        var bookmark = '{"impl"%3A"client"%2C"params"%3A {"institutionIDParam"%3A+' + '"' + roleIDParam + '"' + '}}';
+        window.open("/pentaho/api/repos/:public:ascend:dashboards:faculty.wcdf/generatedContent?" + '&bookmarkState=' + bookmark, "_self");
+    }else if( newRoleParam == "Consortium Director" ){
+        var bookmark = '{"impl"%3A"client"%2C"params"%3A {"consorIDParam"%3A+' + '"' + roleIDParam + '"' + '}}';
+        window.open("/pentaho/api/repos/:public:ascend:dashboards:faculty_consortium.wcdf/generatedContent?" + '&bookmarkState=' + bookmark, "_self");
+    }
+    
+    return data;
+},
+  queryDefinition:  {
+    dataAccessId: "sessionVariables",
+    path: "/public/ascend/dashboards/landing_page.cda"
+  }
+};
+
+Dashboards.addComponents([render_sessionVarQueryComponent]);
+
+</script>
+
+<script language="javascript" type="text/javascript">
+Dashboards.init();
+</script>
+
+		
+				<script type="text/javascript">
+		$( function(){
+				//$(".round").corner();
+				$(".cdfdd-round").corner();
+				$(".cdfdd-bevel").corner("bevel");
+				$(".cdfdd-notch").corner("notch");
+				$(".cdfdd-bite").corner("bite");
+				$(".cdfdd-bevel_top").corner("bevel top");
+				$(".cdfdd-dog_tr").corner("dog tr");
+			} ) ;
+		</script>
+		
+
+	</body>
+</html>
+
+

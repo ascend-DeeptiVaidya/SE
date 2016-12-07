@@ -1,0 +1,108 @@
+var iAutoLogoffInterval;
+var iAutoLogoffCtr;
+var iAutoLogoffAvailTime;
+var iLastChanceAvailTime;
+var objLogoffWarning;
+var logoutPage;
+var autoLogoffQS;
+
+function initLogoffCountdown_NG() {
+    clearInterval(iAutoLogoffInterval);
+    iAutoLogoffCtr = iAutoLogoffAvailTime;
+    iAutoLogoffInterval = setInterval("AutoLogoffCountdown_NG()", 1000);
+}
+
+function AutoLogoffCountdown_NG() {
+    iAutoLogoffCtr = iAutoLogoffCtr - 1;    
+    window.status = "Session Time Remaining: " + convertSecToHHMMSS_NG(iAutoLogoffCtr);
+
+    if (iAutoLogoffCtr == iLastChanceAvailTime) {
+        //end main countdown
+        clearInterval(iAutoLogoffInterval);
+
+        //create message
+        if (!objLogoffWarning) {
+            objLogoffWarning = GetWarningMessage_NG();
+        }
+
+        objLogoffWarning.show()
+
+        //start last chance countdown
+        iAutoLogoffCtr = iLastChanceAvailTime;
+        iAutoLogoffInterval = setInterval("AutoLogoffLastChance_NG()", 1000);
+    }
+}
+
+function AutoLogoffLastChance_NG() {
+    iAutoLogoffCtr = iAutoLogoffCtr - 1;    
+    window.status = "Time Remaining until Auto-Logoff: " + convertSecToHHMMSS_NG(iAutoLogoffCtr);
+
+    if (iAutoLogoffCtr <= 0) {
+        //end last chance countdown
+        clearInterval(iAutoLogoffInterval);
+
+        //close any open report window		
+        var objReportWin;
+        objReportWin = window.open('', 'winStudentReport', '');
+        if (objReportWin) {
+            if (objReportWin.open) {
+                objReportWin.close();
+            }
+        }
+
+        //logoff user		
+        top.document.location.href = logoutPage + "?" + autoLogoffQS;
+    }    
+}
+
+function LastChanceLogoff_NG() {
+    //end last chance countdown
+    clearInterval(iAutoLogoffInterval);
+
+    //logoff user
+    top.document.location.href = logoutPage;
+}
+
+function ResetAutoLogoff_NG(ReloadPage) {
+    //hide warning message
+    if (objLogoffWarning) {
+        //hideMessage("WarningMsg");
+        objLogoffWarning.hide();
+    }
+
+    //clear countdown timer
+    clearInterval(iAutoLogoffInterval);
+
+    //reset counter
+    iAutoLogoffCtr = iAutoLogoffAvailTime;
+
+    //ffrancisco [10458] Dont reload page if not necessary when reseting Session logoff.
+    if(ReloadPage != 'False')
+        window.location.reload();
+            
+    //init new countdown
+    iAutoLogoffInterval = setInterval("AutoLogoffCountdown_NG()", 1000);
+}
+
+function GetWarningMessage_NG() {
+    return $find('mpSessionTimeOutCounterBehavior');
+}
+
+
+
+function convertSecToHHMMSS_NG(iSeconds) {
+    var iHH;
+    var iMM;
+    var iSS;
+    var strHHMMSS;
+
+    iHH = (parseFloat(iSeconds) < 3600) ? 0 : Math.floor(parseFloat(iSeconds) / 3600);
+    iSeconds = iSeconds - (iHH * 3600);
+    iMM = (parseFloat(iSeconds) < 60) ? 0 : Math.floor(parseFloat(iSeconds) / 60);
+    iSeconds = iSeconds - (iMM * 60);
+    iSS = parseInt(iSeconds);
+    strHHMMSS = ((iHH < 10) ? "0" + iHH : iHH) + ":" + ((iMM < 10) ? "0" + iMM : iMM) + ":" + ((iSS < 10) ? "0" + iSS : iSS);
+
+    return strHHMMSS;
+}
+

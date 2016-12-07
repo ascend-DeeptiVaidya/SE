@@ -1,0 +1,9 @@
+GET /data/guide.js/e2b10921-3ecd-45d0-7828-a16fd5c63b3d?jzb=eJxlkc2O4jAQhN_FEqdh4vxNWCKtRoi9cBsJzRk1tgkWjm3ZbTigvDvt_WERXNzdVV-cTuXKzjpqdGEjWc-SleqgrZJszkAIlyxm3SZj5iwFQ8gR0cee84jDu08mqgJQo4qo7VAIN3KvLMLRcfCaB-Vd5L1Pe6NFD1EoK3sJ8bh3EGTsIyZJ-E4GbYx0F1tchDzwQVkVAJVcO4vkf-6dO40QTlsk9ed1Vtd69IbKrFnRKYwmKo_1mk4PAcb4zy1_45YWxITa2c2vr-z_sd-odE1bUaE2PywMxPjCNIu6W_6H_u79gtUfbfNj2VI3TRThqBAkILD-HnNu9XPUagSds33UgjPqSTJghwRDlpXdfW_ZdP9LdC0N9OG01epRotdnvmp52fG6rDq656xCpCCyXFSLotz54CSbphs9c6pB&v=1.17.0_prod&ct=1465896504458 HTTP/1.1
+Host: app.pendo.io
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Referer: https://stg-pulse.atitesting.com/pentaho/api/repos/:public:ascend:dashboards:student_drilldown.wcdf/generatedContent?bookmarkState={%22impl%22%3A%22client%22%2C%22params%22%3A%20{%22institutionIDParam%22%3A+%226341%22+%2C%22classIDParam%22%3A+%2237269%22+%2C%22studentIDParam%22%3A+%222543894%22}}
+Connection: keep-alive
+

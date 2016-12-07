@@ -1,0 +1,10 @@
+GET /docs/common/cleardot.gif?zx=zew28669pj4p HTTP/1.1
+Host: ssl.gstatic.com
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
+X-Client-Data: CIe2yQEIpLbJAQjBtskBCIKZygE=
+Accept: image/webp,image/*,*/*;q=0.8
+Referer: https://docs.google.com/offline/extension/frame?ouid=uc31ce1ddd412406f
+Accept-Encoding: gzip, deflate, sdch, br
+Accept-Language: en-US,en;q=0.8
+

@@ -1,0 +1,2213 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		  <title>Usage Dashboard</title><!-- cdf-bootstrap-script-includes -->		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js/cdf-bootstrap-script-includes.js?v=4b882a2650d4c63fce58d7802308a537"></script>
+<!-- cdf-bootstrap-ie8script-includes --><!--[if lte IE 8]>
+		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js-legacy/lib/html5shiv/html5shiv.js?v=ee68da404bd6cbdab3adb3bf9219c207"></script>
+<![endif]-->
+<!-- cdf-bootstrap-style-includes -->		<link href="/pentaho/api/repos/pentaho-cdf/css/cdf-bootstrap-style-includes.css?v=8fff571c27b55af6ffd0805ebf6f22b6" rel="stylesheet" type="text/css" />
+<!-- bootstrap.css.map --><!-- cdf-bootstrap-ie8scriptAfterLink-includes --><!--[if lte IE 8]>
+		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js-legacy/lib/respond/respond.js?v=c03b5dcc8955c34fa65e59e7e7daacf0"></script>
+<![endif]-->
+<!-- cdf-cdf-dashboard-script-includes -->
+		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js-legacy/lib/sparkline/jquery.sparkline.js?v=c7638b825bc7deb1cf58c990825d35b2"></script>
+<!-- cdf-cdf-dashboard-style-includes -->  <script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf-dd/js/CDF.js?v=e752b25601e29d1d54a2bc6cd388b9ef"></script>
+  <link href="/pentaho/api/repos/pentaho-cdf-dd/css/CDF-CSS.css?v=f2b55b007fca25c54861edcb0831b7bc" rel="stylesheet" type="text/css" />
+
+<script language="javascript" type="text/javascript">
+Dashboards.context = {
+  "locale": "en_US",
+  "params": {},
+  "path": "/public/ascend/dashboards/usage.wcdf",
+  "queryData": {},
+  "roles": [
+    "Authenticated",
+    "Instructor",
+    "SSOUser"
+  ],
+  "serverLocalDate": 1465881981608,
+  "serverUTCDate": 1465896381608,
+  "sessionAttributes": {},
+  "sessionTimeout": 7200,
+  "user": "jcaluyajr"
+}
+
+</script>
+
+	</head>
+	<body>
+		<script language="javascript">
+			// Init jQuery i18n plugin
+			loadMessageBundles = function(lang) {
+				jQuery.i18n.properties({
+					name:'messages',
+					path:'/pentaho/api/repos/pentaho-cdf-dd/tmp/.cache/public/ascend/dashboards/',
+					mode:'both',
+					language:(lang == 'browser' ? jQuery.i18n.browserLang() : lang),
+					callback: function() {
+						
+					}
+				});
+				Dashboards.setI18nSupport('en-US', jQuery.i18n);
+			}
+
+			$(document).ready(function(){
+				// Initialize jquery.i18n plugin - load message files
+				var userLocale = 'en-US';
+				var formProvider = cdo.format.language(userLocale);
+				cdo.format.language(formProvider);
+				moment.locale(userLocale);
+				loadMessageBundles(userLocale);
+			});
+		</script>
+	
+		
+  <div class='container'>
+    <script language="javascript" type="text/javascript" src="/pentaho/plugin/pentaho-cdf-dd/api/resources/public/ascend/dashboards/../files/ascend.js?v=1465896381500"></script>
+    
+    <link rel="stylesheet" type="text/css" href="/pentaho/plugin/pentaho-cdf-dd/api/resources/public/ascend/dashboards/../files/ascend.css?v=1465896381500" />
+    
+    <div id='mainContent'  class='mainContainer usage row clearfix ' >
+      <div class='col-xs-12 last'><div id='mainColumn' >
+        <div id='headerRow'  class='WDheader row clearfix ' >
+        </div>
+        <div id='usageRow'  class='row clearfix ' >
+          <div class='col-xs-12 last'><div id='usageColumn' >
+            <div id='studentNameRow'  class='row clearfix ' >
+              <div class='col-xs-7'><div id='studentNameObj'  class='schoolName ' >
+              </div></div>
+              <div class='col-xs-3'><div id='detailsButtonObj'  class='detailButton detailsButtonUsage ' >
+              </div></div>
+              <div class='col-xs-2 last'><div id='printButtonObj' >
+              </div></div>
+            </div>
+            <div id='usageTitleRow'  class='row clearfix ' >
+              <div class='col-xs-6'><div id='usageTitle'  class='facultyTitle ' >
+                My usage of ATI learning resources 
+                
+              </div></div>
+              <div class='col-xs-1 last'><div id='titlePopupObj'  class='titlePopup popupTitleUsage ' >
+              </div></div>
+            </div>
+            <div id='barChartRow'  class='row clearfix ' >
+              <div class='col-xs-12 last'><div id='barChartContainer'  class='usageBarLineContainer ' >
+                <div id='barChartContainerRow'  class='row clearfix ' >
+                  <div class='col-xs-12'><div id='usageChartColumn'  class='usageChart ' >
+                    <div id='usageTitle'  class='row clearfix ' >
+                      <div class='col-xs-11'><div id='usageTitleText'  class='chartTitle ' >
+                        Overall Usage vs ATI Recommended Usage 
+                        
+                      </div></div>
+                      <div class='col-xs-1 last'><div id='usagePopupObj'  class='titlePopup  usageChartMargin ' >
+                      </div></div>
+                    </div>
+                    <div id='usageChart'  class='row clearfix ' >
+                      <div class='col-xs-12 last'><div id='usageChartColumnObj'  class='usageMarginChart ' >
+                      </div></div>
+                    </div>
+                  </div></div>
+                  <div class='col-xs-12'><div id='timeChartColumn'  class='timeChart WDhidden ' >
+                    <div id='timeTitle'  class='row clearfix ' >
+                      <div class='col-xs-11'><div id='timeTitleText'  class='chartTitle ' >
+                        Actual Time Spent vs. ATI Recommended Time 
+                        
+                      </div></div>
+                      <div class='col-xs-1 last'><div id='timePopupObj'  class='titlePopup  timeChartMargin ' >
+                      </div></div>
+                    </div>
+                    <div id='timeChart'  class='row clearfix ' >
+                      <div class='col-xs-12 last'><div id='timeChartColumnObj'  class='usageMarginChart ' >
+                      </div></div>
+                    </div>
+                  </div></div>
+                  <div class='col-xs-12 last'><div id='practiceChartColumn'  class='practiceChart WDhidden ' >
+                    <div id='practiceTitle'  class='row clearfix ' >
+                      <div class='col-xs-11'><div id='practiceTitleText'  class='chartTitle ' >
+                        Practice Questions 
+                        
+                      </div></div>
+                      <div class='col-xs-1 last'><div id='practicePopupObj'  class='titlePopup practiceChartMargin ' >
+                      </div></div>
+                    </div>
+                    <div id='practiceChart'  class='row clearfix ' >
+                      <div class='col-xs-12 last'><div id='practiceChartColumnObj'  class='practiceMarginChart ' >
+                      </div></div>
+                    </div>
+                  </div></div>
+                </div>
+              </div></div>
+            </div>
+            <div id='chartSelectorRow'  class='row clearfix ' >
+              <div class='col-xs-12 last'><div id='chartSelectorObj'  class='chartSelector ' >
+              </div></div>
+            </div>
+            <div id='contentSelectorRow'  class='row clearfix ' >
+              <div class='col-xs-3'><div id='usageDetailsText'  class='facultyTitle ' >
+                Content Area 
+                
+              </div></div>
+              <div class='col-xs-4 last'><div id='contentAreaSelectorObj'  class='contentAreaSelector ' >
+              </div></div>
+            </div>
+            <div id='tableHeader'  class='row clearfix ' >
+              <div class='col-xs-12 last'><div id='tableSelectorObj'  class='chartSelector tableSelector ' >
+              </div></div>
+            </div>
+            <div id='usageDetailsSelectorsRow'  class='row clearfix ' >
+              <div class='col-xs-1'><div id='viewTextObj'  class='usageSelectorsText ' >
+                View 
+                
+              </div></div>
+              <div class='col-xs-2'><div id='viewSelectorObj'  class='usageSelector ' >
+              </div></div>
+              <div class='col-xs-1'><div id='sortTextObj'  class='usageSelectorsText ' >
+                Sort 
+                
+              </div></div>
+              <div class='col-xs-4 last'><div id='sortSelectorObj'  class='contentAreaSelector ' >
+              </div></div>
+            </div>
+            <div id='usageTableRow'  class='row clearfix ' >
+              <div class='col-xs-12 last'><div id='tableContainer'  class=' usageTablesContainer ' >
+                <div id='tableContainerRow'  class='row clearfix ' >
+                  <div class='col-xs-12 last'><div id='usageTableObj'  class='usageTables ' >
+                  </div></div>
+                </div>
+              </div></div>
+            </div>
+          </div></div>
+        </div>
+        <div id='testDial'  class='row clearfix ' >
+        </div>
+      </div></div>
+    </div>
+    <div id='hiddenElements'  class='WDhidden row clearfix ' >
+      <div class='col-xs-6'><div id='usagePopupColumnObj'  class='titlePopup ' >
+        <div id='usagePopupRowTile'  class='popupTitle row clearfix ' >
+          Overall Usage 
+          
+        </div>
+        <div id='usagePopupRowText'  class='popupText row clearfix ' >
+          Overall Usage considers both time spent in product and number of questions answered. 
+          
+        </div>
+      </div></div>
+      <div class='col-xs-6'><div id='timePopupColumnObj'  class='titlePopup ' >
+        <div id='timePopupRowTile'  class='popupTitle row clearfix ' >
+          Time Spent 
+          
+        </div>
+        <div id='timePopupRowText'  class='popupText row clearfix ' >
+          Time spent considers both time spent in lessons and time spent in tests. 
+          
+        </div>
+      </div></div>
+      <div class='col-xs-6'><div id='practicePopupColumnObj'  class='titlePopup ' >
+        <div id='practicePopupRowTile'  class='popupTitle row clearfix ' >
+          Practice Questions 
+          
+        </div>
+        <div id='practicePopupRowText'  class='popupText row clearfix ' >
+          Practice Questions considers number of questions answered compared to the number of practice questions provided by ATI. 
+          
+        </div>
+      </div></div>
+      <div class='col-xs-12'><div id='usageDetailsTableObj'  class='detailedTable ' >
+      </div></div>
+      <div class='col-xs-12'><div id='atiPrepUsagePopUpColumn'  class='titlePopup ' >
+        <div id='atiPrepUsageTitlePopUpObj'  class='popupTitle row clearfix ' >
+        </div>
+        <div id='atiPrepUsageTextPopUpObj'  class='popupText bottomMargin row clearfix ' >
+        </div>
+        <div id='atiOverallTitlePopUpObj'  class='popupTitle row clearfix ' >
+        </div>
+        <div id='atiOverallTextPopUpObj'  class='popupText bottomMargin row clearfix ' >
+        </div>
+        <div id='atiTimeTitlePopUpObj'  class='popupTitle row clearfix ' >
+        </div>
+        <div id='atiTimeTextPopUpObj'  class='popupText bottomMargin row clearfix ' >
+        </div>
+        <div id='atiPracticeTitlePopUpObj'  class='popupTitle row clearfix ' >
+        </div>
+        <div id='atiPracticeTextPopUpObj'  class='popupText row clearfix ' >
+        </div>
+      </div></div>
+      <div class='col-xs-12'><div id='usageDetailsPopUpColumn'  class='titlePopup ' >
+        <div id='usageDetailsTitlePopUpObj'  class='popupTitle row clearfix ' >
+        </div>
+        <div id='usageDetailsTextPopUpObj'  class='popupText row clearfix ' >
+        </div>
+      </div></div>
+      <div class='col-xs-1'><div id='title1PopupObj'  class='titlePopup usageTitle ' >
+      </div></div>
+      <div class='col-xs-1'><div id='subCatPopupObj'  class='titlePopup ' >
+        <div id='subCatPopupTextObj'  class='popupText row clearfix ' >
+        </div>
+      </div></div>
+      <div class='col-xs-1 last'><div id='subSubCatPopupObj'  class='titlePopup ' >
+        <div id='subSubCatPopupTextObj'  class='row clearfix ' >
+        </div>
+      </div></div>
+    </div>
+    <div id='Version1.01'  class='row clearfix ' >
+    </div>
+  </div>
+<script language="javascript" type="text/javascript">
+wcdfSettings = {
+  "title": "Usage Dashboard",
+  "author": "",
+  "description": "Usage Dashboard",
+  "style": "Clean",
+  "widgetName": "",
+  "widget": false,
+  "rendererType": "bootstrap",
+  "require": false,
+  "widgetParameters": []
+};
+
+Dashboards.addParameter("studentIDParam", "");
+Dashboards.setParameterViewMode("studentIDParam", "unused");
+
+Dashboards.addParameter("studentNameParam", "");
+Dashboards.setParameterViewMode("studentNameParam", "unused");
+
+Dashboards.addParameter("institutionIDParam", "");
+Dashboards.setParameterViewMode("institutionIDParam", "unused");
+
+Dashboards.addParameter("classIDParam", "");
+Dashboards.setParameterViewMode("classIDParam", "unused");
+
+Dashboards.addParameter("chartParam", "Overall");
+Dashboards.setParameterViewMode("chartParam", "unused");
+
+Dashboards.addParameter("contentAreaParam", "");
+Dashboards.setParameterViewMode("contentAreaParam", "unused");
+
+Dashboards.addParameter("viewParam", "All");
+Dashboards.setParameterViewMode("viewParam", "unused");
+
+Dashboards.addParameter("sortParam", "2");
+Dashboards.setParameterViewMode("sortParam", "unused");
+
+Dashboards.addParameter("sortSubParam", "2");
+Dashboards.setParameterViewMode("sortSubParam", "unused");
+
+Dashboards.addParameter("sortSubSubParam", "2");
+Dashboards.setParameterViewMode("sortSubSubParam", "unused");
+
+Dashboards.addParameter("tableParam", "");
+Dashboards.setParameterViewMode("tableParam", "unused");
+
+Dashboards.addParameter("chosenTable", "");
+Dashboards.setParameterViewMode("chosenTable", "unused");
+
+Dashboards.addParameter("expandedCat", "All");
+Dashboards.setParameterViewMode("expandedCat", "unused");
+
+Dashboards.addParameter("expandedSubcat", "All");
+Dashboards.setParameterViewMode("expandedSubcat", "unused");
+
+Dashboards.addParameter("expandedSubSubcat", "");
+Dashboards.setParameterViewMode("expandedSubSubcat", "unused");
+
+Dashboards.addParameter("lineClickedParam", "");
+Dashboards.setParameterViewMode("lineClickedParam", "unused");
+
+Dashboards.addParameter("statusTableParam", "");
+Dashboards.setParameterViewMode("statusTableParam", "unused");
+
+Dashboards.addParameter("countSubCat", "");
+Dashboards.setParameterViewMode("countSubCat", "unused");
+
+Dashboards.addParameter("lastStateParam", "");
+Dashboards.setParameterViewMode("lastStateParam", "unused");
+
+Dashboards.addParameter("clickAccessStatusParam", "");
+Dashboards.setParameterViewMode("clickAccessStatusParam", "unused");
+
+Dashboards.addParameter("sortSubTriggerParam", "");
+Dashboards.setParameterViewMode("sortSubTriggerParam", "unused");
+
+Dashboards.addParameter("sortSubSubTriggerParam", "");
+Dashboards.setParameterViewMode("sortSubSubTriggerParam", "unused");
+
+Dashboards.addParameter("maxPractice", "0");
+Dashboards.setParameterViewMode("maxPractice", "unused");
+
+var render_chartSelector = {
+  type: "multiButton",
+  name: "render_chartSelector",
+  priority: 5,
+  parameter: "chartParam",
+  htmlObject: "chartSelectorObj",
+  listeners: [],
+  parameters: [],
+  valuesArray: [["Overall","Overall Usage"],["Time","Time Spent"],["Practice","Practice Questions"]],
+  valueAsId: false,
+  isMultiple: false,
+  executeAtStart: true,
+  postChange: function f(){
+    
+    var value = Dashboards.getParameterValue("chartParam");
+    
+    if ( value == 'Overall' ){
+        $('.usageChart').removeClass('WDhidden');
+        $('.timeChart').addClass('WDhidden');
+        $('.practiceChart').addClass('WDhidden');
+    }else if ( value == 'Time' ){
+        $('.usageChart').addClass('WDhidden');
+        $('.timeChart').removeClass('WDhidden');
+        $('.practiceChart').addClass('WDhidden');
+    }else if ( value == 'Practice' ){
+        $('.usageChart').addClass('WDhidden');
+        $('.timeChart').addClass('WDhidden');
+       $('.practiceChart').removeClass('WDhidden');
+        
+    }
+    
+} ,
+  queryDefinition:  {
+
+  }
+};
+
+var render_contentAreaSelector = {
+  type: "Select",
+  name: "render_contentAreaSelector",
+  priority: 4,
+  parameter: "contentAreaParam",
+  htmlObject: "contentAreaSelectorObj",
+  listeners: [],
+  parameters: [["studentIDParam","studentIDParam"]],
+  valuesArray: [],
+  valueAsId: false,
+  externalPlugin: "chosen",
+  executeAtStart: true,
+  preChange: function f(){
+    Dashboards.setParameter("expandedCat", "All");
+    Dashboards.setParameter("expandedSubcat", "All");
+    Dashboards.setParameter("expandedSubSubcat", "");
+    Dashboards.setParameter("statusTableParam", 0);
+    Dashboards.setParameter("lineClickedParam", 0);
+} ,
+  extraOptions: [],
+  queryDefinition:  {
+    dataAccessId: "contentAreaQuery",
+    path: "/public/ascend/dashboards/usage.cda"
+  }
+};
+
+var render_tableSelector = {
+  type: "multiButton",
+  name: "render_tableSelector",
+  priority: 4,
+  parameter: "tableParam",
+  htmlObject: "tableSelectorObj",
+  listeners: [],
+  parameters: [],
+  valuesArray: [["Learn","Learn"],["Test","Test"],["Improve","Improve"],["Apply","Apply"],["All","All"]],
+  valueAsId: false,
+  isMultiple: false,
+  executeAtStart: true,
+  preChange: function f(){
+    Dashboards.setParameter("expandedCat", "All");
+    Dashboards.setParameter("expandedSubcat", "All");
+    Dashboards.setParameter("expandedSubSubcat", "");
+    Dashboards.setParameter("statusTableParam", 0);
+    Dashboards.setParameter("lineClickedParam", 0);
+} ,
+  queryDefinition:  {
+
+  }
+};
+
+var render_viewSelector = {
+  type: "Select",
+  name: "render_viewSelector",
+  priority: 5,
+  parameter: "viewParam",
+  htmlObject: "viewSelectorObj",
+  listeners: [],
+  parameters: [],
+  valuesArray: [["All","All"],["true","Accessed"],["false","Non Accessed"]],
+  valueAsId: false,
+  externalPlugin: "chosen",
+  executeAtStart: true,
+  preChange: function f(){
+    Dashboards.setParameter("expandedCat", "All");
+    Dashboards.setParameter("expandedSubcat", "All");
+    Dashboards.setParameter("expandedSubSubcat", "All");
+    Dashboards.setParameter("statusTableParam", 0);
+    Dashboards.setParameter("lineClickedParam", 0);
+} ,
+  extraOptions: [],
+  queryDefinition:  {
+
+  }
+};
+
+var render_sortSelector = {
+  type: "Select",
+  name: "render_sortSelector",
+  priority: 5,
+  parameter: "sortParam",
+  htmlObject: "sortSelectorObj",
+  listeners: [],
+  parameters: [],
+  valuesArray: [["0","Product - Last Accessed"],["1","Product - Usage Ascending"],["2","Product - Usage Descending"]],
+  valueAsId: false,
+  externalPlugin: "chosen",
+  executeAtStart: true,
+  preChange: function f(){
+    Dashboards.setParameter("expandedSubcat", "All");
+    Dashboards.setParameter("expandedSubSubcat", "All");
+    Dashboards.setParameter("lineClickedParam", 0);
+} ,
+  extraOptions: [],
+  queryDefinition:  {
+
+  }
+};
+
+var render_sortSubSelector = {
+  type: "Select",
+  name: "render_sortSubSelector",
+  priority: 6,
+  parameter: "sortSubParam",
+  htmlObject: "sortSubSelectorObj",
+  listeners: ['sortSubTriggerParam'],
+  parameters: [],
+  valuesArray: [["0","Product - Last Accessed"],["1","Product - Usage Ascending"],["2","Product - Usage Descending"]],
+  valueAsId: false,
+  externalPlugin: "chosen",
+  executeAtStart: false,
+  preChange: function f(){
+    Dashboards.setParameter("expandedSubcat", "All");
+    Dashboards.setParameter("expandedSubSubcat", "All");
+    Dashboards.setParameter("lineClickedParam", 0);
+} ,
+  extraOptions: [],
+  queryDefinition:  {
+
+  }
+};
+
+var render_sortSubSubSelector = {
+  type: "Select",
+  name: "render_sortSubSubSelector",
+  priority: 6,
+  parameter: "sortSubSubParam",
+  htmlObject: "sortSubSubSelectorObj",
+  listeners: ['sortSubSubTriggerParam'],
+  parameters: [],
+  valuesArray: [["0","Product - Last Accessed"],["1","Product - Usage Ascending"],["2","Product - Usage Descending"]],
+  valueAsId: false,
+  externalPlugin: "chosen",
+  executeAtStart: true,
+  preChange: function f(){
+    Dashboards.setParameter("expandedSubcat", "All");
+    Dashboards.setParameter("expandedSubSubcat", "All");
+    Dashboards.setParameter("lineClickedParam", 0);
+} ,
+  extraOptions: [],
+  queryDefinition:  {
+
+  }
+};
+
+var render_nameSessionVarQueryComponent = {
+  type: "Query",
+  name: "render_nameSessionVarQueryComponent",
+  priority: 0,
+  parameters: [],
+  executeAtStart: true,
+  listeners: [],
+  asynchronousMode: true,
+  postFetch: function f(data){
+    var result = data.resultset;
+    
+    Dashboards.setParameter("institutionIDParam", result[0][1]);
+        
+    return data;
+} ,
+  queryDefinition:  {
+    dataAccessId: "nameSessionVariables",
+    path: "/public/ascend/dashboards/usage.cda"
+  }
+};
+
+var render_studentNameQueryComponent = {
+  type: "Query",
+  name: "render_studentNameQueryComponent",
+  priority: 2,
+  parameters: [["studentIDParam","studentIDParam"]],
+  resultvar: "studentNameParam",
+  executeAtStart: true,
+  listeners: [],
+  asynchronousMode: true,
+  queryDefinition:  {
+    dataAccessId: "studentNameQuery",
+    path: "/public/ascend/dashboards/usage.cda"
+  }
+};
+
+var render_nameHeader = {
+  type: "textComponent",
+  name: "render_nameHeader",
+  priority: 3,
+  expression: function f() { 
+    return studentNameParam;
+} ,
+  htmlObject: "studentNameObj",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_detailsButton = {
+  type: "buttonComponent",
+  name: "render_detailsButton",
+  priority: 5,
+  label: "View Predictions",
+  htmlObject: "detailsButtonObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [],
+  expression: function f(){
+    var bookmark = '{"impl"%3A"client"%2C"params"%3A {"institutionIDParam"%3A+' + '"' + institutionIDParam + '"' + '+%2C"classIDParam"%3A+' + '"' + classIDParam + '"' + '+%2C"studentIDParam"%3A+' + '"' + studentIDParam + '"' + '}}';
+    return window.open(Dashboards.getWebAppPath() +"/api/repos/:public:ascend:dashboards:student_drilldown.wcdf/generatedContent?"+'bookmarkState='+ bookmark,"_self");
+} ,
+  actionDefinition:  {
+
+  }
+};
+
+var render_printButton = {
+  type: "buttonComponent",
+  name: "render_printButton",
+  priority: 5,
+  label: "Print",
+  htmlObject: "printButtonObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [],
+  expression: function f(){
+    window.print();    
+} ,
+  actionDefinition:  {
+
+  }
+};
+
+var render_usagePopupButton = {
+  type: "buttonComponent",
+  name: "render_usagePopupButton",
+  priority: 5,
+  label: "i",
+  htmlObject: "usagePopupObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  postExecution: function f(){
+    var a = $('#usageTitleText');
+    $('#usagePopupObj').appendTo(a);
+} ,
+  actionParameters: [],
+  expression: function f(){
+    render_usagePopup.popup($('#usagePopupObj'));
+} ,
+  actionDefinition:  {
+
+  }
+};
+
+var render_usagePopup = {
+  type: "popup",
+  name: "render_usagePopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "usagePopupColumnObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_timePopupButton = {
+  type: "buttonComponent",
+  name: "render_timePopupButton",
+  priority: 5,
+  label: "i",
+  htmlObject: "timePopupObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  postExecution: function f(){
+    var a = $('#timeTitleText');
+    $('#timePopupObj').appendTo(a);
+} ,
+  actionParameters: [],
+  expression: function f(){
+    
+    render_timePopup.popup($('#timePopupObj'));
+    
+},
+  actionDefinition:  {
+
+  }
+};
+
+var render_timePopup = {
+  type: "popup",
+  name: "render_timePopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "timePopupColumnObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_practicePopupButton = {
+  type: "buttonComponent",
+  name: "render_practicePopupButton",
+  priority: 5,
+  label: "i",
+  htmlObject: "practicePopupObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  postExecution: function f(){
+    var a = $('#practiceTitleText');
+    $('#practicePopupObj').appendTo(a);
+} ,
+  actionParameters: [],
+  expression: function f(){
+    
+    render_practicePopup.popup($('#practicePopupObj'));
+    
+    
+} ,
+  actionDefinition:  {
+
+  }
+};
+
+var render_practicePopup = {
+  type: "popup",
+  name: "render_practicePopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "practicePopupColumnObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_usageTable = {
+  type: "Table",
+  name: "render_usageTable",
+  priority: 5,
+  htmlObject: "usageTableObj",
+  listeners: ['contentAreaParam','viewParam','sortParam','sortSubParam','sortSubSubParam','tableParam','expandedCat','expandedSubcat'],
+  parameters: [["studentIDParam","studentIDParam"],["contentAreaParam","contentAreaParam"],["expandedCat","expandedCat"],["expandedSubcat","expandedSubcat"]],
+  executeAtStart: false,
+  postFetch: function f(data){
+    var result = data.resultset,
+        length = result.length,
+        newResult = [], subResult = [], subSubResult = [], i = 0,
+        a, b, partA, partB,
+        viewParam = Dashboards.getParameterValue("viewParam"),
+        sortParam = Dashboards.getParameterValue("sortParam");
+    
+    // switch true and false to 1 and 0
+    for ( i = 0; i < length; i++ ){
+        ( result[i][3] ) ? result[i][3] = 1 : result[i][3] = 0;
+        ( result[i][4] ) ? result[i][4] = 1 : result[i][4] = 0;
+    }
+    
+    //filter according viewSelector
+    if ( viewParam == "All" ){
+        newResult = result;
+    } else {
+        for ( i = 0; i < length; i++ ){
+            if ( result[i][6].toString() == viewParam ){
+                newResult.push(result[i]);
+            }
+        }
+        data.resultset = newResult;
+    }
+    
+    result = newResult;
+    length = result.length;
+    newResult = [];
+    var partResult = [];
+    
+    //sort according sortSelector with no expanded
+    if ( expandedCat === "All" ){
+        if ( sortParam == "0" ){
+            newResult = result.sort(ascend.sortAccessedDESC);
+		} else if ( sortParam == "1" ){
+			newResult = result.sort(ascend.sortUsageASC);
+		} else if ( sortParam == "2" ){
+			newResult = result.sort(ascend.sortUsageDESC);
+		}
+        length = newResult.length;
+    
+        for ( i = 0; i < length; i++ ){
+            newResult[i][5] = Math.round(newResult[i][5]);
+        }
+        
+		data.resultset = newResult;
+		return data;
+	}
+	
+	//separate subCats and subSubCats if expanded
+	for ( i = 0; i < length; i++ ){
+		newResult.push(result[i]);
+		if ( expandedSubcat !== "All" ){
+			if ( result[i][1] == expandedSubcat && result[i][3] == 1 && result[i][4] == 1 ) {
+				subSubResult.push(result[i]);
+				newResult.pop();
+			} else if ( result[i][0] == expandedCat && result[i][3] == 1 && result[i][4] === 0 ) {
+				subResult.push(result[i]);
+				newResult.pop();
+			}
+		} else {
+			if ( result[i][0] == expandedCat && result[i][3] == 1 && result[i][4] === 0 ) {
+				subResult.push(result[i]);
+				newResult.pop();
+			}
+		}
+	}
+	
+    // sort category
+    if ( sortParam == "0" ){
+        newResult.sort(ascend.sortAccessedDESC);
+    } else if ( sortParam == "1" ){
+        newResult.sort(ascend.sortUsageASC);
+    } else if ( sortParam == "2" ){
+        newResult.sort(ascend.sortUsageDESC);
+    }
+    //sort sub category
+    if ( sortSubParam == "0" ){
+        subResult.sort(ascend.sortAccessedDESC);
+    } else if ( sortSubParam == "1" ){
+		subResult.sort(ascend.sortUsageASC);
+	} else if ( sortSubParam == "2" ){
+		subResult.sort(ascend.sortUsageDESC);
+	}
+    //sort sub sub category
+    if ( sortSubSubParam == "0" ){
+        subSubResult.sort(ascend.sortAccessedDESC);
+    } else if ( sortSubSubParam == "1" ){
+		subSubResult.sort(ascend.sortUsageASC);
+	} else if ( sortSubSubParam == "2" ){
+		subSubResult.sort(ascend.sortUsageDESC);
+	}
+    
+	//group subCats and subSubCats
+	length = newResult.length;
+	subLength = subResult.length;
+	subSubLength = subSubResult.length;
+	
+	if ( subSubLength !== 0 ) {
+		for ( i = 0; i < subLength; i++ ){
+			if ( subResult[i][1] == expandedSubcat ) {
+				a = subResult.slice(0, i+1);
+				b = subResult.slice(i+1, subLength);
+				a = a.concat(subSubResult);
+				partB = a.concat(b);
+				i = subLength;
+			}
+		}
+		for ( i = 0; i < length; i++ ){
+			if ( newResult[i][0] == expandedCat ) {
+				a = newResult.slice(0, i+1);
+				b = newResult.slice(i+1, length);
+				a = a.concat(partB);
+				partA = a.concat(b);
+				i = length;
+			}
+		}
+	} else {
+		for ( i = 0; i < length; i++ ){
+			if ( newResult[i][0] == expandedCat ) {
+				a = newResult.slice(0, i+1);
+				b = newResult.slice(i+1, length);
+				a = a.concat(subResult);
+				partA = a.concat(b);
+				i = length;
+			}
+		}
+	}
+	newResult = partA;
+    length = newResult.length;
+    
+    for ( i = 0; i < length; i++ ){
+        newResult[i][5] = Math.round(newResult[i][5]);
+    }
+    
+    data.resultset = newResult;
+    return data;
+} ,
+  preExecution: function f() {
+    var table = Dashboards.getParameterValue("tableParam"),
+        expanded = Dashboards.getParameterValue("expandedCat"),
+        subcat = Dashboards.getParameterValue("expandedSubcat");
+    
+    //chose query according to tab selector
+    if ( table == "Learn" ){
+        this.chartDefinition.dataAccessId = "learnTableQuery";
+    } else if ( table == "Test" ){
+        this.chartDefinition.dataAccessId = "testTableQuery";
+    } else if ( table == "Improve" ){
+        this.chartDefinition.dataAccessId = "improveTableQuery";
+    } else if ( table == "Apply" ){
+        this.chartDefinition.dataAccessId = "applyTableQuery";
+    } else if ( table == "All" ){
+        this.chartDefinition.dataAccessId = "allTableQuery";
+    }
+        
+    function d() {
+        this.setAddInOptions("colType", "dialChart", function() {
+            return {
+                textFormat: function(v, st) {
+                    return v;
+                }
+            };
+        });
+    }
+
+} ,
+  postExecution: function f() {
+    
+    var row = $('.usageTables .table tbody tr'),
+        rowHead = $('.usageTables .table thead tr'),
+        column0 = row.find('.column0'),
+        column1 = row.find('.column1'),
+        column2 = row.find('.column2'),
+        column3 = row.find('.column3'),
+        column4 = row.find('.column4'),
+        status = Dashboards.getParameterValue("statusTableParam"),
+        table = $('.usageTables'),
+        lineClicked = Dashboards.getParameterValue("lineClickedParam"),
+        hovered = $(".hovered"),
+        xpto = $(".xpto"),
+        xptoSubSub = $(".xptoSubSub"),
+        enter = 0;
+    
+    rowHead.hide();
+    column1.addClass("WDhidden");
+    column2.addClass("WDhidden");
+    column3.addClass("WDhidden");
+    column4.addClass("WDhidden");
+    
+    function checkAndProcessIfDetailExpanded(tableComp, lastClicked) {
+        var value = lastClicked.value,
+            rowIdx = lastClicked.rowIdx,
+            rawData = lastClicked.rawData;
+            newRowIdx = ascend.lookForCatOrSubCatOrSubSubCat(tableComp, lastClicked, 0),
+            $ph = $(ascend.lookForTrFomRowIdx(tableComp, newRowIdx).find("td")[0]),
+            $phCat = $(ascend.lookForTrFomRowIdx(tableComp, newRowIdx)),
+            range = _.range(0, column0.length);
+        
+        if (status == 1) {
+            $phCat.addClass("clicked");
+            var cat = expandedCat;
+            
+            _.each(range, function(num) {
+                var i = num;
+                if (column0.eq(i).text() === cat) {
+                    if (enter !== 0) {
+                        column0.eq(i).addClass("WDhidden");
+                        column1.eq(i).removeClass("WDhidden");
+                        column1.eq(i).addClass("margin");
+                        if (row.eq(i - 1).hasClass("clicked")) {
+                            row.eq(i).append("<div class='whiteSpaceColumn1 xptoSubSub2'></div>");
+                        } else {
+                            row.eq(i).append("<div class='whiteSpaceColumn1'></div>");
+                        }
+                    }
+                    enter++;
+                }
+            });
+            //ascend.scrollToPh($phCat);
+        } else if ( status == 2 || status == 3 ) {
+            var newRowIdxSubCat = ascend.lookForCatOrSubCatOrSubSubCat(tableComp, lastClicked, 1),
+                $phSubCat = $(ascend.lookForTrFomRowIdx(tableComp, newRowIdxSubCat));
+            
+            //$phSubCat.addClass("clicked");
+            $phCat.addClass("clicked");
+            
+            var cat = expandedCat,
+                subcat = expandedSubcat;
+            
+            _.each(range, function(num) {
+                var i = num;
+                if (column0.eq(i).text() === cat) {
+                    if (column1.eq(i).text() === subcat) {
+                        if (row.eq(i).hasClass("clicked")) {
+                            column1.eq(i).removeClass("WDhidden");
+                            column1.eq(i).addClass("margin");
+                            column0.eq(i).addClass("WDhidden");
+                            if (row.eq(i - 1).hasClass("clicked") && row.eq(i - 1).find(".column1").text() === "0") {
+                                row.eq(i).append("<div class='whiteSpaceColumn1 xptoSubSub2'></div>");
+                            } else {
+                                row.eq(i).append("<div class='whiteSpaceColumn1'></div>");
+                            }
+                        } else {
+                            column1.eq(i).addClass("WDhidden");
+                            column2.eq(i).addClass("margin");
+                            column0.eq(i).addClass("WDhidden");
+                            column2.eq(i).removeClass("WDhidden");
+                            if (row.eq(i - 1).hasClass("clicked")) {
+                                row.eq(i).append("<div class='whiteSpaceColumn2 xptoSubSub1'></div>");
+                            } else {
+                                row.eq(i).append("<div class='whiteSpaceColumn2'></div>");
+                            }
+                        }
+                    } else if (enter !== 0) {
+                        column0.eq(i).addClass("WDhidden");
+                        column1.eq(i).removeClass("WDhidden");
+                        column1.eq(i).addClass("margin");
+                        if (row.eq(i - 1).hasClass("clicked") && row.eq(i - 1).find(".column1").text() === "0") {
+                            row.eq(i).append("<div class='whiteSpaceColumn1 xptoSubSub2'></div>");
+                        } else {
+                            row.eq(i).append("<div class='whiteSpaceColumn1'></div>");
+                        }
+                    }
+                    enter++;
+                }
+            });
+            //ascend.scrollToPh($phCat);
+        }
+    }
+    
+    var lastClickState = Dashboards.getParameterValue("lastStateParam");
+    if (lastClickState) {
+        checkAndProcessIfDetailExpanded(this, lastClickState);
+    }
+    /*
+    row.mouseover(function(e) {
+        ascend.newClassAdded($(this), 0);
+    }).mouseout(
+        function() {
+            if ($(".hovered").hasClass("hovered")) {
+                $(".hovered").removeClass("hovered");
+            }
+            if ($(".xpto").hasClass("xpto")) {
+                $(".xpto").removeClass("xpto");
+            }
+            if ($(".xptoSubSub").hasClass("xptoSubSub")) {
+                $(".xptoSubSub").removeClass("xptoSubSub");
+            }
+        });
+
+    $(".whiteSpaceColumn1", ".whiteSpaceColumn2").mouseover(
+        function(e) {
+            e.stopPropagation();
+            if (!($(this).parent().hasClass("clicked"))) {
+                $(this).parent().addClass("stopPropagation");
+                ascend.newClassAdded($(this), 1);
+                $(this).siblings().eq(5).addClass("stopPropagation");
+
+            }
+        }).mouseout(
+        function() {
+            if ($(this).parent().hasClass("stopPropagation")) {
+                $(this).parent().removeClass("stopPropagation");
+            } else if ($(this).parent().hasClass("stopPropagationTop")) {
+                $(this).parent().removeClass("stopPropagationTop");
+            } else if ($(this).parent().hasClass("stopPropagationTopBottom")) {
+                $(this).parent().removeClass("stopPropagationTopBottom");
+            } else {
+                $(this).parent().removeClass("stopPropagationBottom");
+            }
+            $(this).siblings().eq(5).removeClass("stopPropagation");
+        });
+    */
+} ,
+  extraOptions: [],
+  expandParameters: [["1","expandedSubSubcat"]],
+  expandOnClick: false,
+  expandContainerObject: "usageDetailsTableObj",
+  chartDefinition:  {
+    dataAccessId: "learnTableQuery",
+    path: "/public/ascend/dashboards/usage.cda",
+    clickAction: function f(e) {
+    
+    if ( $(e.target.context).parent().hasClass('chzn-single') || $(e.target.context).hasClass('active-result') ){
+        return;
+    }
+    
+    if ( $(e.target.context).parent().parent().hasClass('chzn-single') ){
+        return;
+    }
+    
+    if ( e.target.context.type == "button" ){
+        return;
+    }
+    
+    var catIdColIdx = 0,
+        isCatColIdx = 3,
+        catSelected = render_usageTable.rawData.resultset[e.rowIdx][catIdColIdx],
+        isClickCat = (render_usageTable.rawData.resultset[e.rowIdx][isCatColIdx] === 0),
+        catOpened = Dashboards.getParameterValue("expandedCat"),
+        subcatOpened = Dashboards.getParameterValue("expandedSubcat"),
+        subsubcatOpened = Dashboards.getParameterValue("expandedSubSubcat"),
+        subcatSelected = render_usageTable.rawData.resultset[e.rowIdx][1],
+        isClickSubCat = (render_usageTable.rawData.resultset[e.rowIdx][4] === 0),
+        clickAccessStatus = render_usageTable.rawData.resultset[e.rowIdx][6],
+        status = 0,
+        lineClicked = e.rowIdx,
+        numberRows = e.rawData.resultset.length,
+        lastState = {};
+    lastState.value = e.value;
+    lastState.rawData = e.rawData;
+    lastState.rowIdx = e.rowIdx;
+    Dashboards.setParameter('clickAccessStatusParam', clickAccessStatus);
+    ( catOpened == "All") ? catOpened = "" : catOpened;
+    ( subcatOpened == "All") ? subcatOpened = "" : subcatOpened;
+    
+    if (isClickCat) {
+    
+        if (catOpened) {
+            if (catOpened === catSelected) {
+                Dashboards.setParameter('expandedSubcat', "All");
+                Dashboards.setParameter('expandedSubSubcat', "");
+                Dashboards.fireChange('expandedCat', "All");
+            } else if (catOpened !== catSelected) {
+                Dashboards.setParameter('expandedSubcat', "All");
+                Dashboards.setParameter('expandedSubSubcat', "");
+                Dashboards.fireChange('expandedCat', catSelected);
+                status = 1;
+            }
+        } else {
+            Dashboards.setParameter('expandedSubcat', "All");
+            Dashboards.setParameter('expandedSubSubcat', "");
+            Dashboards.fireChange('expandedCat', catSelected);
+            status = 1;
+        }
+        $('.usageTables').find(".table tbody .clicked .column1").eq(1).removeClass("WDhidden");
+        $('.usageTables').find(".table tbody .clicked .column0").eq(0).addClass("WDhidden");
+    /*} else if (isClickCat === false && isClickSubCat) {
+        if (subcatOpened) {
+            if (subcatOpened === subcatSelected) {
+                Dashboards.setParameter('expandedSubcat', "All");
+                Dashboards.setParameter('expandedSubSubcat', "");
+                Dashboards.fireChange('expandedCat', catSelected);
+                status = 1;
+            } else if (subcatOpened !== subcatSelected) {
+                Dashboards.setParameter('expandedSubSubcat', "");
+                Dashboards.fireChange('expandedSubcat', subcatSelected);
+                Dashboards.fireChange('expandedCat', catSelected);
+                status = 2;
+            }
+        } else {
+            Dashboards.setParameter('expandedSubSubcat', "");
+            Dashboards.fireChange('expandedSubcat', subcatSelected);
+            Dashboards.fireChange('expandedCat', catSelected);
+            status = 2;
+        }
+        $('.usageTables').find(".table tbody .clicked .column1").eq(1).addClass("WDhidden");
+        $('.usageTables').find(".table tbody .clicked .column2").eq(2).removeClass("WDhidden");
+    */} else {
+        //temp change to open details without sub sub categories
+        Dashboards.setParameter('expandedSubcat', subcatSelected);
+        if ( subcatSelected == subsubcatOpened ){
+            this.handleExpandOnClick(e);
+            return;
+        }
+        //end
+        this.handleExpandOnClick(e);
+        var newRowIdx = ascend.lookForCatOrSubCatOrSubSubCat(this, lastState, 2),
+            $ph = $(ascend.lookForTrFomRowIdx(this, newRowIdx)),
+            subsubcatSelected = render_usageTable.rawData.resultset[e.rowIdx][2],
+            length = $(".usageTables").find(".table tbody .clicked .column2").length,
+            clicked = $(".usageTables").find(".table tbody .clicked"),
+            range = _.range(2, length);
+        if (subsubcatOpened) {
+            if (subsubcatOpened === subsubcatSelected) {
+                $ph.removeClass("clicked");
+            } else {
+                _.each(range, function(num) {
+                    clicked.eq(num).removeClass("clicked");
+                });
+                $ph.addClass("clicked");
+            }
+        } else {
+            $ph.addClass("clicked");
+        }
+        //temp change to open details without sub sub categories
+        if ( render_usageTable.rawData.resultset[e.rowIdx][2] == "0" ){
+            Dashboards.fireChange('expandedSubSubcat', expandedSubcat);
+        }else{
+            Dashboards.fireChange('expandedSubSubcat', render_usageTable.rawData.resultset[e.rowIdx][2]);
+        }
+        //end
+        /*Dashboards.setParameter('expandedSubSubcat', render_usageTable.rawData.resultset[e.rowIdx][2]);*/
+        status = 3;
+    }
+    if (Dashboards.getParameterValue("expandedCat") !== "All") {
+        Dashboards.setParameter("lastStateParam", lastState);
+    }
+    Dashboards.setParameter("statusTableParam", status);
+    Dashboards.setParameter("lineClickedParam", lineClicked);
+} ,
+    colHeaders: [],
+    colTypes: ["string","string","string","numeric","numeric","dialChart","hidden","hidden"],
+    colFormats: [],
+    colWidths: [],
+    colSortable: [],
+    colSearchable: [],
+    paginate: false,
+    paginateServerside: false,
+    paginationType: "simple_numbers",
+    filter: false,
+    info: false,
+    sort: false,
+    sortBy: [],
+    lengthChange: false,
+    tableStyle: "bootstrap",
+    drawCallback: function f(){
+    var table;
+    var chosenTable = Dashboards.getParameterValue("chosenTable");
+    if(chosenTable){
+        table = $("#"+chosenTable+"");
+    }else{
+		table = $("#usageTableObj");
+	}
+	
+	//add sort selectors for subCat and subSubCat
+	table.find("tbody tr ").each(function() {
+		if ( $(this).find('.column0').text() == expandedCat && $(this).find('.column1').text() == "0" ){
+			$(this).addClass('expandedCat');
+			$(this).find('.column0').append("<div id='sortSubSelectorObj' class='expandedCatSort'></div>");
+			$(this).find('.column0').append("<div id='sortSubPopupObj' class='titlePopup sortPopup'></div>");
+            if ( this.rowIndex < render_usageTable.rawData.resultset.length && render_usageTable.rawData.resultset[this.rowIndex-1][0] == render_usageTable.rawData.resultset[this.rowIndex][0] ) {
+                Dashboards.fireChange('sortSubTriggerParam', $.now());
+            }
+        }
+        if ( $(this).find('.column1').text() == expandedSubcat && $(this).find('.column2').text() == "0" ){
+            $(this).addClass('expandedSubcat');
+            $(this).find('.column1').append("<div id='sortSubSubSelectorObj' class='expandedSubcatSort'></div>");
+			$(this).find('.column0').append("<div id='sortSubSubPopupObj' class='titlePopup sortPopup'></div>");
+            if ( this.rowIndex < render_usageTable.rawData.resultset.length && render_usageTable.rawData.resultset[this.rowIndex-1][1] == render_usageTable.rawData.resultset[this.rowIndex][1] ) {
+                Dashboards.fireChange('sortSubSubTriggerParam', $.now());
+            }
+        }
+        var text1 = $(this).find('.column1').text(),
+            text2 = $(this).find('.column2').text();
+        if ( text1 == 0 && text2 == 0 ){
+            $(this).addClass('product');
+        } else if ( text2 == 0 ){
+            $(this).addClass('subProduct');
+        }
+        
+        //hide sigma arrows
+        if ( text1 != 0 ){
+            text = text1.slice(0,3);
+            if ( text === "STT" ){
+                $(this).find('.column1').addClass('sigma');
+            }
+        }
+    });
+    
+    //add dial chart tooltip
+    /*table.find("tbody tr td ").each(function() {
+        var title; 
+        if( $(this).hasClass("dialChart") ){
+            title = "Total usage is "+ $(this).text().replace('Usage', '');
+            $(this).tipsy({className: 'buttonsBG'});
+            $(this).tipsy().attr('title', title);
+        }
+    });*/
+    
+} 
+  }
+};
+
+var render_usageDetailsTable = {
+  type: "Table",
+  name: "render_usageDetailsTable",
+  priority: 5,
+  htmlObject: "usageDetailsTableObj",
+  listeners: ['expandedSubSubcat'],
+  parameters: [["studentIDParam","studentIDParam"],["contentAreaParam","contentAreaParam"],["expandedCat","expandedCat"],["expandedSubcat","expandedSubcat"]],
+  executeAtStart: false,
+  postFetch: function f(data){
+    var result = data.resultset,
+        length = result.length;
+    
+    if ( length === 0 ){
+        $("#"+this.htmlObject).addClass('WDhidden');
+    }else{
+        $("#"+this.htmlObject).removeClass('WDhidden');
+        for ( var i = 0; i < length; i++ ){
+            result[i][2] = (result[i][2] !== null) ? moment(result[i][2]).format("YYYY-MM-DD") : "N/A";
+            result[i][7] = (result[i][7] != "N/A") ? Math.round(result[i][7]) : result[i][7];
+        }
+    }
+    data.resultset = result;
+    return data;
+} ,
+  preExecution: function f(){
+    var table = Dashboards.getParameterValue("tableParam");
+    
+    //chose query according to tab selector
+    if ( table == "Improve" ){
+        this.chartDefinition.dataAccessId = "usageDetailsImproveQuery";
+    } else {
+        this.chartDefinition.dataAccessId = "usageDetailsQuery";
+    }
+    
+    
+    this.setAddInOptions("colType","circleBig", function(){    
+        return {
+          textFormat: function(v,st) {
+            return v;
+          }
+        };
+    });
+} ,
+  extraOptions: [],
+  expandParameters: [],
+  expandOnClick: false,
+  chartDefinition:  {
+    dataAccessId: "usageDetailsQuery",
+    path: "/public/ascend/dashboards/usage.cda",
+    colHeaders: ["Name","Usage","Last Accessed","Time Spent","Time Suggested","Questions Answered","Total Questions","Score of Last Attempt"],
+    colTypes: ["string","circleBig","string","string","string","string","string","string"],
+    colFormats: [],
+    colWidths: [],
+    colSortable: [],
+    colSearchable: [],
+    paginate: false,
+    paginateServerside: false,
+    paginationType: "simple_numbers",
+    filter: false,
+    info: false,
+    sort: false,
+    sortBy: [],
+    lengthChange: false,
+    tableStyle: "bootstrap"
+  }
+};
+
+var render_titlePopupButton = {
+  type: "buttonComponent",
+  name: "render_titlePopupButton",
+  priority: 5,
+  label: "i",
+  htmlObject: "titlePopupObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [],
+  expression: function f(){
+    
+    render_atiPrepUsagePopUp.popup($('#titlePopupObj'));
+    
+}
+    
+ ,
+  actionDefinition:  {
+
+  }
+};
+
+var render_atiPrepUsagePopUp = {
+  type: "popup",
+  name: "render_atiPrepUsagePopUp",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "atiPrepUsagePopUpColumn",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_title1PopupButton = {
+  type: "buttonComponent",
+  name: "render_title1PopupButton",
+  priority: 5,
+  label: "i",
+  htmlObject: "title1PopupObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  postExecution: function f(){
+    var a = $('#usageDetailsText');
+    $('#title1PopupObj').appendTo(a);
+} ,
+  actionParameters: [],
+  expression: function f(){
+    
+    render_usageDetailsPopUp.popup($('#title1PopupObj'));
+    
+}
+    
+ ,
+  actionDefinition:  {
+
+  }
+};
+
+var render_usageDetailsPopUp = {
+  type: "popup",
+  name: "render_usageDetailsPopUp",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "usageDetailsPopUpColumn",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_atiPrepUsageTitlePopUp = {
+  type: "textComponent",
+  name: "render_atiPrepUsageTitlePopUp",
+  priority: 5,
+  expression: function f(){
+    
+    var atiPrepUsageTitlePopUp = "ATI learning resources";
+    return atiPrepUsageTitlePopUp;
+} ,
+  htmlObject: "atiPrepUsageTitlePopUpObj",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_atiPrepUsageTextPopUp = {
+  type: "textComponent",
+  name: "render_atiPrepUsageTextPopUp",
+  priority: 5,
+  expression: function f(){
+    var atiPrepUsageTextPopUp = "Product usage by content area as compared to usage benchmarks established by ATI Nursing. The statistic reflects a percentage of full ATI recommended usage. Overall usage considers both time spent in lessons and tests and number of questions answered.";
+    return atiPrepUsageTextPopUp;
+} ,
+  htmlObject: "atiPrepUsageTextPopUpObj",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_atiOverallTitlePopUp = {
+  type: "textComponent",
+  name: "render_atiOverallTitlePopUp",
+  priority: 5,
+  expression: function f(){
+    var title = "Overall Usage";
+    return title;
+} ,
+  htmlObject: "atiOverallTitlePopUpObj",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_atiOverallTextPopUp = {
+  type: "textComponent",
+  name: "render_atiOverallTextPopUp",
+  priority: 5,
+  expression: function f(){
+    var text = "Overall Usage considers both time spent in product and number of questions answered.";
+    return text;
+} ,
+  htmlObject: "atiOverallTextPopUpObj",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_atiTimeTitlePopUp = {
+  type: "textComponent",
+  name: "render_atiTimeTitlePopUp",
+  priority: 5,
+  expression: function f(){
+    var title = "Time Spent";
+    return title;
+} ,
+  htmlObject: "atiTimeTitlePopUpObj",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_atiTimeTextPopUp = {
+  type: "textComponent",
+  name: "render_atiTimeTextPopUp",
+  priority: 5,
+  expression: function f(){
+    var text = "Time Spent considers both time spent in lessons and time spent in tests.";
+    return text;
+} ,
+  htmlObject: "atiTimeTextPopUpObj",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_atiPracticeTitlePopUp = {
+  type: "textComponent",
+  name: "render_atiPracticeTitlePopUp",
+  priority: 5,
+  expression: function f(){
+    var title = "Practice Questions";
+    return title;
+} ,
+  htmlObject: "atiPracticeTitlePopUpObj",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_atiPracticeTextPopUp = {
+  type: "textComponent",
+  name: "render_atiPracticeTextPopUp",
+  priority: 5,
+  expression: function f(){
+    var text = "Practice Questions considers number of questions answered compared to the number of practice questions provided by ATI.";
+    return text;
+} ,
+  htmlObject: "atiPracticeTextPopUpObj",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_usageDetailsTitlePopUp = {
+  type: "textComponent",
+  name: "render_usageDetailsTitlePopUp",
+  priority: 5,
+  expression: function f(){
+    
+    var usageDetailsTitlePopUp = "Content Area";
+    return usageDetailsTitlePopUp;
+} ,
+  htmlObject: "usageDetailsTitlePopUpObj",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_usageDetailsTextPopUp = {
+  type: "textComponent",
+  name: "render_usageDetailsTextPopUp",
+  priority: 5,
+  expression: function f(){
+    var usageDetailsTextPopUp = "This shows the ATI resources available for students to gain proficiency in a proctored assessment area. Using all products may result in better performance on the relevant proctored assessment.";
+    return usageDetailsTextPopUp;
+} ,
+  htmlObject: "usageDetailsTextPopUpObj",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_subCatPopupButton = {
+  type: "buttonComponent",
+  name: "render_subCatPopupButton",
+  priority: 5,
+  label: "i",
+  htmlObject: "sortSubPopupObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: ['sortSubTriggerParam'],
+  actionParameters: [],
+  expression: function f(){
+    
+    render_subCatPopup.popup($('#sortSubPopupObj'));
+    
+} ,
+  actionDefinition:  {
+
+  }
+};
+
+var render_subCatPopup = {
+  type: "popup",
+  name: "render_subCatPopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "subCatPopupObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_subCatPopupText = {
+  type: "textComponent",
+  name: "render_subCatPopupText",
+  priority: 5,
+  expression: function f(){
+    
+    var text = "Sub Product sort";
+    return text;
+} ,
+  htmlObject: "subCatPopupTextObj",
+  listeners: ['sortSubTriggerParam'],
+  executeAtStart: true
+};
+
+var render_subSubCatPopupButton = {
+  type: "buttonComponent",
+  name: "render_subSubCatPopupButton",
+  priority: 5,
+  label: "i",
+  htmlObject: "sortSubSubPopupObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: ['sortSubSubTriggerParam'],
+  actionParameters: [],
+  expression: function f(){
+    
+    render_subSubCatPopup.popup($('#sortSubSubPopupObj'));
+    
+} ,
+  actionDefinition:  {
+
+  }
+};
+
+var render_subSubCatPopup = {
+  type: "popup",
+  name: "render_subSubCatPopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "subSubCatPopupObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_subSubCatPopupText = {
+  type: "textComponent",
+  name: "render_subSubCatPopupText",
+  priority: 5,
+  expression: function f(){
+    
+    var text = "Sub Sub Product sort";
+    return text;
+} ,
+  htmlObject: "subSubCatPopupTextObj",
+  listeners: ['sortSubSubTriggerParam'],
+  executeAtStart: true
+};
+
+var render_usageChart = {
+  type: "cccBarChart",
+  name: "render_usageChart",
+  priority: 5,
+  parameters: [["studentIDParam","studentIDParam"]],
+  executeAtStart: true,
+  postFetch: function f(data){
+    var result = data.resultset,
+        length = result.length,
+        height;
+    
+    height = length * 60;
+    if ( height < this.chartDefinition.height ){
+        height = height + 50;
+    }
+    this.chartDefinition.height = height;
+    var size = $('#barChartContainer').height();
+    if ( height + 85 > size ){
+        $('#barChartContainer').css('height', height + 85);
+    }
+    
+    result = result.reverse();
+    return data;
+} ,
+  htmlObject: "usageChartColumnObj",
+  preExecution: function f(){
+    ascend.defaultExtPoints.apply(this);
+    ascend.usageExtPoints.apply(this);
+    //ascend.barChartBG.apply(this);
+    ascend.twoSeriesBar.apply(this);
+} ,
+  listeners: [],
+  chartDefinition:  {
+    dataAccessId: "usageChartQuery",
+    path: "/public/ascend/dashboards/usage.cda",
+    width: 900,
+    height: 500,
+    extensionPoints: [],
+    colors: [],
+    title: "Usage",
+    animate: false,
+    barOrthoSizeMin: 1.5,
+    barSizeMax: 30,
+    barSizeRatio: 0.9,
+    barStackedMargin: 0,
+    baseAxisBandSize: 30,
+    baseAxisGrid: false,
+    baseAxisOffset: 0,
+    baseAxisOverlappedLabelsMode: "hide",
+    baseAxisSize: "180",
+    baseAxisTicks: true,
+    baseAxisTitleFont: "12px sans-serif",
+    baseAxisTitleMargins: "0",
+    baseAxisTooltipAutoContent: "value",
+    baseAxisTooltipEnabled: true,
+    baseAxisVisible: true,
+    clearSelectionMode: "emptySpaceClick",
+    clickable: false,
+    color2AxisColors: [],
+    color2AxisLegendClickMode: "toggleVisible",
+    color2AxisLegendVisible: true,
+    compatVersion: 2,
+    contentMargins: "0",
+    contentPaddings: "0",
+    crosstabMode: true,
+    ctrlSelectMode: true,
+    dataIgnoreMetadataLabels: false,
+    dataMeasuresInColumns: false,
+    dataSeparator: "~",
+    groupedLabelSep: " ~ ",
+    hoverable: false,
+    ignoreNulls: true,
+    isMultiValued: false,
+    leafContentOverflow: "auto",
+    legend: false,
+    legendClickMode: "toggleVisible",
+    legendFont: "10px sans-serif",
+    legendItemPadding: "2.5",
+    legendMargins: "0",
+    legendMarkerSize: 15,
+    legendPaddings: "5",
+    legendPosition: "bottom",
+    legendTextMargin: 6,
+    legendVisible: true,
+    margins: "3",
+    measuresIndexes: [],
+    multiChartColumnsMax: 3,
+    multiChartIndexes: [],
+    multiChartOverflow: "grow",
+    multiChartSingleColFillsHeight: true,
+    multiChartSingleRowFillsHeight: true,
+    nullInterpolationMode: "none",
+    orientation: "horizontal",
+    ortho2AxisDomainRoundMode: "tick",
+    ortho2AxisDomainScope: "global",
+    ortho2AxisGrid: false,
+    ortho2AxisMinorTicks: true,
+    ortho2AxisOffset: 0,
+    ortho2AxisOverlappedLabelsMode: "hide",
+    ortho2AxisTicks: true,
+    ortho2AxisTickUnitMax: "Infinity",
+    ortho2AxisTickUnitMin: "0",
+    ortho2AxisTitleFont: "12px sans-serif",
+    ortho2AxisTitleMargins: "0",
+    ortho2AxisVisible: true,
+    ortho2AxisZeroLine: true,
+    orthoAxisDomainRoundMode: "tick",
+    orthoAxisDomainScope: "global",
+    orthoAxisFixedMax: "100",
+    orthoAxisFixedMin: "0",
+    orthoAxisGrid: true,
+    orthoAxisMinorTicks: false,
+    orthoAxisOffset: 0,
+    orthoAxisOriginIsZero: true,
+    orthoAxisOverlappedLabelsMode: "hide",
+    orthoAxisPosition: "right",
+    orthoAxisTickFormatter: function f(value){
+    return value + "%";
+} ,
+    orthoAxisTicks: true,
+    orthoAxisTickUnitMax: "Infinity",
+    orthoAxisTickUnitMin: "0",
+    orthoAxisTitleFont: "12px sans-serif",
+    orthoAxisTitleMargins: "0",
+    orthoAxisVisible: true,
+    orthoAxisZeroLine: true,
+    overflowMarkersVisible: true,
+    paddings: "0",
+    panelSizeRatio: 0.9,
+    plot2: false,
+    plot2AreasVisible: false,
+    plot2ColorAxis: 2,
+    plot2DotsVisible: true,
+    plot2LinesVisible: true,
+    plot2NullInterpolationMode: "none",
+    plot2OrthoAxis: 1,
+    plot2Series: [],
+    plot2SeriesIndexes: -1,
+    plot2Stacked: false,
+    plot2ValuesFont: "10px sans-serif",
+    plot2ValuesMask: "{value}",
+    plot2ValuesVisible: false,
+    plotFrameVisible: false,
+    pointingMode: "near",
+    readers: [],
+    selectable: false,
+    seriesInRows: false,
+    smallContentMargins: "0",
+    smallContentPaddings: "0",
+    smallMargins: "2%",
+    smallPaddings: "0",
+    smallTitleFont: "14px sans-serif",
+    smallTitleMargins: "0",
+    smallTitlePaddings: "0",
+    smallTitlePosition: "top",
+    stacked: false,
+    timeSeries: false,
+    timeSeriesFormat: "%Y-%m-%d",
+    titleAlign: "center",
+    titleFont: "20px sans-serif",
+    titleMargins: "20",
+    titlePaddings: "0",
+    titlePosition: "top",
+    titleSize: "0",
+    titleSizeMax: "0",
+    tooltipEnabled: false,
+    tooltipFade: true,
+    tooltipFollowMouse: false,
+    tooltipHtml: true,
+    tooltipOpacity: 0.9,
+    trendAreasVisible: false,
+    trendColorAxis: 2,
+    trendDotsVisible: false,
+    trendLinesVisible: true,
+    trendOrthoAxis: 1,
+    trendStacked: false,
+    trendValuesAnchor: "right",
+    trendValuesFont: "10px sans-serif",
+    trendValuesVisible: false,
+    valuesAnchor: "right",
+    valuesFont: "10px sans-serif",
+    valuesNormalized: false,
+    valuesOptimizeLegibility: false,
+    valuesOverflow: "show",
+    valuesVisible: true
+  }
+};
+
+var render_timeChart = {
+  type: "cccBarChart",
+  name: "render_timeChart",
+  priority: 5,
+  parameters: [["studentIDParam","studentIDParam"]],
+  executeAtStart: true,
+  postFetch: function f(data){
+    var result = data.resultset,
+        length = result.length,
+        height;
+    
+    height = length * 60;
+    if ( height < this.chartDefinition.height ){
+        height = height + 50;
+    }
+    this.chartDefinition.height = height;
+    var size = $('#barChartContainer').height();
+    if ( height + 85 > size ){
+        $('#barChartContainer').css('height', height + 85);
+    }
+    
+    result = result.reverse();
+    return data;
+} ,
+  htmlObject: "timeChartColumnObj",
+  preExecution: function f(){
+    ascend.defaultExtPoints.apply(this);
+    ascend.usageExtPoints.apply(this);
+    //ascend.barChartBG.apply(this);
+    ascend.twoSeriesBar.apply(this);
+    ascend.customLabel.apply(this);
+} ,
+  listeners: [],
+  chartDefinition:  {
+    dataAccessId: "timeChartQuery",
+    path: "/public/ascend/dashboards/usage.cda",
+    width: 900,
+    height: 500,
+    extensionPoints: [],
+    colors: [],
+    title: "Time",
+    animate: false,
+    barOrthoSizeMin: 1.5,
+    barSizeMax: 30,
+    barSizeRatio: 0.9,
+    barStackedMargin: 0,
+    baseAxisBandSize: 30,
+    baseAxisGrid: false,
+    baseAxisOffset: 0,
+    baseAxisOverlappedLabelsMode: "hide",
+    baseAxisSize: "180",
+    baseAxisTicks: true,
+    baseAxisTitleFont: "12px sans-serif",
+    baseAxisTitleMargins: "0",
+    baseAxisTooltipAutoContent: "value",
+    baseAxisTooltipEnabled: true,
+    baseAxisVisible: true,
+    clearSelectionMode: "emptySpaceClick",
+    clickable: false,
+    color2AxisColors: [],
+    color2AxisLegendClickMode: "toggleVisible",
+    color2AxisLegendVisible: true,
+    compatVersion: 2,
+    contentMargins: "0",
+    contentPaddings: "0",
+    crosstabMode: true,
+    ctrlSelectMode: true,
+    dataIgnoreMetadataLabels: false,
+    dataMeasuresInColumns: false,
+    dataSeparator: "~",
+    groupedLabelSep: " ~ ",
+    hoverable: false,
+    ignoreNulls: true,
+    isMultiValued: false,
+    leafContentOverflow: "auto",
+    legend: false,
+    legendClickMode: "toggleVisible",
+    legendFont: "10px sans-serif",
+    legendItemPadding: "2.5",
+    legendMargins: "0",
+    legendMarkerSize: 15,
+    legendPaddings: "5",
+    legendPosition: "bottom",
+    legendTextMargin: 6,
+    legendVisible: true,
+    margins: "3",
+    measuresIndexes: [],
+    multiChartColumnsMax: 3,
+    multiChartIndexes: [],
+    multiChartOverflow: "grow",
+    multiChartSingleColFillsHeight: true,
+    multiChartSingleRowFillsHeight: true,
+    nullInterpolationMode: "none",
+    orientation: "horizontal",
+    ortho2AxisDomainRoundMode: "tick",
+    ortho2AxisDomainScope: "global",
+    ortho2AxisGrid: false,
+    ortho2AxisMinorTicks: true,
+    ortho2AxisOffset: 0,
+    ortho2AxisOverlappedLabelsMode: "hide",
+    ortho2AxisTicks: true,
+    ortho2AxisTickUnitMax: "Infinity",
+    ortho2AxisTickUnitMin: "0",
+    ortho2AxisTitleFont: "12px sans-serif",
+    ortho2AxisTitleMargins: "0",
+    ortho2AxisVisible: true,
+    ortho2AxisZeroLine: true,
+    orthoAxisDomainRoundMode: "tick",
+    orthoAxisDomainScope: "global",
+    orthoAxisFixedMax: "100",
+    orthoAxisFixedMin: "0",
+    orthoAxisGrid: true,
+    orthoAxisMinorTicks: false,
+    orthoAxisOffset: 0,
+    orthoAxisOriginIsZero: true,
+    orthoAxisOverlappedLabelsMode: "hide",
+    orthoAxisPosition: "right",
+    orthoAxisTickFormatter: function f(value){
+    return value + "%";
+} ,
+    orthoAxisTicks: true,
+    orthoAxisTickUnitMax: "Infinity",
+    orthoAxisTickUnitMin: "0",
+    orthoAxisTitleFont: "12px sans-serif",
+    orthoAxisTitleMargins: "0",
+    orthoAxisVisible: true,
+    orthoAxisZeroLine: true,
+    overflowMarkersVisible: true,
+    paddings: "0",
+    panelSizeRatio: 0.9,
+    plot2: false,
+    plot2AreasVisible: false,
+    plot2ColorAxis: 2,
+    plot2DotsVisible: true,
+    plot2LinesVisible: true,
+    plot2NullInterpolationMode: "none",
+    plot2OrthoAxis: 1,
+    plot2Series: [],
+    plot2SeriesIndexes: -1,
+    plot2Stacked: false,
+    plot2ValuesFont: "10px sans-serif",
+    plot2ValuesMask: "{value}",
+    plot2ValuesVisible: false,
+    plotFrameVisible: false,
+    pointingMode: "near",
+    readers: [],
+    selectable: false,
+    seriesInRows: false,
+    smallContentMargins: "0",
+    smallContentPaddings: "0",
+    smallMargins: "2%",
+    smallPaddings: "0",
+    smallTitleFont: "14px sans-serif",
+    smallTitleMargins: "0",
+    smallTitlePaddings: "0",
+    smallTitlePosition: "top",
+    stacked: false,
+    timeSeries: false,
+    timeSeriesFormat: "%Y-%m-%d",
+    titleAlign: "center",
+    titleFont: "20px sans-serif",
+    titleMargins: "20",
+    titlePaddings: "0",
+    titlePosition: "top",
+    titleSize: "0",
+    titleSizeMax: "0",
+    tooltipEnabled: false,
+    tooltipFade: true,
+    tooltipFollowMouse: false,
+    tooltipHtml: true,
+    tooltipOpacity: 0.9,
+    trendAreasVisible: false,
+    trendColorAxis: 2,
+    trendDotsVisible: false,
+    trendLinesVisible: true,
+    trendOrthoAxis: 1,
+    trendStacked: false,
+    trendValuesAnchor: "right",
+    trendValuesFont: "10px sans-serif",
+    trendValuesVisible: false,
+    valuesAnchor: "right",
+    valuesFont: "10px sans-serif",
+    valuesNormalized: false,
+    valuesOverflow: "show",
+    valuesVisible: true
+  }
+};
+
+var render_practiceChart = {
+  type: "cccBarChart",
+  name: "render_practiceChart",
+  priority: 5,
+  parameters: [["studentIDParam","studentIDParam"]],
+  executeAtStart: true,
+  postFetch: function f(data){
+    var result = data.resultset,
+        length = result.length,
+        height;
+    
+    for ( var i = 0; i < length; i++ ){
+        if ( result[i][2] === null ) result[i][2] = 0;
+    }
+    
+    height = length * 60;
+    if ( height < this.chartDefinition.height ){
+        height = height + 50;
+    }
+    this.chartDefinition.height = height;
+    var size = $('#barChartContainer').height();
+    if ( height + 85 > size ){
+        $('#barChartContainer').css('height', height + 85);
+    }
+    
+    result = result.reverse();
+    return data;
+} ,
+  htmlObject: "practiceChartColumnObj",
+  preExecution: function f(){
+    ascend.defaultExtPoints.apply(this);
+    ascend.usageExtPoints.apply(this);
+    //ascend.barChartBG.apply(this);
+    ascend.twoSeriesBar.apply(this);
+    ascend.customLabel.apply(this);
+} ,
+  listeners: [],
+  chartDefinition:  {
+    dataAccessId: "practiceChartQuery",
+    path: "/public/ascend/dashboards/usage.cda",
+    width: 900,
+    height: 500,
+    extensionPoints: [],
+    colors: [],
+    title: "Practice",
+    animate: false,
+    barOrthoSizeMin: 1.5,
+    barSizeMax: 30,
+    barSizeRatio: 0.9,
+    barStackedMargin: 0,
+    baseAxisBandSize: 30,
+    baseAxisGrid: false,
+    baseAxisOffset: 0,
+    baseAxisOverlappedLabelsMode: "hide",
+    baseAxisSize: "180",
+    baseAxisTicks: true,
+    baseAxisTitleFont: "12px sans-serif",
+    baseAxisTitleMargins: "0",
+    baseAxisTooltipAutoContent: "value",
+    baseAxisTooltipEnabled: true,
+    baseAxisVisible: true,
+    clearSelectionMode: "emptySpaceClick",
+    clickable: false,
+    color2AxisColors: [],
+    color2AxisLegendClickMode: "toggleVisible",
+    color2AxisLegendVisible: true,
+    compatVersion: 2,
+    contentMargins: "0",
+    contentPaddings: "0",
+    crosstabMode: true,
+    ctrlSelectMode: true,
+    dataIgnoreMetadataLabels: false,
+    dataMeasuresInColumns: false,
+    dataSeparator: "~",
+    groupedLabelSep: " ~ ",
+    hoverable: false,
+    ignoreNulls: true,
+    isMultiValued: false,
+    leafContentOverflow: "auto",
+    legend: false,
+    legendClickMode: "toggleVisible",
+    legendFont: "10px sans-serif",
+    legendItemPadding: "2.5",
+    legendMargins: "0",
+    legendMarkerSize: 15,
+    legendPaddings: "5",
+    legendPosition: "bottom",
+    legendTextMargin: 6,
+    legendVisible: true,
+    margins: "3",
+    measuresIndexes: [],
+    multiChartColumnsMax: 3,
+    multiChartIndexes: [],
+    multiChartOverflow: "grow",
+    multiChartSingleColFillsHeight: true,
+    multiChartSingleRowFillsHeight: true,
+    nullInterpolationMode: "none",
+    orientation: "horizontal",
+    ortho2AxisDomainRoundMode: "tick",
+    ortho2AxisDomainScope: "global",
+    ortho2AxisGrid: false,
+    ortho2AxisMinorTicks: true,
+    ortho2AxisOffset: 0,
+    ortho2AxisOverlappedLabelsMode: "hide",
+    ortho2AxisTicks: true,
+    ortho2AxisTickUnitMax: "Infinity",
+    ortho2AxisTickUnitMin: "0",
+    ortho2AxisTitleFont: "12px sans-serif",
+    ortho2AxisTitleMargins: "0",
+    ortho2AxisVisible: true,
+    ortho2AxisZeroLine: true,
+    orthoAxisDomainRoundMode: "tick",
+    orthoAxisDomainScope: "global",
+    orthoAxisFixedMax: "100",
+    orthoAxisFixedMin: "0",
+    orthoAxisGrid: true,
+    orthoAxisMinorTicks: false,
+    orthoAxisOffset: 0,
+    orthoAxisOriginIsZero: true,
+    orthoAxisOverlappedLabelsMode: "hide",
+    orthoAxisPosition: "right",
+    orthoAxisTickFormatter: function f(value){
+    return value + "%";
+} ,
+    orthoAxisTicks: true,
+    orthoAxisTickUnitMax: "Infinity",
+    orthoAxisTickUnitMin: "0",
+    orthoAxisTitleFont: "12px sans-serif",
+    orthoAxisTitleMargins: "0",
+    orthoAxisVisible: true,
+    orthoAxisZeroLine: true,
+    overflowMarkersVisible: true,
+    paddings: "0",
+    panelSizeRatio: 0.9,
+    plot2: false,
+    plot2AreasVisible: false,
+    plot2ColorAxis: 2,
+    plot2DotsVisible: true,
+    plot2LinesVisible: true,
+    plot2NullInterpolationMode: "none",
+    plot2OrthoAxis: 1,
+    plot2Series: [],
+    plot2SeriesIndexes: -1,
+    plot2Stacked: false,
+    plot2ValuesFont: "10px sans-serif",
+    plot2ValuesMask: "{value}",
+    plot2ValuesVisible: false,
+    plotFrameVisible: false,
+    pointingMode: "near",
+    readers: [],
+    selectable: false,
+    seriesInRows: false,
+    smallContentMargins: "0",
+    smallContentPaddings: "0",
+    smallMargins: "2%",
+    smallPaddings: "0",
+    smallTitleFont: "14px sans-serif",
+    smallTitleMargins: "0",
+    smallTitlePaddings: "0",
+    smallTitlePosition: "top",
+    stacked: false,
+    timeSeries: false,
+    timeSeriesFormat: "%Y-%m-%d",
+    titleAlign: "center",
+    titleFont: "20px sans-serif",
+    titleMargins: "20",
+    titlePaddings: "0",
+    titlePosition: "top",
+    titleSize: "0",
+    titleSizeMax: "0",
+    tooltipEnabled: false,
+    tooltipFade: true,
+    tooltipFollowMouse: false,
+    tooltipHtml: true,
+    tooltipOpacity: 0.9,
+    trendAreasVisible: false,
+    trendColorAxis: 2,
+    trendDotsVisible: false,
+    trendLinesVisible: true,
+    trendOrthoAxis: 1,
+    trendStacked: false,
+    trendValuesAnchor: "right",
+    trendValuesFont: "10px sans-serif",
+    trendValuesVisible: false,
+    valuesAnchor: "right",
+    valuesFont: "10px sans-serif",
+    valuesNormalized: false,
+    valuesOverflow: "show",
+    valuesVisible: true
+  }
+};
+
+Dashboards.addComponents([render_chartSelector, render_contentAreaSelector, render_tableSelector, render_viewSelector, render_sortSelector, render_sortSubSelector, render_sortSubSubSelector, render_nameSessionVarQueryComponent, render_studentNameQueryComponent, render_nameHeader, render_detailsButton, render_printButton, render_usagePopupButton, render_usagePopup, render_timePopupButton, render_timePopup, render_practicePopupButton, render_practicePopup, render_usageTable, render_usageDetailsTable, render_titlePopupButton, render_atiPrepUsagePopUp, render_title1PopupButton, render_usageDetailsPopUp, render_atiPrepUsageTitlePopUp, render_atiPrepUsageTextPopUp, render_atiOverallTitlePopUp, render_atiOverallTextPopUp, render_atiTimeTitlePopUp, render_atiTimeTextPopUp, render_atiPracticeTitlePopUp, render_atiPracticeTextPopUp, render_usageDetailsTitlePopUp, render_usageDetailsTextPopUp, render_subCatPopupButton, render_subCatPopup, render_subCatPopupText, render_subSubCatPopupButton, render_subSubCatPopup, render_subSubCatPopupText, render_usageChart, render_timeChart, render_practiceChart]);
+
+</script>
+
+<script language="javascript" type="text/javascript">
+Dashboards.init();
+</script>
+
+		
+				<script type="text/javascript">
+		$( function(){
+				//$(".round").corner();
+				$(".cdfdd-round").corner();
+				$(".cdfdd-bevel").corner("bevel");
+				$(".cdfdd-notch").corner("notch");
+				$(".cdfdd-bite").corner("bite");
+				$(".cdfdd-bevel_top").corner("bevel top");
+				$(".cdfdd-dog_tr").corner("dog tr");
+			} ) ;
+		</script>
+		
+
+	</body>
+</html>
+
+

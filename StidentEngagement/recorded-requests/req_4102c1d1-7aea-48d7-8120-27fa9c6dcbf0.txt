@@ -1,0 +1,10 @@
+GET http://stage-www.atitesting.com/ati_next_gen/Includes/Scripts/Silverlight.js HTTP/1.1
+Host: stage-www.atitesting.com
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://stage-www.atitesting.com/ati_next_gen/Default_Step2.aspx?supportsjs=true
+Cookie: ASP.NET_SessionId=cvuly1ugrx5faujpskrsoo55; _ga=GA1.3.464979468.1465896111; _dc_gtm_UA-6539623-2=1; __hstc=128800851.76700dbca6e65c91f2d36b54c1d26c23.1465896112520.1465896112520.1465896112520.1; __hssrc=1; __hssc=128800851.1.1465896112521; hsfirstvisit=https%3A%2F%2Fstage-www.atitesting.com%2FHome.aspx||1465896112514; hubspotutk=76700dbca6e65c91f2d36b54c1d26c23
+Connection: keep-alive
+

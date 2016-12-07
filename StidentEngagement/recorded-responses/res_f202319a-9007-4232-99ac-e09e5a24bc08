@@ -1,0 +1,3479 @@
+﻿
+var popUpdiv = "divPopUp";
+var popUpSL = "slShowHidePopup";
+var popUpheight = 150;
+
+function IsIE() 
+{    
+    if (navigator.appName == 'Microsoft Internet Explorer' || navigator.appName.match('Netscape'))
+        return true;
+    else
+        return false;
+}
+
+
+function HideSLPopup() {
+    var PopUp = $get(popUpdiv);
+    //PopUp.style.visibility = 'hidden';
+    PopUp.style.left = '-2000px';
+}
+
+//--------------------------------Allow Acess Popup-------------------//
+//-------------------------Proctored PreviewWindow-------------------//
+function ShowPAPreview(url, ispreview, ldbEnabled,loginUrl) {
+
+    if (ldbEnabled == "allowed") {
+        document.getElementById('ctl00_contentPlaceHolderBody_aLockdown').click();
+        setTimeout("window.location.href='../Student/LDBLogin.aspx'?securetoken=" + loginUrl, 20000);
+        //setTimeout(loginUrl, 20000);
+        return false;
+    }
+
+    var params = 'top=0,left=0,toolbar=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,modal=yes';
+    params += ',width=' + screen.width;
+    params += ',height=' + screen.height;
+    params += ',fullscreen=yes';
+    var queryStr = url + '&rldbsv=1&rldbqn=1&IsPreview=' + ispreview;
+    var newwin = window.open(queryStr, 'Assessment', params);
+    if (!newwin) {
+        ValidateMsg("Please select OK to begin your Proctored Assessment.");
+        $get("ctl00_btnOK").onclick = function () { ShowPAPreview(queryStr, ispreview, ldbEnabled, loginUrl); HideError(); return false; };
+        return;
+    }
+    else {
+        $get("ctl00_btnOK").onclick = function () { HideError(); return false };
+    }
+    if (window.focus) {
+        newwin.focus();
+    }
+}
+
+
+function ShowProctoredAssessmentPreview(url, ispreview, ldbEnabled) {
+
+    if (ldbEnabled == "allowed") {
+        //document.getElementById('ctl00_contentPlaceHolderBody_aLockdown').click();
+        document.getElementById('ctl00_contentPlaceHolderBody_ucELearning_ucMyProctoredAssessments_aSecureBrowser').click();
+        setTimeout("window.location.href='../Student/LDBLogin.aspx'", 20000);
+        //setTimeout(loginUrl, 20000);
+        return false;
+    }
+
+    var params = 'top=0,left=0,toolbar=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,modal=yes';
+    params += ',width=' + screen.width;
+    params += ',height=' + screen.height;
+    params += ',fullscreen=yes';
+    var queryStr = url + '&rldbsv=1&rldbqn=1&IsPreview=' + ispreview;
+    var newwin = window.open(queryStr, 'Assessment', params);
+    if (!newwin) {
+        ValidateMsg("Please select OK to begin your Proctored Assessment.");
+        $get("ctl00_btnOK").onclick = function() { ShowProctoredAssessmentPreview(queryStr, ispreview, ldbEnabled); HideError(); return false; };
+        return;
+    }
+    else {
+        $get("ctl00_btnOK").onclick = function() { HideError(); return false };
+    }
+    if (window.focus) {
+        newwin.focus();
+    }
+}
+
+function ShowSLPopup(sender, topOffset, leftOffset, title, content, loc) {
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get(popUpdiv);
+
+    PopUp.style.top = (senderPos.Top + topOffset - popUpheight) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+
+    var control = $get(popUpSL);
+
+
+    control.Content.SilverlightPopup.Title = title;
+
+
+    control.Content.SilverlightPopup.Message = content;
+    control.Content.SilverlightPopup.Saved = function(sender, e) {
+
+        control.Content.SilverlightPopup.IsMessageSelected = false;
+        control.Content.SilverlightPopup.IsLock = true;
+        HideSLPopup();
+    };
+
+    control.Content.SilverlightPopup.Canceled = function(sender, e) {
+        control.Content.SilverlightPopup.IsMessageSelected = false;
+        control.Content.SilverlightPopup.IsLock = true;
+        HideSLPopup();
+    };
+    PopUp.style.visibility = 'visible';
+
+}
+
+
+
+//------------------------- Cut Score ---------------------------------//
+function ShowCutScorePopup(sender, top, left, title, loc, institutionpurchaseid, batchid, tutorialid, institutionid, btnid) {
+    var divid = 'divCutScorePopup';
+    var slid = 'slCutScorePopup';
+    var control = $get(slid);
+    var updatefield = sender.getAttribute("CutScore");
+    Saved = function(s, e) {
+        sender.innerHTML = s.CutScore;
+        if (s.IsMessageSelected) {
+            var btn = $get(btnid);
+            btn.click();
+        }
+        sender.setAttribute("CutScore", s.CutScore);
+        //alert("Saved");
+        control.Content.SilverlightPopup.Reset();
+        ClosePopup(divid);
+    }
+    Canceled = function(s, e) { control.Content.SilverlightPopup.Reset(); ClosePopup(divid); }
+    OpenCutScorePopup(divid, slid, sender, top, left, title, '', loc, 150, Saved, Canceled, institutionpurchaseid, batchid, updatefield, 4, tutorialid, institutionid);
+}
+
+function ShowCutScoreRationalesSinglePopup(sender, top, left, title, loc) {
+    var divid = 'divCutScoreSinglePopup';
+    var slid = 'slCutScoreSinglePopup';
+    var control = $get(slid);
+    Saved = function(sender, e) { control.Content.SilverlightPopup.Reset(); ClosePopup(divid); }
+    Canceled = function(sender, e) { control.Content.SilverlightPopup.Reset(); ClosePopup(divid); }
+    OpenCutScorePopup(divid, slid, sender, top, left, title, '', loc, 100, Saved, Canceled);
+}
+
+
+function ShowCutScoreSinglePopup(sender, top, left, title, loc) {
+    var divid = 'divCutScoreSinglePopup';
+    var slid = 'slCutScoreSinglePopup';
+    var control = $get(slid);
+    Saved = function(sender, e) { /*alert("Saved");*/control.Content.SilverlightPopup.Reset(); ClosePopup(divid); }
+    Canceled = function(sender, e) { control.Content.SilverlightPopup.Reset(); ClosePopup(divid); }
+    OpenCutScorePopup(divid, slid, sender, top, left, title, '', loc, 100, Saved, Canceled);
+}
+function OpenCutScorePopup(divid, slid, sender, topOffset, leftOffset, title, content, loc, height, fnSavedcallback, fnCanceledcallback, institutionpurchaseid, batchid, updatefield, updateon, tutorialid, institutionid) {
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get(divid);
+    PopUp.style.top = (senderPos.Top + topOffset - height) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+    var control = $get(slid);
+    control.Content.SilverlightPopup.Title = title;
+    //control.Content.SilverlightPopup.Message = content;
+    control.Content.SilverlightPopup.CutScore = updatefield;
+    control.Content.SilverlightPopup.BatchID = batchid;
+    control.Content.SilverlightPopup.InstitutionPurchaseID = institutionpurchaseid;
+    control.Content.SilverlightPopup.UpdateOn = updateon;
+    control.Content.SilverlightPopup.TutorialID = tutorialid;
+    control.Content.SilverlightPopup.InstitutionID = institutionid;
+    control.Content.SilverlightPopup.SetCutScore();
+    control.Content.SilverlightPopup.Saved = fnSavedcallback;
+    control.Content.SilverlightPopup.Canceled = fnCanceledcallback;
+    PopUp.style.visibility = 'visible';
+}
+
+//----------------------Show Hide Popup ------------------------------//
+function ShowHideRationalesPopup(sender, top, left, title, content, loc, institutionpurchaseid, batchid, tutorialid, institutionid, btnid) {
+    var divid = 'divShowHidePopUp';
+    var slid = 'slShowHidePopUp';
+    var control = $get(slid);
+    var updatefield = sender.getAttribute("IsRational");
+    Saved = function(s, e) {
+        if (s.IsLock == true) {
+            sender.src = sender.src.replace("button-REDLock.png", "button-GREENLock.png");
+            sender.setAttribute("IsRational", "true");
+        }
+        else {
+            sender.src = sender.src.replace("button-GREENLock.png", "button-REDLock.png");
+            sender.setAttribute("IsRational", "false");
+        }
+
+        if (s.IsMessageSelected) {
+            var btn = $get(btnid);
+            btn.click();
+        }
+
+
+        //alert("Saved");
+        control.Content.SilverlightPopup.Reset();
+        ClosePopup(divid);
+
+    }
+    Canceled = function(s, e) { control.Content.SilverlightPopup.Reset(); ClosePopup(divid); }
+    OpenShowHidePopupEnableDisableFeature(divid, slid, sender, top, left, title, '', loc, 150, Saved, Canceled, institutionpurchaseid, batchid, updatefield, 1, tutorialid, institutionid);
+
+}
+function ShowThinkingFeaturesPopup(sender, top, left, title, content, loc, institutionpurchaseid, batchid, tutorialid, institutionid, btnid) {
+    var divid = 'divShowHidePopUp';
+    var slid = 'slShowHidePopUp';
+    var control = $get(slid);
+    var updatefield = sender.getAttribute("IsThinkingFeature");
+    Saved = function(s, e) {
+        if (s.IsLock == true) {
+            sender.src = sender.src.replace("button-REDLock.png", "button-GREENLock.png");
+            sender.setAttribute("IsThinkingFeature", "true");
+        }
+        else {
+            sender.src = sender.src.replace("button-GREENLock.png", "button-REDLock.png");
+            sender.setAttribute("IsThinkingFeature", "false");
+        }
+
+        if (s.IsMessageSelected) {
+            var btn = $get(btnid);
+            btn.click();
+        }
+        control.Content.SilverlightPopup.Reset();
+        ClosePopup(divid);
+
+    }
+    Canceled = function(s, e) { ClosePopup(divid); }
+    OpenShowHidePopupEnableDisableFeature(divid, slid, sender, top, left, title, '', loc, 150, Saved, Canceled, institutionpurchaseid, batchid, updatefield, 2, tutorialid, institutionid);
+}
+function ShowEnableDisableScoringPopup(sender, top, left, title, content, loc, institutionpurchaseid, batchid, tutorialid, institutionid, btnid) {
+    var divid = 'divShowHidePopUp';
+    var slid = 'slShowHidePopUp';
+    var control = $get(slid);
+    var updatefield = sender.getAttribute("IsScoring");
+    Saved = function(s, e) {
+        if (s.IsLock == true) {
+            sender.src = sender.src.replace("button-REDLock.png", "button-GREENLock.png");
+            sender.setAttribute("IsScoring", "true");
+        }
+        else {
+            sender.src = sender.src.replace("button-GREENLock.png", "button-REDLock.png");
+            sender.setAttribute("IsScoring", "false");
+        }
+
+        if (s.IsMessageSelected) {
+            var btn = $get(btnid);
+            btn.click();
+        }
+
+
+        //alert("Saved");
+        control.Content.SilverlightPopup.Reset();
+        ClosePopup(divid);
+
+    }
+    Canceled = function(s, e) { ClosePopup(divid); }
+    OpenShowHidePopupEnableDisableFeature(divid, slid, sender, top, left, title, '', loc, 150, Saved, Canceled, institutionpurchaseid, batchid, updatefield, 3, tutorialid, institutionid);
+}
+function OpenShowHidePopupEnableDisableFeature(divid, slid, sender, topOffset, leftOffset, title, content, loc, height, fnSavedcallback, fnCanceledcallback, institutionpurchaseid, batchid, updatefield, updateon, tutorialid, institutionid) {
+
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get(divid);
+    PopUp.style.top = (senderPos.Top + topOffset - height) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+    var control = $get(slid);
+    control.Content.SilverlightPopup.Title = title;
+    //control.Content.SilverlightPopup.Message = content;
+    control.Content.SilverlightPopup.Saved = fnSavedcallback;
+    control.Content.SilverlightPopup.Canceled = fnCanceledcallback;
+    control.Content.SilverlightPopup.IsLock = updatefield;
+    control.Content.SilverlightPopup.BatchID = batchid;
+    control.Content.SilverlightPopup.InstitutionPurchaseID = institutionpurchaseid;
+    control.Content.SilverlightPopup.UpdateOn = updateon;
+    control.Content.SilverlightPopup.TutorialID = tutorialid;
+    control.Content.SilverlightPopup.InstitutionID = institutionid;
+    PopUp.style.visibility = 'visible';
+
+}
+
+//---------------------------------------------------------------------//
+
+function ShowHideRationalesSinglePopup(sender, top, left, title, loc, isLock, batchID) {
+    var divid = 'divShowHideSinglePopUp';
+    var slid = 'slShowHideSinglePopUp';
+    Saved = function(sender, e) { /*alert("Saved");*/ClosePopup(divid); }
+    Canceled = function(sender, e) { ClosePopup(divid); }
+    OpenShowHidePopup(divid, slid, sender, top, left, title, '', loc, 100, Saved, Canceled, isLock, batchID);
+}
+
+function ShowHideSinglePopup(sender, top, left, title, loc, batchID, isProctored) {
+    var divid = 'divShowHideSinglePopUp';
+    var slid = 'slShowHideSinglePopUp';
+    var isLock = sender.getAttribute("IsLock");
+    Saved = function(s, e) {
+
+        if (isProctored) {
+            if (s.IsLock) {
+                sender.src = sender.src.replace("button-GREENLock.png", "button-REDLock.png");
+                sender.setAttribute("IsLock", "true");
+            }
+            else {
+                sender.src = sender.src.replace("button-REDLock.png", "button-GREENLock.png");
+                sender.setAttribute("IsLock", "false");
+            }
+
+            ClosePopup(divid);
+        }
+        else {
+            if (s.IsLock) {
+                sender.src = sender.src.replace("button-REDLock.png", "button-GREENLock.png");
+                sender.setAttribute("IsLock", "true");
+            }
+            else {
+                sender.src = sender.src.replace("button-GREENLock.png", "button-REDLock.png");
+                sender.setAttribute("IsLock", "false");
+            }
+            ClosePopup(divid);
+        }
+
+    }
+    Canceled = function(s, e) { ClosePopup(divid); }
+    GlobalEvent.Subscribe(function() { ClosePopup(divid); });
+
+    OpenShowHidePopup(divid, slid, sender, top, left, title, '', loc, 100, Saved, Canceled, isLock, batchID, isProctored);
+}
+
+function OpenShowHidePopup(divid, slid, sender, topOffset, leftOffset, title, content, loc, height, fnSavedcallback, fnCanceledcallback, isLock, batchID, isProctored) {
+
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get(divid);
+
+    PopUp.style.top = (senderPos.Top + topOffset - height) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+
+    var control = $get(slid);
+
+    control.Content.SilverlightPopup.Title = title;
+
+    //control.Content.SilverlightPopup.Message = content;
+
+    control.Content.SilverlightPopup.Saved = fnSavedcallback;
+
+    control.Content.SilverlightPopup.Canceled = fnCanceledcallback;
+    control.Content.SilverlightPopup.IsLock = isLock;
+    control.Content.SilverlightPopup.BatchID = batchID;
+    control.Content.SilverlightPopup.IsProctored = isProctored;
+    control.Content.SilverlightPopup.OpenPopup();
+    PopUp.style.visibility = 'visible';
+
+}
+
+//---------------------------Assessment Assignment Popup --------------//
+function ShowAssessmentAssignmentPopup(sender, topOffset, leftOffset, userID, classID, courseGroupScheduleID, courseID, courseGroupTypeID, comments, courseGroupID, batchID, courseDetailID, currentRole, btnid, mode) {
+
+    OpenAssessmentAssignmentPopup("divAssessmentAssignmentPopup", "slAssessmentAssignmentPopup", 350, sender, topOffset, leftOffset, userID, classID, courseGroupScheduleID, courseID, courseGroupTypeID, comments, courseGroupID, batchID, courseDetailID, currentRole, btnid, mode);
+}
+
+function OpenAssessmentAssignmentPopup(divID, slID, height, sender, topOffset, leftOffset, userID, classID, courseGroupScheduleID, courseID, courseGroupTypeID, comments, courseGroupID, batchID, courseDetailID, currentRole, btnid, mode) {
+
+    var senderPos = GetTopLeft(sender);
+
+    var PopUp = $get(divID);
+
+    PopUp.style.top = (senderPos.Top + topOffset - height) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+
+    var control = $get(slID);
+    var date = sender.getAttribute("Date");
+    var timeRequired = sender.getAttribute("TimeRequired");
+    var courseName = sender.getAttribute("CourseName");
+    control.Content.SilverlightPopup.UserID = userID;
+    control.Content.SilverlightPopup.RoleID = currentRole;
+    control.Content.SilverlightPopup.ClassID = classID;
+    control.Content.SilverlightPopup.CourseID = courseID;
+    control.Content.SilverlightPopup.BatchID = batchID;
+    control.Content.SilverlightPopup.CourseGroupScheduleID = courseGroupScheduleID;
+    control.Content.SilverlightPopup.TimeRequired = timeRequired;
+    control.Content.SilverlightPopup.DueDate = date;
+    control.Content.SilverlightPopup.CourseDetailID = courseDetailID;
+    control.Content.SilverlightPopup.CourseName = courseName;
+    control.Content.SilverlightPopup.Comments = comments;
+    control.Content.SilverlightPopup.Title = mode;
+    control.Content.SilverlightPopup.PopulateCourses();
+    control.Content.SilverlightPopup.Scheduled = function(sender, e) {
+
+        //    sender.setAttribute("Date", s.DueDate);
+        //    sender.setAttribute("TimeRequired", s.TimeRequired);
+        //    sender.setAttribute("CourseName", s.CourseName);
+        //    sender.innerHTML = s.DueDate + ' ' + s.TimeRequired + ' ' + s.CourseName;
+        btn = $get(btnid);
+
+        ClosePopup(divID); btn.click();
+    };
+
+    control.Content.SilverlightPopup.Canceled = function(sender, e) {
+        ClosePopup(divID);
+    };
+    PopUp.style.visibility = 'visible';
+
+}
+
+//---------------------------------------------------------------------//
+
+function ShowTestingSchedulePopup(sender, topOffset, leftOffset, userID, classID, courseGroupScheduleID, courseID, courseGroupTypeID, comments, courseGroupID, batchID, courseDetailID, currentRole, btnid, mode) {
+    OpenPopup("divTestingSchedulePopup", "slTestingSchedulePopup", 295, sender, topOffset, leftOffset, userID, classID, courseGroupScheduleID, courseID, courseGroupTypeID, comments, courseGroupID, batchID, courseDetailID, currentRole, btnid, mode);
+}
+
+var ShowTestingScheduleControl = null;
+function ShowTestingScheduleProductsPopup(sender, topOffset, leftOffset, userID, classID, courseGroupScheduleID, courseID, courseGroupTypeID, comments, courseGroupID, batchID, courseDetailID, currentRole, btnid, mode,isPractice) {
+
+    ShowTestingScheduleControl = sender;
+    OpenProductsPopup("divTestingScheduleProductsPopup", "slTestingScheduleProductsPopup", 295, sender, topOffset, leftOffset, userID, classID, courseGroupScheduleID, courseID, courseGroupTypeID, comments, courseGroupID, batchID, courseDetailID, currentRole, btnid, mode,isPractice);
+    return false;
+}
+
+
+
+function ShowDueDatePopup(sender, topOffset, leftOffset) {
+    ClosePopup("divRequiredTimePopup");
+    OpenPopup("divDueDatePopup", "slDueDatePopup", 250, sender, topOffset, leftOffset);
+}
+
+function ShowRequiredTimePopup(sender, topOffset, leftOffset) {
+    ClosePopup("divDueDatePopup");
+    OpenPopup("divRequiredTimePopup", "slRequiredTimePopup", 200, sender, topOffset, leftOffset);
+}
+
+var TimeBetweenAttemptsSender = null;
+var TimeBetweenAttemptsSenderAll = null;
+
+function ShowTimeBetweenAttemptsPopup(sender, topOffset, leftOffset) {
+ 
+    ClosePopup("divCutScorePopup");
+    if (sender == null) return;
+    TimeBetweenAttemptsSender = sender;
+
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get("divTimeBetweenAttemptsPopup");
+    if (PopUp != null) {
+        PopUp.style.top = (senderPos.Top + topOffset - 170) + 'px';
+        PopUp.style.left = (senderPos.Left + leftOffset - 170) + 'px';
+        var control = $get("slTimeBetweenAttemptsPopup");
+        control.Content.SilverlightPopup.Title = "Set Time Between Attempts";
+
+        var timeInHours = TimeBetweenAttemptsSender.parentNode.getAttribute("hrs");
+
+        if (timeInHours != null && timeInHours != "")
+            control.Content.SilverlightPopup.TextBoxTime = timeInHours;
+        else
+            control.Content.SilverlightPopup.TextBoxTime = "";
+
+        control.Content.SilverlightPopup.Saved = function(s, e) {
+
+            var timeInHours = control.Content.SilverlightPopup.TextBoxTime;
+
+            if (timeInHours == "")
+                timeInHours = "0";
+            var minImageIcon = null;
+            var minTextlabel = null;
+
+            if (!isNaN(timeInHours)) {
+                if (IsIE()) {
+                     minImageIcon = TimeBetweenAttemptsSender.parentNode.children[0];
+                    minTextlabel = TimeBetweenAttemptsSender.parentNode.children[1];
+                }
+                else {
+                    minImageIcon = TimeBetweenAttemptsSender.parentNode.children[0];
+                    minTextlabel = TimeBetweenAttemptsSender.parentNode.children[1];
+                }
+                TimeBetweenAttemptsSender.parentNode.setAttribute("hrs", parseInt(timeInHours, 10));
+                if (timeInHours == "0") {
+                    minImageIcon.style.display = '';
+                    minTextlabel.style.display = 'none';
+                }
+                else {
+
+                    minImageIcon.style.display = 'none';
+                    minTextlabel.style.display = '';
+                    minTextlabel.innerText = parseInt(timeInHours, 10) + " hrs";
+                    minTextlabel.innerHTML = parseInt(timeInHours, 10) + " hrs";
+                }
+
+                for (i = 0; i < selectedTimeBtwAttempts.length; i++)
+                    if (selectedTimeBtwAttempts[i].indexOf('|' + TimeBetweenAttemptsSender.parentNode.getAttribute("BatchID")) >= 0)
+                    selectedTimeBtwAttempts.splice(i, 1);
+
+                selectedTimeBtwAttempts[selectedTimeBtwAttempts.length] = parseInt(timeInHours, 10) + '|' + TimeBetweenAttemptsSender.parentNode.getAttribute("BatchID");
+
+                $get(hdnTimeBetAttempts).value = selectedTimeBtwAttempts.join(',');
+
+
+                $get(productsTabHasUnsavedContent).value = '1'; // flag in productsTabHasUnsavedContent indicates the unchanged data exists
+                checkIsPageDirtyEableSaveChages();
+
+                TimeBetweenAttemptsSender = null;
+                ClosePopup("divTimeBetweenAttemptsPopup");
+            }
+        };
+
+        control.Content.SilverlightPopup.Canceled = function(s, e) {
+            TimeBetweenAttemptsSender = null;
+            TimeBetweenAttemptsSenderDefaultButton = null;
+            ClosePopup("divTimeBetweenAttemptsPopup");
+        };
+
+        PopUp.style.visibility = 'visible';
+    }
+    return false;
+}
+
+
+function ShowTimeBetweenAttemptsAllPopup(sender, topOffset, leftOffset) {
+    ClosePopup("divCutScorePopup");
+    if (sender == null) return;
+    TimeBetweenAttemptsSender = sender;
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get("divTimeBetweenAttemptsPopup");
+    if (PopUp != null) {
+        PopUp.style.top = (senderPos.Top + topOffset - 160) + 'px';
+        PopUp.style.left = (senderPos.Left + leftOffset - 160) + 'px';
+        var control = $get("slTimeBetweenAttemptsPopup");
+        control.Content.SilverlightPopup.Title = "Set Time Between Attempts";
+
+        var timeInHours = TimeBetweenAttemptsSender.parentNode.getAttribute("hrs");
+
+        if (timeInHours != null && timeInHours != "")
+            control.Content.SilverlightPopup.TextBoxTime = timeInHours;
+        else
+            control.Content.SilverlightPopup.TextBoxTime = "";
+
+        control.Content.SilverlightPopup.Saved = function(s, e) {
+
+            var timeInHours = control.Content.SilverlightPopup.TextBoxTime;
+
+            if (timeInHours == "")
+                timeInHours = "0";
+
+            if (isNaN(timeInHours))
+                return;
+
+            $get(hdnDefaultTimeValue).value = parseInt(timeInHours, 10);
+
+            ClosePopup("divTimeBetweenAttemptsPopup");
+            var radioButttons = $get(rdoSetTimeSelectAll);
+            if (radioButttons != null) {
+                //set radio to default
+                if ( IsIE() )
+                    radioButttons.children[0].children[0].children[0].children[0].checked = true;
+                else
+                    radioButttons.children[0].children[0].children[0].children[0].checked = true;
+            }
+
+            ShowConfirmSetDefaultTime();
+        };
+
+        control.Content.SilverlightPopup.Canceled = function(s, e) {
+            ClosePopup("divTimeBetweenAttemptsPopup");
+        };
+
+        PopUp.style.visibility = 'visible';
+    }
+    return false;
+}
+
+var attemptDefaultSender = null;
+function ShowTimeBetweenAttemptsAllTestsPopup(sender, topOffset, leftOffset) {
+
+    if (sender == null) return;
+    TimeBetweenAttemptsSender = sender;
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get("divTimeBetweenAttemptsPopup");
+    if (PopUp != null) {
+        PopUp.style.top = (senderPos.Top + topOffset - 160) + 'px';
+        PopUp.style.left = (senderPos.Left + leftOffset - 160) + 'px';
+        var control = $get("slTimeBetweenAttemptsPopup");
+        control.Content.SilverlightPopup.Title = "Set Time Between Attempts";
+
+        var timeInHours = TimeBetweenAttemptsSender.parentNode.getAttribute("hrs");
+
+        if (timeInHours != null && timeInHours != "")
+            control.Content.SilverlightPopup.TextBoxTime = timeInHours;
+        else
+            control.Content.SilverlightPopup.TextBoxTime = "";
+
+        control.Content.SilverlightPopup.Saved = function(s, e) {
+
+            var timeInHours = control.Content.SilverlightPopup.TextBoxTime;
+
+            if (timeInHours == "")
+                timeInHours = "0";
+
+            if (isNaN(timeInHours))
+                return;
+
+            $get(hdnDefaultTimeValue).value = parseInt(timeInHours, 10);
+
+            ClosePopup("divTimeBetweenAttemptsPopup");
+            var radioButttons = $get(rdoSetTimeSelectAll);
+            if (radioButttons != null) {
+                //set radio to default
+                if (IsIE())
+                    radioButttons.children[0].children[0].children[0].children[0].checked = true;
+                else
+                    radioButttons.children[0].children[0].children[0].children[0].checked = true;
+            }
+            SetTimeBetweenAttemptsAllTests($get(hdnDefaultTimeValue).value);
+            //ShowConfirmSetDefaultTime();
+        };
+
+        control.Content.SilverlightPopup.Canceled = function(s, e) {
+            ClosePopup("divTimeBetweenAttemptsPopup");
+        };
+
+        PopUp.style.visibility = 'visible';
+    }
+    return false;
+}
+
+function ShowRosterPopup(sender, topOffset, leftOffset, proctoredID) {
+    var productID = $get(lblProductIdValue).innerHTML;
+    if (productID == '')
+        productID = 0;
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get("divViewRoster");
+    if (PopUp == null)
+        PopUp = $get(divViewRoster); // get it from serverside emited js variable.
+    if (PopUp != null) {
+        PopUp.style.top = '200px';
+        PopUp.style.left = '400px';
+        var control = $get("slViewRoster");
+        control.Content.SilverlightPopup.ProductID = productID;
+        control.Content.SilverlightPopup.LoadRoster();
+
+        control.Content.SilverlightPopup.Canceled = function(s, e) {
+
+            var PopUp = $get("divViewRoster");
+            if (PopUp == null)
+                PopUp = $get(divViewRoster); // get it from serverside emited js variable.
+            if (PopUp != null)
+                PopUp.style.left = '-2000px';
+        };
+        PopUp.style.visibility = 'visible';
+    }
+    return false;
+
+}
+
+function UpdateChildRow(table) {
+    var row = null;
+    var prodcomments = prodSchedComments.replace(/'/gi, "&#39");
+    row = ShowTestingScheduleControl.parentNode.parentNode;
+
+    var cellSpan = null;
+    if (IsIE())
+        cellSpan = row.cells[0].children[0];
+    else
+        cellSpan = row.cells[0].children[0];
+    
+    cellSpan.setAttribute("Date", prodSchedDueDate);
+    cellSpan.setAttribute("Time", prodSchedTimeRequired);
+    cellSpan.setAttribute("TimeRequired", prodSchedTimeRequiredString);
+    cellSpan.setAttribute("CourseName", prodSchedCourseName);
+    cellSpan.onclick = new Function("ShowTestingScheduleProductsPopup(this,0,-195,"
+                                    + prodSchedUserID + ","
+                                    + prodSchedClassId + ","
+                                    + prodSchedCourseGroupScheduleID + ","
+                                    + prodSchedCourseID + ","
+                                    + prodSchedCourseGroupTypeID + ","
+                                    + "'" + prodcomments + "',"
+                                    + prodSchedCourseGroupID + ","
+                                    + prodSchedBatchID + ","
+                                    + prodSchedCourseDetailID + ","
+                                    + prodSchedRoleId + ",'"
+                                    + prodbtnManageCoursesID + "',"
+                                    + "'" + editGlobalizationString
+                                        + "'," + prodIsPractice + ");return false;");
+    cellSpan.setAttribute("onmouseover", "ShowToolTip(this.id,0,-125,'" + editGlobalizationString + "','" + editScheduleCourseStringToolTipText + "','RB');");
+    cellSpan.setAttribute("onmouseout", "HideToolTip();");
+    cellSpan.setAttribute("id", "dynamicChildGridCourseName" + Math.floor(Math.random() * 1001));
+    cellSpan.innerText = prodSchedCourseName;
+    cellSpan.innerHTML = prodSchedCourseName;
+
+    var cellSpan2 = null;
+    if (IsIE())
+        cellSpan2 = row.cells[1].children[0];
+    else
+        cellSpan2 = row.cells[1].children[0];
+    
+    
+    cellSpan2.setAttribute("Date", prodSchedDueDate);
+    cellSpan2.setAttribute("Time", prodSchedTimeRequired);
+    cellSpan2.setAttribute("TimeRequired", prodSchedTimeRequired);
+    cellSpan2.setAttribute("CourseName", prodSchedCourseName);
+    cellSpan2.onclick = new Function("ShowTestingScheduleProductsPopup(this,0,-195,"
+                                    + prodSchedUserID + ","
+                                    + prodSchedClassId + ","
+                                    + prodSchedCourseGroupScheduleID + ","
+                                    + prodSchedCourseID + ","
+                                    + prodSchedCourseGroupTypeID + ","
+                                    + "'" + prodcomments + "',"
+                                    + prodSchedCourseGroupID + ","
+                                    + prodSchedBatchID + ","
+                                    + prodSchedCourseDetailID + ","
+                                    + prodSchedRoleId + ",'"
+                                    + prodbtnManageCoursesID + "',"
+                                    + "'" + editGlobalizationString
+                                        + "'," + prodIsPractice + ");return false;");
+    cellSpan2.setAttribute("onmouseover", "ShowToolTip(this.id,0,-125,'" + editGlobalizationString + "','" + editScheduleCourseStringToolTipText + "','RB');");
+    cellSpan2.setAttribute("onmouseout", "HideToolTip();");
+    cellSpan2.setAttribute("id", "dynamicChildGridCourseName" + Math.floor(Math.random() * 1001));
+    cellSpan2.innerText = prodSchedDueDate;
+   cellSpan2.innerHTML = prodSchedDueDate;
+
+
+   var cellSpan3 = null;
+   if (IsIE())
+       cellSpan3 = row.cells[2].children[0];
+   else
+       cellSpan3 = row.cells[2].children[0];
+    
+    cellSpan3.setAttribute("Date", prodSchedDueDate);
+    cellSpan3.setAttribute("Time", prodSchedTimeRequired);
+    cellSpan3.setAttribute("TimeRequired", prodSchedTimeRequired);
+    cellSpan3.setAttribute("CourseName", prodSchedCourseName);
+    cellSpan3.onclick = new Function("ShowTestingScheduleProductsPopup(this,0,-195,"
+                                    + prodSchedUserID + ","
+                                    + prodSchedClassId + ","
+                                    + prodSchedCourseGroupScheduleID + ","
+                                    + prodSchedCourseID + ","
+                                    + prodSchedCourseGroupTypeID + ","
+                                    + "'" + prodcomments + "',"
+                                    + prodSchedCourseGroupID + ","
+                                    + prodSchedBatchID + ","
+                                    + prodSchedCourseDetailID + ","
+                                    + prodSchedRoleId + ",'"
+                                    + prodbtnManageCoursesID + "',"
+                                    + "'" + editGlobalizationString
+                                        + "'," + prodIsPractice + ");return false;");
+    cellSpan3.setAttribute("onmouseover", "ShowToolTip(this.id,0,-125,'" + editGlobalizationString + "','" + editScheduleCourseStringToolTipText + "','RB');");
+    cellSpan3.setAttribute("onmouseout", "HideToolTip();");
+    cellSpan3.setAttribute("id", "dynamicChildGridCourseName" + Math.floor(Math.random() * 1001));
+    cellSpan3.innerText = prodSchedTimeRequiredString;
+     cellSpan3.innerHTML = prodSchedTimeRequiredString;
+
+}
+
+
+
+function AddChildRow(table) {
+    var rowCount = table.rows.length;
+    var row = null;
+    var prodcomments = prodSchedComments.replace(/'/gi, "&#39");
+    row = table.insertRow(rowCount);
+    row.className = "products_tablecontent";
+    var cell1 = row.insertCell(0);
+    cell1.className = "products_tablecontent";
+    cell1.align = "left";
+    var cellSpan = document.createElement("SPAN");
+    cellSpan.setAttribute("Date", prodSchedDueDate);
+    cellSpan.setAttribute("Time", prodSchedTimeRequired);
+    cellSpan.setAttribute("TimeRequired", prodSchedTimeRequiredString);
+    cellSpan.setAttribute("CourseName", prodSchedCourseName);
+    cellSpan.onclick = new Function("ShowTestingScheduleProductsPopup(this,0,-195,"
+                                    + prodSchedUserID + ","
+                                    + prodSchedClassId + ","
+                                    + prodSchedCourseGroupScheduleID + ","
+                                    + prodSchedCourseID + ","
+                                    + prodSchedCourseGroupTypeID + ","
+                                    + "'" + prodcomments + "',"
+                                    + prodSchedCourseGroupID + ","
+                                    + prodSchedBatchID + ","
+                                    + prodSchedCourseDetailID + ","
+                                    + prodSchedRoleId + ",'"
+                                    + prodbtnManageCoursesID + "',"
+                                    + "'" + editGlobalizationString
+                                        + "'," + prodIsPractice + ");return false;");
+    cellSpan.setAttribute("onmouseover", "ShowToolTip(this.id,0,-125,'" + editGlobalizationString + "','" + editScheduleCourseStringToolTipText + "','RB');");
+    cellSpan.setAttribute("onmouseout", "HideToolTip();");
+    cellSpan.setAttribute("id", "dynamicChildGridCourseName" + Math.floor(Math.random() * 1001));
+    cellSpan.innerText = prodSchedCourseName;
+    cellSpan.innerHTML = prodSchedCourseName;
+
+    cell1.appendChild(cellSpan);
+
+
+    var cell2 = row.insertCell(1);
+    cell2.align = "left";
+    cell2.className = "products_tablecontent";
+    var cellSpan2 = document.createElement("SPAN");
+    cellSpan2.setAttribute("Date", prodSchedDueDate);
+    cellSpan2.setAttribute("Time", prodSchedTimeRequired);
+    cellSpan2.setAttribute("TimeRequired", prodSchedTimeRequired);
+    cellSpan2.setAttribute("CourseName", prodSchedCourseName);
+    cellSpan2.onclick = new Function("ShowTestingScheduleProductsPopup(this,0,-195,"
+                                    + prodSchedUserID + ","
+                                    + prodSchedClassId + ","
+                                    + prodSchedCourseGroupScheduleID + ","
+                                    + prodSchedCourseID + ","
+                                    + prodSchedCourseGroupTypeID + ","
+                                    + "'" + prodcomments + "',"
+                                    + prodSchedCourseGroupID + ","
+                                    + prodSchedBatchID + ","
+                                    + prodSchedCourseDetailID + ","
+                                    + prodSchedRoleId + ",'"
+                                    + prodbtnManageCoursesID + "',"
+                                    + "'" + editGlobalizationString
+                                        + "'," + prodIsPractice + ");return false;");
+    cellSpan2.setAttribute("onmouseover", "ShowToolTip(this.id,0,-125,'" + editGlobalizationString + "','" + editScheduleCourseStringToolTipText + "','RB');");
+    cellSpan2.setAttribute("onmouseout", "HideToolTip();");
+    cellSpan2.setAttribute("id", "dynamicChildGridCourseName" + Math.floor(Math.random() * 1001));
+    cellSpan2.innerText = prodSchedDueDate;
+    cellSpan2.innerHTML = prodSchedDueDate;
+    cell2.appendChild(cellSpan2);
+
+
+    var cell3 = row.insertCell(2);
+    cell3.align = "left";
+    cell3.className = "products_tablecontent";
+    var cellSpan3 = document.createElement("SPAN");
+    cellSpan3.setAttribute("Date", prodSchedDueDate);
+    cellSpan3.setAttribute("Time", prodSchedTimeRequired);
+    cellSpan3.setAttribute("TimeRequired", prodSchedTimeRequired);
+    cellSpan3.setAttribute("CourseName", prodSchedCourseName);
+    cellSpan3.onclick = new Function("ShowTestingScheduleProductsPopup(this,0,-195,"
+                                    + prodSchedUserID + ","
+                                    + prodSchedClassId + ","
+                                    + prodSchedCourseGroupScheduleID + ","
+                                    + prodSchedCourseID + ","
+                                    + prodSchedCourseGroupTypeID + ","
+                                    + "'" + prodcomments + "',"
+                                    + prodSchedCourseGroupID + ","
+                                    + prodSchedBatchID + ","
+                                    + prodSchedCourseDetailID + ","
+                                    + prodSchedRoleId + ",'"
+                                    + prodbtnManageCoursesID + "',"
+                                    + "'" + editGlobalizationString
+                                        + "'," + prodIsPractice + ");return false;");
+    cellSpan3.setAttribute("onmouseover", "ShowToolTip(this.id,0,-125,'" + editGlobalizationString + "','" + editScheduleCourseStringToolTipText + "','RB');");
+    cellSpan3.setAttribute("onmouseout", "HideToolTip();");
+    cellSpan3.setAttribute("id", "dynamicChildGridCourseName" + Math.floor(Math.random() * 1001));
+    cellSpan3.innerText = prodSchedTimeRequiredString;
+    cellSpan3.innerHTML = prodSchedTimeRequiredString;
+    cell3.appendChild(cellSpan3);
+
+}
+
+var prodSchedUserID, prodSchedClassId, prodSchedCourseID, prodSchedDueDate, prodSchedComments, prodSchedBatchID, prodSchedTimeRequired, prodSchedCourseGroupID, prodIsPractice;
+var prodSchedCourseGroupTypeID, prodSchedCourseGroupScheduleID, prodSchedCourseDetailID, prodSchedCourseName, prodSchedRoleId, prodbtnManageCoursesID, prodSchedTimeRequiredString;
+
+function OpenProductsPopup(divID, slID, height, sender, topOffset, leftOffset, userID, classID, courseGroupScheduleID, courseID, courseGroupTypeID, comments, courseGroupID, batchID, courseDetailID, currentRole, btnid, mode,isPractice) {
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get(divID);
+    PopUp.style.top = (senderPos.Top + topOffset - (height)) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+    var control = $get(slID);
+    var date = sender.getAttribute("Date");
+    var timeRequired = sender.getAttribute("TimeRequired");
+    var time = sender.getAttribute("Time");
+    var courseName = sender.getAttribute("CourseName");
+    control.Content.SilverlightPopup.UserID = userID;
+    control.Content.SilverlightPopup.RoleID = currentRole;
+    control.Content.SilverlightPopup.ClassID = classID;
+    control.Content.SilverlightPopup.CourseGroupTypeID = courseGroupTypeID;
+    control.Content.SilverlightPopup.CourseID = courseID;
+    control.Content.SilverlightPopup.BatchID = batchID;
+    control.Content.SilverlightPopup.CourseGroupID = courseGroupID;
+    control.Content.SilverlightPopup.CourseGroupScheduleID = courseGroupScheduleID;
+    control.Content.SilverlightPopup.TimeRequired = time;
+    control.Content.SilverlightPopup.DueDate = date;
+    control.Content.SilverlightPopup.CourseDetailID = courseDetailID;
+    control.Content.SilverlightPopup.CourseName = courseName;
+    control.Content.SilverlightPopup.Comments = comments;
+    control.Content.SilverlightPopup.Title = mode;
+    control.Content.SilverlightPopup.IsPractice = isPractice;
+
+    control.Content.SilverlightPopup.Scheduled = function (s, e) {
+        btn = $get(btnid);
+        // check do you have these
+        //  b.BatchID, a.AssessmentID, a.Name, b.ClassID, cl.Description , cs.CourseID,       
+        //ISNULL(cs.CourseName,''None'') AS CourseName, cs.DueDate, cs.RequiredStudyMinutes, cs.CourseGroupID,       
+        //cs.CourseGroupScheduleID, cs.CourseGroupTypeID, cs.Comments, cs.CourseDetailID 
+
+        prodSchedUserID = control.Content.SilverlightPopup.UserID;
+        prodSchedClassId = control.Content.SilverlightPopup.ClassID;
+        prodSchedRoleId = control.Content.SilverlightPopup.RoleID;
+        prodSchedComments = control.Content.SilverlightPopup.Comments;
+        prodSchedCourseGroupTypeID = control.Content.SilverlightPopup.CourseGroupTypeID;
+        prodSchedCourseID = control.Content.SilverlightPopup.CourseID;
+        prodSchedBatchID = control.Content.SilverlightPopup.BatchID;
+        prodSchedCourseGroupID = control.Content.SilverlightPopup.CourseGroupID;
+        prodSchedCourseGroupScheduleID = control.Content.SilverlightPopup.CourseGroupScheduleID;
+        prodSchedTimeRequired = control.Content.SilverlightPopup.TimeRequired;
+        prodSchedTimeRequiredString = control.Content.SilverlightPopup.TimeRequiredString;
+        prodSchedDueDate = control.Content.SilverlightPopup.DueDate;
+        prodSchedCourseDetailID = control.Content.SilverlightPopup.CourseDetailID;
+        prodSchedCourseName = control.Content.SilverlightPopup.CourseName;
+        prodbtnManageCoursesID = btnid;
+        prodIsPractice = isPractice;
+
+        if (control.Content.SilverlightPopup.SLMode == "Add") {
+            if (ShowTestingScheduleControl != undefined && ShowTestingScheduleControl != null) {
+                if (IsIE()) {
+                    ShowTestingScheduleControl.parentNode.children[1].style.display = ''
+                    if (ShowTestingScheduleControl.parentNode.parentNode.nextSibling.childNodes.length != 0) {
+                        var table = ShowTestingScheduleControl.parentNode.parentNode.nextSibling.children[0].children[0].children[0];
+                    }
+                    else {
+                        var table = ShowTestingScheduleControl.parentNode.parentNode.nextSibling.nextSibling.children[0].children[0].children[0];
+                    }
+                    AddChildRow(table);
+                }
+                else {
+                    ShowTestingScheduleControl.parentNode.children[1].style.display = ''
+                    var table = ShowTestingScheduleControl.parentNode.parentNode.nextSibling.nextSibling.children[0].children[0].children[0];
+
+                    AddChildRow(table);
+                }
+
+            }
+        }
+        else if (control.Content.SilverlightPopup.SLMode == "Edit") {
+
+            if (ShowTestingScheduleControl != undefined && ShowTestingScheduleControl != null) {
+                var table = ShowTestingScheduleControl.parentNode.parentNode.parentNode.parentNode;
+                UpdateChildRow(table);
+            }
+        }
+        if (control.Content.SilverlightPopup.SLMode == "Clear") {
+            if (ShowTestingScheduleControl != undefined && ShowTestingScheduleControl != null) {
+                var table = ShowTestingScheduleControl.parentNode.parentNode.parentNode.parentNode;
+                var row = ShowTestingScheduleControl.parentNode.parentNode;
+                table.deleteRow(row.rowIndex);
+                if (table.rows.length <= 1) {
+                    var childGridHostingTR = table.parentNode.parentNode.parentNode;
+                    if (IsIE()) {
+                        var maintableRowsCount = 0;
+                        if (childGridHostingTR.previousSibling != undefined && childGridHostingTR.previousSibling.children != undefined) {
+                            maintableRowsCount = childGridHostingTR.previousSibling.children.length;
+                        }
+                        else {
+                            maintableRowsCount = 0;
+                        }
+                        if (maintableRowsCount > 0) {
+                            var actualHideUnhideScheduleTR = table.parentNode.parentNode.parentNode.previousSibling;
+                            var subElementCount = actualHideUnhideScheduleTR.children[maintableRowsCount - 2].children.length;
+                            var imageUnhideHide = actualHideUnhideScheduleTR.children[maintableRowsCount - 2].children[subElementCount - 1];
+                            imageUnhideHide.click();
+                            imageUnhideHide.style.display = 'none';
+                        }
+                    }
+                    else {
+                        var maintableRowsCount = 0;
+                        if (childGridHostingTR.previousSibling != undefined && childGridHostingTR.previousSibling.children != undefined) {
+                            maintableRowsCount = childGridHostingTR.previousSibling.children.length;
+                        }
+                        else {
+                            maintableRowsCount = 0;
+                        }
+                        if (maintableRowsCount > 0) {
+                            var actualHideUnhideScheduleTR = table.parentNode.parentNode.parentNode.previousSibling;
+                            var imageUnhideHide = actualHideUnhideScheduleTR.children[maintableRowsCount - 2].children[1];
+                            imageUnhideHide.onclick();
+                            imageUnhideHide.style.display = 'none';
+                        }
+                    }
+
+
+                }
+            }
+        }
+
+        //btn.click(); // this is commented to avoid post back
+        ClosePopup(divID);
+
+    };
+
+    control.Content.SilverlightPopup.Canceled = function(s, e) {
+        ClosePopup(divID);
+    };
+
+    control.Content.SilverlightPopup.Cleared = function(s, e) {
+
+
+        ClosePopup(divID);
+    };
+
+    control.Content.SilverlightPopup.TestingGroupSelected = function(s, e) {
+        var PopUp = $get(divID);
+        var divPopUp = $get(slID);
+        PopUp.style.height = '400px';
+        divPopUp.style.height = '400px';
+        $get(divID).style.top = (parseInt($get(divID).style.top) - 105) + 'px';
+    };
+
+    control.Content.SilverlightPopup.AllStudentsSelected = function(s, e) {
+        var PopUp = $get(divID);
+        var divPopUp = $get(slID);
+        PopUp.style.height = '295px';
+        divPopUp.style.height = '295px';
+        PopUp.style.top = (senderPos.Top + topOffset - (height)) + 'px';
+    };
+
+    control.Content.SilverlightPopup.Reset();
+    control.Content.SilverlightPopup.PopulateCourses();
+
+    PopUp.style.visibility = 'visible';
+
+}
+
+
+
+function OpenPopup(divID, slID, height, sender, topOffset, leftOffset, userID, classID, courseGroupScheduleID, courseID, courseGroupTypeID, comments, courseGroupID, batchID, courseDetailID, currentRole, btnid, mode) {
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get(divID);
+    PopUp.style.top = (senderPos.Top + topOffset - (height)) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+    var control = $get(slID);
+    var date = sender.getAttribute("Date");
+    var timeRequired = sender.getAttribute("TimeRequired");
+    var courseName = sender.getAttribute("CourseName");
+    control.Content.SilverlightPopup.UserID = userID;
+    control.Content.SilverlightPopup.RoleID = currentRole;
+    control.Content.SilverlightPopup.ClassID = classID;
+    control.Content.SilverlightPopup.CourseGroupTypeID = courseGroupTypeID;
+    control.Content.SilverlightPopup.CourseID = courseID;
+    control.Content.SilverlightPopup.BatchID = batchID;
+    control.Content.SilverlightPopup.CourseGroupID = courseGroupID;
+    control.Content.SilverlightPopup.CourseGroupScheduleID = courseGroupScheduleID;
+    control.Content.SilverlightPopup.TimeRequired = timeRequired;
+    control.Content.SilverlightPopup.DueDate = date;
+    control.Content.SilverlightPopup.CourseDetailID = courseDetailID;
+    control.Content.SilverlightPopup.CourseName = courseName;
+    control.Content.SilverlightPopup.Comments = comments;
+    control.Content.SilverlightPopup.Title = mode;
+
+    control.Content.SilverlightPopup.Scheduled = function(s, e) {
+        btn = $get(btnid);
+        ClosePopup(divID); btn.click();
+    };
+
+    control.Content.SilverlightPopup.Canceled = function(s, e) {
+        ClosePopup(divID);
+    };
+
+    control.Content.SilverlightPopup.TestingGroupSelected = function(s, e) {
+        var PopUp = $get(divID);
+        var divPopUp = $get(slID);
+        PopUp.style.height = '400px';
+        divPopUp.style.height = '400px';
+        $get(divID).style.top = (parseInt($get(divID).style.top) - 105) + 'px';
+    };
+
+    control.Content.SilverlightPopup.AllStudentsSelected = function(s, e) {
+        var PopUp = $get(divID);
+        var divPopUp = $get(slID);
+        PopUp.style.height = '295px';
+        divPopUp.style.height = '295px';
+        PopUp.style.top = (senderPos.Top + topOffset - (height)) + 'px';
+    };
+
+    control.Content.SilverlightPopup.Reset();
+    control.Content.SilverlightPopup.PopulateCourses();
+
+    PopUp.style.visibility = 'visible';
+
+}
+
+
+
+
+
+
+//------------------ Set Benchmark Popups ---------------------------//
+//ATING-6614
+function ShowSetBenchmarkMLMPopup(sender, topOffset, leftOffset, benchmarkType, tutorialId, benchmarkID, assessmentID, tutorialName, institutionID,userid, benchmarkTypeValue, defaultTutorialBenchmarkValue, defaultBenchmarkID, btnid, roleID) {
+    OpenBenchmarkMLMPopup("divSetBenchmarkMLMPopup", "slSetBenchmarkMLMPopup", 200, sender, topOffset, leftOffset, benchmarkType, tutorialId, benchmarkID, assessmentID, tutorialName, institutionID,userid, benchmarkTypeValue, defaultTutorialBenchmarkValue, defaultBenchmarkID, btnid, roleID);
+}
+//ATING-6614 Added userid
+function ShowSetBenchmarkPopup(sender, topOffset, leftOffset, assessmentID, assessmentName, isTEAS, benchmarkID, defaultBenchMarkID, reportGroupID, teasSectionNameID, defaultBenchmark, defaultBenchmarkType, btnid, institutionid,userid, roleID) {
+    //    Saved = function(sender, e) { alert("Saved"); ClosePopup(divID); }
+    //    Canceled = function(sender, e) { ClosePopup(divID); }
+   
+    OpenBenchmarkPopup("divSetBenchmarkPopup", "slSetBenchmarkPopup", 250, sender, topOffset, leftOffset, assessmentID, assessmentName, isTEAS, benchmarkID, defaultBenchMarkID, reportGroupID, teasSectionNameID, defaultBenchmark, defaultBenchmarkType, btnid, institutionid,userid, roleID);
+}
+//ATING-6614 Added userid
+function ShowSetBenchmarkPracticePopup(sender, topOffset, leftOffset, assessmentID, assessmentName, benchmarkID, benchmarkType, defaultBenchMarkID, reportGroupID, defaultBenchmark, defaultBenchmarkType, btnid, institutionid,userid, roleID) {
+    //    Saved = function(sender, e) { alert("Saved"); ClosePopup(divID); }
+    //    Canceled = function(sender, e) { ClosePopup(divID); }
+    OpenBenchmarkPracticePopup("divSetBenchmarkPracticePopup", "slSetBenchmarkPracticePopup", 250, sender, topOffset, leftOffset, assessmentID, assessmentName, benchmarkID, benchmarkType, defaultBenchMarkID, reportGroupID, defaultBenchmark, defaultBenchmarkType, btnid, institutionid,userid, roleID);
+}
+//ATING-6614
+function OpenBenchmarkMLMPopup(divID, slID, height, sender, topOffset, leftOffset, benchmarkType, tutorialId, benchmarkID, assessmentID, tutorialName, institutionID,userid,benchmarkTypeValue, defaultTutorialBenchmarkValue, defaultBenchmarkID, btnid, roleID) {
+    var senderPos = GetTopLeft(sender);
+    var control = $get(slID);
+    var PopUp = $get(divID);
+    var tutorialBenchmark = sender.getAttribute("Edited");
+    PopUp.style.top = (senderPos.Top + topOffset - height) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+    PopUp.style.visibility = 'visible';
+    control.Content.SilverlightPopup.Benchmark = tutorialBenchmark;
+    control.Content.SilverlightPopup.DefaultBenchmark = defaultTutorialBenchmarkValue;
+    control.Content.SilverlightPopup.InstitutionID = institutionID;
+    control.Content.SilverlightPopup.UserID = userid;
+    control.Content.SilverlightPopup.ID = benchmarkID;
+    control.Content.SilverlightPopup.DefaultBenchmarkID = defaultBenchmarkID;
+    control.Content.SilverlightPopup.AssessmentID = assessmentID;
+    control.Content.SilverlightPopup.BenchmarkType = benchmarkTypeValue;
+    control.Content.SilverlightPopup.TutorialID = tutorialId;
+    control.Content.SilverlightPopup.TutorialName = tutorialName;
+    control.Content.SilverlightPopup.RoleID = roleID;
+    control.Content.SilverlightPopup.TutorialPopup();
+    //control.Content.SilverlightPopup.InstitutionPurchaseID = defaultTutorialBenchmarkID;
+    control.content.SilverlightPopup.Saved = function(s, e) {
+        //        sender.innerHTML = s.BenchmarkType + ' ' + s.Benchmark;
+
+        //        sender.setAttribute("Edited", s.Benchmark);
+        //        if (s.AllSelectedlabel) {
+        //            if (lblBenchmarkIDS.length > 0) {
+
+
+        //                for (var i = 0; i < lblBenchmarkIDS.length; i++) {
+        //                    if (lblInstitutionPurchaseIDS[i] == tutorialId) {
+
+        //                        var radcls = document.getElementById(lblBenchmarkIDS[i]);
+        //                        radcls.innerHTML = s.BenchmarkType + ' ' + s.Benchmark;
+        //                        radcls.setAttribute("Edited", s.Benchmark);
+        //                    }
+        //                }
+        //            }
+        //        }
+
+
+
+        btn = $get(btnid);
+        //alert("Saved");
+        s.Reset();
+        ClosePopup(divID);
+        btn.click();
+    };
+    control.content.SilverlightPopup.Canceled = function(s, e) {
+        control.content.SilverlightPopup.Reset();
+        ClosePopup(divID);
+    };
+
+}
+//ATING-6614 Added userid
+function OpenBenchmarkPopup(divID, slID, height, sender, topOffset, leftOffset, assessmentID, assessmentName, isTEAS, benchmarkID, defaultBenchMarkID, reportGroupID, teasSectionNameID, defaultBenchmark, defaultBenchmarkType, btnid, institutionid,userid, roleID) {
+
+    var senderPos = GetTopLeft(sender);
+    var control = $get(slID);
+    var PopUp = $get(divID);
+    PopUp.style.top = (senderPos.Top + topOffset - height) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+    control.Content.SilverlightPopup.Reset();
+    var edited = sender.getAttribute("Edited");
+    var benchmarkedited = sender.getAttribute("BenchMarkType");
+    control.Content.SilverlightPopup.BenchmarkValue = edited;
+    control.Content.SilverlightPopup.BenchmarkType = benchmarkedited;
+    control.Content.SilverlightPopup.ID = assessmentID;
+    control.Content.SilverlightPopup.AssessmentName = assessmentName;
+    control.Content.SilverlightPopup.IsTEAS = isTEAS;
+    control.Content.SilverlightPopup.InstitutionID = institutionid;
+    control.Content.SilverlightPopup.UserID = userid;
+    control.Content.SilverlightPopup.BenchmarkID = benchmarkID;
+    control.Content.SilverlightPopup.DefaultBenchmarkID = defaultBenchMarkID;
+    control.Content.SilverlightPopup.ReportGroupID = reportGroupID;
+    control.Content.SilverlightPopup.RoleID = roleID;
+    control.Content.SilverlightPopup.TEASSectionNameID = teasSectionNameID;
+    control.Content.SilverlightPopup.DefaultBenchmarkValue = defaultBenchmark;
+    control.Content.SilverlightPopup.DefaultBenchmarkType = defaultBenchmarkType;
+    control.Content.SilverlightPopup.ProctoredPopup();
+    control.Content.SilverlightPopup.ProficiecyLevelDefault();
+    control.Content.SilverlightPopup.Saved = function(s, e) {
+        //sender.innerHTML = s.Benchmark;
+        //sender.innerHTML = s.BenchmarkType + ' ' + s.Benchmark;
+
+        //        if (s.AllSelectedlabel == true) {
+        //            if (lblBenchMarkProctorIDS.length > 0) {
+        //                for (var i = 0; i < lblBenchMarkProctorIDS.length; i++) {
+
+        //                    var radcls = document.getElementById(lblBenchMarkProctorIDS[i]);
+        //                    radcls.innerText = s.Benchmark;
+        //                    radcls.setAttribute("Edited", s.Benchmark);
+        //                }
+        //            }
+        //        }
+        btn = $get(btnid);
+        //        sender.setAttribute("Edited", s.Benchmark);
+        //        sender.setAttribute("BenchMarkType", s.BenchmarkType);
+        control.Content.SilverlightPopup.Reset();
+        ClosePopup(divID);
+        btn.click();
+    };
+    control.Content.SilverlightPopup.Canceled = function(s, e) {
+        control.Content.SilverlightPopup.Reset();
+        ClosePopup(divID);
+
+    };
+    GlobalEvent.Subscribe(function() { ClosePopup(divID); });
+
+    PopUp.style.visibility = 'visible';
+
+}
+//ATING-6614 Added userid
+function OpenBenchmarkPracticePopup(divID, slID, height, sender, topOffset, leftOffset, assessmentID, assessmentName, benchmarkID, benchmarkType, defaultBenchMarkID, reportGroupID, defaultBenchmark, defaultBenchmarkType, btnid, institutionid,userid, roleID) {
+
+    var senderPos = GetTopLeft(sender);
+    var control = $get(slID);
+    var PopUp = $get(divID);
+    PopUp.style.top = (senderPos.Top + topOffset - height) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+    var edited = sender.getAttribute("Edited");
+    control.Content.SilverlightPopup.DefaultBenchmark = defaultBenchmark;
+    control.Content.SilverlightPopup.Benchmark = edited;
+    control.Content.SilverlightPopup.BenchmarkType = benchmarkType;
+    control.Content.SilverlightPopup.ID = assessmentID;
+    control.Content.SilverlightPopup.AssessmentName = assessmentName;
+    control.Content.SilverlightPopup.InstitutionID = institutionid;
+    control.Content.SilverlightPopup.UserID = userid;
+    control.Content.SilverlightPopup.BenchmarkID = benchmarkID;
+    control.Content.SilverlightPopup.RoleID = roleID;
+    control.Content.SilverlightPopup.DefaultBenchmarkID = defaultBenchMarkID;
+    control.Content.SilverlightPopup.ReportGroupID = reportGroupID;
+    control.Content.SilverlightPopup.DefaultBenchmarkType = defaultBenchmarkType;
+    control.Content.SilverlightPopup.PracticePopup();
+    control.content.SilverlightPopup.Saved = function(s, e) {
+        btn = $get(btnid);
+        ClosePopup(divID);
+        btn.click();
+    };
+    control.content.SilverlightPopup.Canceled = function(s, e) {
+        ClosePopup(divID);
+    };
+    GlobalEvent.Subscribe(function() { ClosePopup(divID); });
+
+    PopUp.style.visibility = 'visible';
+
+}
+
+//----------------------------Assignment Due Popup---------------------------------------//
+
+function ShowAssignmentDuePopup(sender, top, left, moduleId, tutorialId, userId) {
+    var divid = 'divAssignmentDuePopUp';
+    var slid = 'slAssignmentDuePopUp';
+    OpenAssignmentDuePopup(divid, slid, 250, sender, top, left, moduleId, tutorialId, userId);
+}
+
+function OpenAssignmentDuePopup(divID, slID, height, sender, topOffset, leftOffset, moduleId, tutorialId, userId) {
+
+    var senderPos = GetTopLeft(sender);
+
+    var PopUp = $get(divID);
+
+    PopUp.style.top = (senderPos.Top + topOffset - height) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+
+
+    var control = $get(slID);
+    control.Content.SilverlightPopup.Closed = function(sender, e) {
+        ClosePopup(divID);
+    };
+
+    control.Content.SilverlightPopup.Begin = function(s, e) { BeginAssignment(s, e); };
+    control.Content.SilverlightPopup.ModuleID = moduleId;
+    control.Content.SilverlightPopup.TutorialID = tutorialId;
+    control.Content.SilverlightPopup.UserID = userId;
+    control.Content.SilverlightPopup.ShowAssignments();
+
+    PopUp.style.visibility = 'visible';
+
+}
+//---------------------------Tutorial & Test Assignment Popup---------------------------------//
+var Highlightflag = null;
+function ShowLessonAssignment(sender, top, left, loc, classid, userid, mcid, type, mid, cid, cgsid, date, time, btnid, comments, ip, roleid) {
+    var divid = 'divLessonAssignmentPopup';
+    var slid = 'slLessonAssignmentPopup';
+    var control = $get(slid);
+    control.Content.SilverlightPopup.Reset();
+    highlightRow(sender);
+    Scheduled = function(s, e) {
+
+        var bSuccess = control.Content.SilverlightPopup.bSuccess;
+        if (!bSuccess) { } else {
+            btn = $get(btnid);
+            UnhighlightRow(sender);
+            control.Content.SilverlightPopup.Reset(); ClosePopup(divid); btn.click();
+        }
+    }
+    Canceled = function(s, e) { UnhighlightRow(sender); control.Content.SilverlightPopup.Reset(); ClosePopup(divid); }
+    control.Content.SilverlightPopup.UserID = userid;
+    control.Content.SilverlightPopup.RoleID = roleid;
+    control.Content.SilverlightPopup.ClassID = classid;
+    control.Content.SilverlightPopup.ModuleID = mid;
+    control.Content.SilverlightPopup.ModuleContentID = mcid;
+    control.Content.SilverlightPopup.CourseID = cid;
+    control.Content.SilverlightPopup.CourseGroupScheduleID = cgsid;
+    control.Content.SilverlightPopup.InstitutionPurchaseID = ip;
+    control.Content.SilverlightPopup.TimeRequired = time;
+    control.Content.SilverlightPopup.DueDate = date;
+    control.Content.SilverlightPopup.Comments = comments;
+    control.Content.SilverlightPopup.ModuleContentTypeID = type;
+    control.Content.SilverlightPopup.PopulateCourses();
+    OpenTutorialTestAssignment(divid, slid, sender, top, left, '', loc, 400, Scheduled, Canceled);
+}
+
+function highlightRow(sender) {
+    if (Highlightflag != null) {
+        UnhighlightRow(Highlightflag);
+    }
+    var parent;
+    var bflag = false;
+    parent = sender;
+    while (!bflag) {
+        parent = parent.parentNode;
+        if (parent.nodeName.toLowerCase() == 'tr' || parent == null) {
+            bflag = true;
+            break;
+        }
+    }
+
+    if (parent.nodeName.toLowerCase() == 'tr') {
+        var row = parent;
+
+        for (var i = 0; i < row.cells.length; i++) {
+            var cell = row.cells[i];
+            var cls = cell.className;
+            cell.setAttribute("origClass", cls);
+            //cell.setAttribute.className = cls;
+
+
+            if (cls.indexOf("highlight") > -1) {
+                cell.className = "hightablecontent3";
+                //cell.setAttribute("className", "hightablecontent3");
+                //cell.setAttribute.className = "hightablecontent3";
+                //row.cells[i].className =  "hightablecontent3";
+            }
+
+
+        }
+
+    }
+
+    Highlightflag = sender;
+}
+
+function UnhighlightRow(sender) {
+
+    var parent;
+    var bflag = false;
+    parent = sender;
+    while (!bflag) {
+
+        if (parent != null) {
+            parent = parent.parentNode;
+            if (parent.nodeName.toLowerCase() == 'tr' || parent == null) {
+                bflag = true;
+                break;
+            }
+        }
+    }
+
+    if (parent.nodeName.toLowerCase() == 'tr') {
+
+        for (var i = 0; i < sender.parentNode.parentNode.cells.length; i++) {
+            //var cls = parent.cells[i].className;
+            parent.cells[i].className = parent.cells[i].getAttribute("origClass");
+        }
+
+    }
+    Highlightflag = null;
+}
+
+function ShowTestAssignment(sender, top, left, loc) {
+    var divid = 'divTestAssignmentPopup';
+    var slid = 'slTestAssignmentPopup';
+    var control = $get(slid);
+    Scheduled = function(sender, e) { control.Content.SilverlightPopup.Reset(); ClosePopup(divid); }
+    Canceled = function(sender, e) { control.Content.SilverlightPopup.Reset(); ClosePopup(divid); }
+    OpenTutorialTestAssignment(divid, slid, sender, top, left, '', loc, 300, Scheduled, Canceled);
+}
+
+function OpenTutorialTestAssignment(divid, slid, sender, topOffset, leftOffset, content, loc, height, fnSavedcallback, fnCanceledcallback) {
+
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get(divid);
+
+    PopUp.style.top = (senderPos.Top + topOffset - height) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+
+    var control = $get(slid);
+
+    control.Content.SilverlightPopup.Scheduled = fnSavedcallback;
+
+    control.Content.SilverlightPopup.Canceled = fnCanceledcallback;
+
+    PopUp.style.visibility = 'visible';
+
+}
+//-----------------------------------------------------------//
+function ClosePopup(divID) {
+    var PopUp = $get(divID);
+    PopUp.style.left = '-2000px';
+}
+
+//----------------------Show Notes Popup ------------------------------//
+function ShowNotesPopup(sender, top, left, text, loc) {
+    var divid = 'divNotesPopUp';
+    var slid = 'slNotesPopUp';
+    Canceled = function(sender, e) { ClosePopup(divid); }
+    OpenNotesPopup(divid, slid, sender, top, left, text, loc, 100, Canceled);
+}
+
+function OpenNotesPopup(divid, slid, sender, topOffset, leftOffset, text, loc, height, fnCanceledcallback) {
+
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get(divid);
+    PopUp.style.top = (senderPos.Top + topOffset - height) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+    var control = $get(slid);
+    control.Content.SilverlightPopup.Text = text;
+    control.Content.SilverlightPopup.Canceled = fnCanceledcallback;
+    PopUp.style.visibility = 'visible';
+
+}
+//-------------------------------------------------------------------//
+
+//-------------------------------eBook PopUP-----------------------------//
+function ShoweBookPopup(sender, top, left, location) {
+    var divid = 'diveBookPopup';
+    var slid = 'sleBookPopup';
+    var height = 320;
+    Canceled = function(s, e) {
+        ClosePopup(divid);
+        //alert(s);
+        if (s == true)
+        { $get(btnHideSave).click(); }
+
+    }
+    OpeneBookPopup(divid, slid, sender, top, left, height, Canceled, location);
+}
+
+function OpeneBookPopup(divid, slid, sender, topOffset, leftOffset, height, fnCanceledcallback, location) {
+
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get(divid);
+    PopUp.style.top = (senderPos.Top + topOffset - height) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+    var control = $get(slid);
+    control.Content.SilverlightPopup.Location = location;
+    control.Content.SilverlightPopup.CancelClick = fnCanceledcallback;
+
+    PopUp.style.visibility = 'visible';
+
+}
+//-------------------------------eBook PopUP-----------------------------//
+//--------------------------------Display Password Popup------------------//
+//Atchuta: This popups for the users who are in role  Director, Personnel, Instructor.
+function ShowDisplayPasswordPopup(sender, top, left, name, userName, studentid, facultyid, roleID, institutionID, ip) {
+    var divid = 'divDisplayPasswordPopup';
+    var slid = 'slDisplayPasswordPopup';
+    var height = 320;
+    OpenDisplayPasswordPopup(divid, slid, sender, top, left, height, name, userName, studentid, facultyid, roleID, institutionID, ip);
+}
+
+function OpenDisplayPasswordPopup(divid, slid, sender, topOffset, leftOffset, height, name, userName, studentid, facultyid, roleID, institutionID, ip) {
+
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get(divid);
+    PopUp.style.top = (senderPos.Top + topOffset - height) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+    var control = $get(slid);
+    control.Content.SilverlightPopup.Named = name;
+    control.Content.SilverlightPopup.UserName = userName;
+    control.Content.SilverlightPopup.StudentID = studentid;
+    control.Content.SilverlightPopup.FacultyID = facultyid;
+    control.Content.SilverlightPopup.RoleID = roleID;
+    control.Content.SilverlightPopup.InstitutionID = institutionID;
+    control.Content.SilverlightPopup.IP = ip;
+    control.Content.SilverlightPopup.DisplayPassword();
+    control.Content.SilverlightPopup.CancelClick = function(s, e) {
+        ClosePopup(divid);
+    };
+    PopUp.style.visibility = 'visible';
+
+}
+//--------------------------------Display Password Popup------------------//
+
+//--------------------------------Allow Acess Popup------------------//
+//Shreyansh: This popups for the users who are in role  Director, Personnel, Instructor.
+function ShowAllowAcessPopup(sender, top, left, name, studentid, facultyid, roleID, institutionID, ip, institutionName) {
+    var divid = 'divAllowAccessPasswordPopup';
+    var slid = 'slAllowAccessPasswordPopup';
+    var height = 320;
+    OpenAllowAcessPasswordPopup(divid, slid, sender, top, left, height, name, studentid, facultyid, roleID, institutionID, ip, institutionName);
+}
+
+function OpenAllowAcessPasswordPopup(divid, slid, sender, topOffset, leftOffset, height, name, studentid, facultyid, roleID, institutionID, ip, institutionName) {
+
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get(divid);
+    PopUp.style.top = (senderPos.Top + topOffset - height) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+    var control = $get(slid);
+    control.Content.SilverlightPopup.UserName = name;
+    control.Content.SilverlightPopup.StudentID = studentid;
+    control.Content.SilverlightPopup.FacultyID = facultyid;
+    control.Content.SilverlightPopup.RoleID = roleID;
+    control.Content.SilverlightPopup.InstitutionID = institutionID;
+    control.Content.SilverlightPopup.IP = ip;
+    control.Content.SilverlightPopup.InstitutionName = institutionName;
+    control.Content.SilverlightPopup.ShowPopUpData();
+    control.Content.SilverlightPopup.Canceled = function(sender, e) {
+        ClosePopup(divid);
+    };
+    control.Content.SilverlightPopup.Saved = function(sender, e) {
+        ClosePopup(divid);
+    };
+    PopUp.style.visibility = 'visible';
+
+}
+//--------------------------------Allow Acess Popup------------------//
+//-------------------------Practice PreviewWindow-------------------//
+function ShowPraticeAssessmentPreview(batchID, ispreview) {
+    var params = 'top=0,left=0,toolbar=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,modal=yes';
+    params += ',width=' + screen.width;
+    params += ',height=' + screen.height;
+    params += ',fullscreen=yes';
+
+    var queryStr = 'batchid=' + batchID;
+    queryStr = queryStr + '&IsPreview=' + ispreview;
+    var url = '../ProductOffering/ProductOfferingHostingPage.aspx?';
+    if (!(window.location.href.toLowerCase().indexOf('student') >= 0) && 
+        !(window.location.href.toLowerCase().indexOf('faculty') >= 0) &&
+        !(window.location.href.toLowerCase().indexOf('general') >= 0)) {
+        url = './ProductOffering/ProductOfferingHostingPage.aspx?';
+    }
+    var newwin = window.open(url + queryStr, 'Assessment', params);	
+    if (!newwin) {
+        ValidateMsg("Please select OK to begin your Practice Assessment.");
+        $get("ctl00_btnOK").onclick = function() { ShowPraticeAssessmentPreview(batchID, ispreview); HideError(); return false; };
+        return;
+    }
+    else {
+        $get("ctl00_btnOK").onclick = function() { HideError(); return false };
+    }
+    if (window.focus) {
+        newwin.focus();
+    }
+}
+
+//-------------------------Practice PreviewWindow-------------------//
+
+//Global method for Validation //
+function ValidateMsg(Validatetext) {
+    var modalPopupBehavior = $find("mpValidationBehavior");
+    var lblError = $get("ctl00_lblErrormessage");
+    lblError.innerHTML = Validatetext;
+    modalPopupBehavior.show();
+    return false;
+
+}
+
+var ValidationBehaviorCallBack = null;
+
+function HideError() {
+    var modalPopupBehavior = $find("mpValidationBehavior");
+    var lblError = $get("ctl00_lblErrormessage");
+    lblError.innerText = "";
+    modalPopupBehavior.hide();
+    if (ValidationBehaviorCallBack != null) {
+        ValidationBehaviorCallBack();
+        ValidationBehaviorCallBack = null;
+    }
+    return false;
+
+}
+//Global method for Validation //
+
+
+//Global method for Confirmation//
+function ConfirmMsg(Validatetext) {
+    var modalPopupBehavior = $find("mpConfirmationBehavior");
+    var lblError = $get("ctl00_lblConfirmationMessage");
+    lblError.innerHTML = Validatetext;
+    modalPopupBehavior.show();
+    return false;
+}
+//Global method for Confirmation//
+function ConfirmBenchmarkDefault(defaultButton, gridID) {
+    var modalPopupBehavior = $find("mpBenchmarkDefaultConfirmationBehavior");
+    //    var lblError = $get("ctl00_lblConfirmationMessage");
+    //    lblError.innerHTML = Validatetext;
+
+    var gridId = $get("ctl00_hdnGridId");
+    if (gridId != null)
+        gridId.value = gridID;
+
+    modalPopupBehavior.show();
+    return false;
+}
+
+function ConfirmLockUnlock(resultsORassessments, lockOrUnlock, gridID) {
+    var modalPopupBehavior = $find("mpLockUnlockConfirmationBehavior");
+
+    var rdoselectall = $get("ctl00_rdoSelectAll")
+    if (IsIE()) {
+        if (rdoselectall != null)
+            rdoselectall.children[0].children[0].children[0].children[0].checked = true;
+    }
+    else {
+        if (rdoselectall != null)
+            rdoselectall.children[0].children[0].children[0].children[0].checked = true;
+
+    }
+
+    var resultsAssessments = $get("ctl00_hdnLockUnlockResultsORassessments");
+    if (resultsAssessments != null)
+        resultsAssessments.value = resultsORassessments;
+
+    var lockUnlock = $get("ctl00_hdnLockUnlockAttentionConf");
+    if (lockUnlock != null)
+        lockUnlock.value = lockOrUnlock;
+
+    var gridId = $get("ctl00_hdnGridId");
+    if (gridId != null)
+        gridId.value = gridID;
+
+    modalPopupBehavior.show();
+    return false;
+}
+
+
+function ConfirmLockUnlockTutorials(lockOrUnlock, gridID) {
+    var modalPopupBehavior = $find("mpLockUnlockConfirmationTutBehavior");
+
+    var rdoselectall = $get(rdoSelectAllTut)
+
+    if (IsIE()) {
+        if (rdoselectall != null)
+            rdoselectall.children[0].children[0].children[0].children[0].checked = true;
+    }
+    else {
+        if (rdoselectall != null)
+            rdoselectall.children[0].children[0].children[0].children[0].checked = true;
+
+    }
+    
+    
+
+    var lockUnlock = $get("ctl00_hdnLockUnlockAttentionConf");
+    if (lockUnlock != null)
+        lockUnlock.value = lockOrUnlock;
+
+    var gridId = $get("ctl00_hdnGridId");
+    if (gridId != null)
+        gridId.value = gridID;
+
+    modalPopupBehavior.show();
+    return false;
+
+}
+
+function ConfirmSaveChanges(sender) {
+    
+        //if (event && event.srcElement)
+    eventSaveChangesSourceElement = sender;
+
+    if (eventSaveChangesSourceElement.onchange != null)
+        eventSaveChangesSourceElementddlNewValue = getSelectedValue(eventSaveChangesSourceElement);
+
+    var modalPopupBehavior = $find("mpAttentionProductsSaveChanges");
+    
+    modalPopupBehavior.show();
+    return false;
+}
+
+
+
+function ConfirmScheduleAssignment() {
+    var modalPopupBehavior = $find("mpScheduleAssignmentBehavior");
+    modalPopupBehavior.show();
+    return false;
+}
+
+function HideConfirmScheduleAssignment() {
+    var modalPopupBehavior = $find("mpScheduleAssignmentBehavior");
+    modalPopupBehavior.hide();
+    if (ValidationBehaviorCallBack != null) {
+        ValidationBehaviorCallBack();
+        ValidationBehaviorCallBack = null;
+    }
+    return false;
+}
+
+
+function ConfirmLockUnlockAttention(lockOrUnlock, gridID) {
+    var modalPopupBehavior = $find("mpAttentionConfirmationBehavior");
+    modalPopupBehavior.show();
+    return false;
+}
+
+function ConfirmLockUnlockAttentionTut(lockOrUnlock, gridID) {
+    var modalPopupBehavior = $find("mpAttentionConfirmationTutBehavior");
+    modalPopupBehavior.show();
+    return false;
+}
+
+
+ValidationBehaviorCallBack = null;
+
+// Check this flag variable for Confirm Msg Box - True or False
+//  When true or false is clicked the flag will be set in HideConfirmMsg
+//  Always set ConfirmMsgStatus to null value before opening Confirm Msg Box to ensure proper working.
+function HideConfirmMsg() {
+    var modalPopupBehavior = $find("mpConfirmationBehavior");
+    var lblError = $get("ctl00_lblConfirmationMessage");
+    lblError.innerText = "";
+    modalPopupBehavior.hide();
+    if (ValidationBehaviorCallBack != null) {
+        ValidationBehaviorCallBack();
+        ValidationBehaviorCallBack = null;
+    }
+    return false;
+}
+
+function HideProductsSaveChangesYES() {
+    
+     var modalPopupBehavior = $find("mpAttentionProductsSaveChanges");
+    modalPopupBehavior.hide();
+
+    if (productsTabHasUnsavedContent != null && productsTabHasUnsavedContent != '')
+        $get(productsTabHasUnsavedContent).value = '';
+
+    if (eventSaveChangesSourceElement != null) {
+
+        if (IsIE()) {
+
+            if (eventSaveChangesSourceElement.onchange != null) {
+                setValueSelected(eventSaveChangesSourceElement, eventSaveChangesSourceElementddlNewValue);
+                eventSaveChangesSourceElement.onchange();
+            }
+            else
+                eventSaveChangesSourceElement.click();
+        }
+        else {
+
+            if (eventSaveChangesSourceElement.onchange != null) {
+                setValueSelected(eventSaveChangesSourceElement, eventSaveChangesSourceElementddlNewValue);
+                eventSaveChangesSourceElement.onchange();
+            }
+            else
+                eventSaveChangesSourceElement.onclick();
+        }
+    }
+    ClearGlobalSiteMasterVariables();
+
+    if (ValidationBehaviorCallBack != null) {
+        ValidationBehaviorCallBack();
+        ValidationBehaviorCallBack = null;
+    }
+    return false;
+}
+
+function HideProductsSaveChangesNO() {
+    var modalPopupBehavior = $find("mpAttentionProductsSaveChanges");
+    modalPopupBehavior.hide();
+
+    if (eventSaveChangesSourceElement != null) {
+        if (eventSaveChangesSourceElement.onchange != null) {
+            setValueSelected(eventSaveChangesSourceElement, eventSaveChangesSourceElementddlOldValue);
+        }
+    }
+    ClearGlobalSiteMasterVariables();
+    return false;
+}
+
+function ClearGlobalSiteMasterVariables() {
+    //clean values;
+    eventSaveChangesSourceElementddlNewValue = '';
+    eventSaveChangesSourceElementddlOldValue = '';
+    eventSaveChangesSourceElement = null;
+}
+function HideConfirmLockUnlock() {
+    var modalPopupBehavior = $find("mpLockUnlockConfirmationBehavior");
+    modalPopupBehavior.hide();
+    if (ValidationBehaviorCallBack != null) {
+        ValidationBehaviorCallBack();
+        ValidationBehaviorCallBack = null;
+    }
+    var lockUnlock = $get("ctl00_LockUnlockAttentionConf");
+    if (lockUnlock != null)
+        lockUnlock.value = '';
+    return false;
+}
+
+function HideConfirmLockUnlockTut() {
+    var modalPopupBehavior = $find("mpLockUnlockConfirmationTutBehavior");
+    modalPopupBehavior.hide();
+    if (ValidationBehaviorCallBack != null) {
+        ValidationBehaviorCallBack();
+        ValidationBehaviorCallBack = null;
+    }
+    var lockUnlock = $get("ctl00_LockUnlockAttentionConf");
+    if (lockUnlock != null)
+        lockUnlock.value = '';
+    return false;
+}
+
+function HideConfirmLockUnlockAttention() {
+    var modalPopupBehavior = $find("mpAttentionConfirmationBehavior");
+    modalPopupBehavior.hide();
+    if (ValidationBehaviorCallBack != null) {
+        ValidationBehaviorCallBack();
+        ValidationBehaviorCallBack = null;
+    }
+    return false;
+}
+
+function HideConfirmLockUnlockAttentionTut() {
+    var modalPopupBehavior = $find("mpAttentionConfirmationTutBehavior");
+    modalPopupBehavior.hide();
+    if (ValidationBehaviorCallBack != null) {
+        ValidationBehaviorCallBack();
+        ValidationBehaviorCallBack = null;
+    }
+    return false;
+}
+
+function ShowConfirmSetTimeDefaultAttention() {
+    var modalPopupBehavior = $find("mpSetDefaultTimeAttentionConfirmationBehavior");
+    modalPopupBehavior.show();
+    if (ValidationBehaviorCallBack != null) {
+        ValidationBehaviorCallBack();
+        ValidationBehaviorCallBack = null;
+    }
+    return false;
+}
+
+function HideConfirmSetTimeDefaultAttention() {
+    var modalPopupBehavior = $find("mpSetDefaultTimeAttentionConfirmationBehavior");
+    modalPopupBehavior.hide();
+    if (ValidationBehaviorCallBack != null) {
+        ValidationBehaviorCallBack();
+        ValidationBehaviorCallBack = null;
+    }
+    return false;
+}
+
+
+
+function ShowConfirmSetDefaultTime() {
+    var modalPopupBehavior = $find("mpSetDefaultTimeConfirmationBehavior");
+    modalPopupBehavior.show();
+    if (ValidationBehaviorCallBack != null) {
+        ValidationBehaviorCallBack();
+        ValidationBehaviorCallBack = null;
+    }
+    return false;
+}
+function HideConfirmSetDefaultTime() {
+    var modalPopupBehavior = $find("mpSetDefaultTimeConfirmationBehavior");
+    modalPopupBehavior.hide();
+    if (ValidationBehaviorCallBack != null) {
+        ValidationBehaviorCallBack();
+        ValidationBehaviorCallBack = null;
+    }
+    return false;
+}
+function HideConfirmBenchmarkDefault() {
+    var modalPopupBehavior = $find("mpBenchmarkDefaultConfirmationBehavior");
+    modalPopupBehavior.hide();
+    if (ValidationBehaviorCallBack != null) {
+        ValidationBehaviorCallBack();
+        ValidationBehaviorCallBack = null;
+    }
+    defaultBenchMarkValue = $get("ctl00_txtBenchmarkDefaultPercentage").value;
+    var dblBenchMarkTypeControl = $get("ctl00_ddlBenchMarkType");
+    if (dblBenchMarkTypeControl[0].selected == true)
+        benchmarkDefaultCompleteText = dblBenchMarkTypeControl[0].text
+    else if (dblBenchMarkTypeControl[1].selected == true)
+        benchmarkDefaultCompleteText = dblBenchMarkTypeControl[1].text
+    else if (dblBenchMarkTypeControl[2].selected == true)
+        benchmarkDefaultCompleteText = dblBenchMarkTypeControl[2].text
+    var gridId = $get("ctl00_hdnGridId");
+    if (defaultBenchMarkValue != null && (defaultBenchMarkValue == '' || isNaN(defaultBenchMarkValue))) {
+        defaultBenchMarkValue = 0;
+    }
+    PopulateDefaultBenchmark(null, gridId.value);
+    return false;
+}
+
+//Global method for Confirmation //
+
+/*** Products tab methods */
+
+
+function SetTimeBetweenAttemptsAll() {
+    var setTimeAllAttemptsAllPages = $get(hdnProcterSetTimeAllAttemptsAllPages);
+    var defaultTimeValue = $get(hdnDefaultTimeValue);
+    var grid = $get(hdnSetTimeGridId);
+    var rdoSetTimeSelectl = $get(rdoSetTimeSelectAll);
+    if (IsIE()) {
+        if (setTimeAllAttemptsAllPages != null && defaultTimeValue != null && grid != null) {
+            if (grid.children && grid.children[0].children.length > 0) {
+                var chkbxVal = rdoSetTimeSelectl.children[0].children[1].children[0].children[0].checked;
+                setTimeAllAttemptsAllPages.value = (chkbxVal == true) ? defaultTimeValue.value : '';
+                //Only one row in grid
+                if (grid.children[0].children.length == 2)
+                    bubbleSetTimeAssessmentsEvent(defaultTimeValue.value, grid, 0);
+                //multiple rows in grid
+                else
+                    for (var i = 0; i < grid.children[0].children.length; i += 2)
+                    bubbleSetTimeAssessmentsEvent(defaultTimeValue.value, grid, i);
+
+                if (chkbxVal == true) {
+                    $get(hdnTimeBetAttempts).value = '';
+                    selectedTimeBtwAttempts.length = new Array();
+                }
+            }
+        }
+    }
+    else {
+        if (setTimeAllAttemptsAllPages != null && defaultTimeValue != null && grid != null) {
+            if (grid.children && grid.children[0].children.length > 0) {
+                var chkbxVal = rdoSetTimeSelectl.children[0].children[1].children[0].children[0].checked;
+                setTimeAllAttemptsAllPages.value = (chkbxVal == true) ? defaultTimeValue.value : '';
+                //Only one row in grid
+                if (grid.children[0].children.length == 2)
+                    bubbleSetTimeAssessmentsEvent(defaultTimeValue.value, grid, 0);
+                //multiple rows in grid
+                else
+                    for (var i = 0; i < grid.children[0].children.length; i += 2)
+                    bubbleSetTimeAssessmentsEvent(defaultTimeValue.value, grid, i);
+
+                if (chkbxVal == true) {
+                    $get(hdnTimeBetAttempts).value = '';
+                    selectedTimeBtwAttempts.length = new Array();
+                }
+            }
+        }
+    }
+    $get(hdnTimeBetAttempts).value = selectedTimeBtwAttempts.join(',');
+    $get(productsTabHasUnsavedContent).value = '1'; // flag in productsTabHasUnsavedContent indicates the unchanged data exists
+    checkIsPageDirtyEableSaveChages();
+
+    //alert( 'values:  ' + $get(hdnTimeBetAttempts).value + 'All:  ' + setTimeAllAttemptsAllPages.value + 'all val: ' + defaultTimeValue.value);
+
+    return false;
+}
+
+
+function bubbleSetTimeAssessmentsEvent(setTimeValue, grid, i) {
+
+    var tbCell = null;
+    if (IsIE()) {
+        if (productIDExistsForTheClass != "")
+            tbCell = grid.children[0].children[i].children[7];
+        else
+            tbCell = grid.children[0].children[i].children[6];
+
+        if (tbCell != null) {
+
+            for (var j = 0; j < selectedTimeBtwAttempts.length; j++)
+                if (selectedTimeBtwAttempts[j].indexOf('|' + tbCell.getAttribute('BatchID')) >= 0)
+                selectedTimeBtwAttempts.splice(j, 1);
+
+            //if unlock clicked
+            if (setTimeValue == "0" || setTimeValue == "") {
+                tbCell.children[0].style.display = '';
+                tbCell.children[1].style.display = 'none';
+                tbCell.setAttribute("hrs", "0");
+                selectedTimeBtwAttempts[selectedTimeBtwAttempts.length] = '0|' + tbCell.getAttribute('BatchID');
+            }
+            else // if lock clicked
+            {
+                tbCell.children[1].style.display = '';
+                tbCell.children[1].innerText = setTimeValue + " hrs";
+                tbCell.children[0].style.display = 'none';
+                tbCell.setAttribute("hrs", setTimeValue);
+                selectedTimeBtwAttempts[selectedTimeBtwAttempts.length] = setTimeValue + '|' + tbCell.getAttribute('BatchID');
+            }
+        }
+    }
+    else {
+        if (productIDExistsForTheClass != "")
+            tbCell = grid.children[0].children[i].children[7];
+        else
+            tbCell = grid.children[0].children[i].children[6];
+
+        if (tbCell != null) {
+
+            for (var j = 0; j < selectedTimeBtwAttempts.length; j++)
+                if (selectedTimeBtwAttempts[j].indexOf('|' + tbCell.getAttribute('BatchID')) >= 0)
+                selectedTimeBtwAttempts.splice(j, 1);
+
+            //if unlock clicked
+            if (setTimeValue == "0" || setTimeValue == "") {
+                tbCell.children[0].style.display = '';
+                tbCell.children[1].style.display = 'none';
+                tbCell.setAttribute("hrs", "0");
+                selectedTimeBtwAttempts[selectedTimeBtwAttempts.length] = '0|' + tbCell.getAttribute('BatchID');
+            }
+            else // if lock clicked
+            {
+                tbCell.children[1].style.display = '';
+                tbCell.children[1].innerText = setTimeValue + " hrs";
+                tbCell.children[1].innerHTML = setTimeValue + " hrs";
+                tbCell.children[0].style.display = 'none';
+                tbCell.setAttribute("hrs", setTimeValue);
+                selectedTimeBtwAttempts[selectedTimeBtwAttempts.length] = setTimeValue + '|' + tbCell.getAttribute('BatchID');
+            }
+        }
+    }
+}
+
+
+
+
+/***** Tutorials ****/
+
+function LockOrUnLockAllTut() {
+    var lockUnlock = $get(hdnLockUnlockAttentionConf);
+    var lockUnlockAllAssessmentsAllPages = $get(hdnTutorialLockUnLockAllAssessmentsAllPages);
+    var grid = $get(gvProductsTutorialAssessment);
+    var rdoselectall = $get(rdoSelectAllTut);
+    if (IsIE()) {
+
+        if (lockUnlock != null && grid != null) {
+            if (grid.children && grid.children[0].children.length > 0) {
+
+                //Only one row in grid
+                if (grid.children[0].children.length == 2) {
+                    var chkbxVal = rdoselectall.children[0].children[1].children[0].children[0].checked;
+                    lockUnlockAllAssessmentsAllPages.value = (chkbxVal == true) ? lockUnlock.value : '';
+                    bubbleLockUnlockTutsEvent(lockUnlock.value, grid, 0);
+                    if (chkbxVal == true) {
+                        $get(hndTutorialLockUnlockAssessmentIDs1).value = '';
+                        selectedEnableDisableAssessments.length = new Array();
+                    }
+
+                }
+                //multiple rows in grid
+                else {
+                    var chkbxVal = rdoselectall.children[0].children[1].children[0].children[0].checked;
+                    lockUnlockAllAssessmentsAllPages.value = (chkbxVal == true) ? lockUnlock.value : '';
+                    for (var i = 0; i < grid.children[0].children.length; i += 2)
+                        if ( grid.children[0].children[i].tagName.indexOf('/') == -1)
+                            bubbleLockUnlockTutsEvent(lockUnlock.value, grid, i);
+                    if (chkbxVal == true) {
+                        $get(hndTutorialLockUnlockAssessmentIDs1).value = '';
+                        selectedEnableDisableAssessments = new Array();
+                    }
+                }
+            }
+        }
+
+        $get(hndTutorialLockUnlockAssessmentIDs1).value = selectedEnableDisableAssessments.join(',');
+        rdoselectall.children[0].children[0].children[0].children[0].checked = true;
+        $get(productsTabHasUnsavedContent).value = '1'; // flag in productsTabHasUnsavedContent indicates the unchanged data exists
+        checkIsPageDirtyEableSaveChages();
+        lockUnlock.value = '';
+    }
+    else {
+
+        if (lockUnlock != null && grid != null) {
+            if (grid.children && grid.children[0].children.length > 0) {
+
+                //Only one row in grid
+                if (grid.children[0].children.length == 2) {
+                    var chkbxVal = rdoselectall.children[0].children[1].children[0].children[0].checked;
+                    lockUnlockAllAssessmentsAllPages.value = (chkbxVal == true) ? lockUnlock.value : '';
+                    bubbleLockUnlockTutsEvent(lockUnlock.value, grid, 0);
+                    if (chkbxVal == true) {
+                        $get(hndTutorialLockUnlockAssessmentIDs1).value = '';
+                        selectedEnableDisableAssessments.length = new Array();
+                    }
+
+                }
+                //multiple rows in grid
+                else {
+                    var chkbxVal = rdoselectall.children[0].children[1].children[0].children[0].checked;
+                    lockUnlockAllAssessmentsAllPages.value = (chkbxVal == true) ? lockUnlock.value : '';
+                    for (var i = 0; i < grid.children[0].children.length; i += 2)
+                        bubbleLockUnlockTutsEvent(lockUnlock.value, grid, i);
+                    if (chkbxVal == true) {
+                        $get(hndTutorialLockUnlockAssessmentIDs1).value = '';
+                        selectedEnableDisableAssessments = new Array();
+                    }
+                }
+            }
+        }
+
+        $get(hndTutorialLockUnlockAssessmentIDs1).value = selectedEnableDisableAssessments.join(',');
+        rdoselectall.children[0].children[0].children[0].children[0].checked = true;
+        $get(productsTabHasUnsavedContent).value = '1'; // flag in productsTabHasUnsavedContent indicates the unchanged data exists
+        checkIsPageDirtyEableSaveChages();
+        lockUnlock.value = '';
+    }
+    return false;
+}
+
+
+function bubbleLockUnlockTutsEvent(lockUnlock, grid, i) {
+
+ if (IsIE())
+     var imgBtn = grid.children[0].children[i].children[4].children[0];
+ else
+     var imgBtn = grid.children[0].children[i].children[4].children[0];
+    // Process further when imgBtn is not null
+    if (imgBtn != null) {
+
+        for (i = 0; i < selectedEnableDisableAssessments.length; i++)
+            if ((selectedEnableDisableAssessments[i] == '1|' + imgBtn.value)
+                     || (selectedEnableDisableAssessments[i] == '0|' + imgBtn.value))
+            selectedEnableDisableAssessments.splice(i, 1);
+
+        //if unlock clicked
+        if (lockUnlock == 'unlock') {
+            imgBtn.src = imgBtn.src.replace("/lock-icon.png", "/unlock-icon.png");
+            imgBtn.setAttribute("IsLock", "false");
+            selectedEnableDisableAssessments[selectedEnableDisableAssessments.length] = '1|' + imgBtn.value;
+        }
+        else // if lock clicked
+        {
+            imgBtn.src = imgBtn.src.replace("/unlock-icon.png", "/lock-icon.png");
+            imgBtn.setAttribute("IsLock", "true");
+            selectedEnableDisableAssessments[selectedEnableDisableAssessments.length] = '0|' + imgBtn.value;
+        }
+    }
+}
+
+
+function getHiddenTutorialValue() {
+    $get(hndIsEnablePipeInstitutionPurchaseIDs).value = $get(hndTutorialLockUnlockAssessmentIDs1).value;
+    selectedEnableDisableAssessments = new Array();
+    $get(hndTutorialLockUnlockAssessmentIDs1).value = '';
+    $get(productsTabHasUnsavedContent).value = '';
+    return true;
+}
+
+
+
+function SetEnableDisableTutorials(sender, batchID, saveChangesButton) {
+
+    var IsLock = sender.getAttribute("IsLock");
+
+    for (i = 0; i < selectedEnableDisableAssessments.length; i++)
+        if ((selectedEnableDisableAssessments[i] == '1|' + batchID)
+                     || (selectedEnableDisableAssessments[i] == '0|' + batchID))
+        selectedEnableDisableAssessments.splice(i, 1);
+
+
+    if (IsLock == 'True' || IsLock == 'true') {
+        sender.src = sender.src.replace("/lock-icon.png", "/unlock-icon.png");
+        sender.setAttribute("IsLock", "false");
+        selectedEnableDisableAssessments[selectedEnableDisableAssessments.length] = '1|' + batchID;
+    }
+    else {
+        sender.src = sender.src.replace("/unlock-icon.png", "/lock-icon.png");
+        sender.setAttribute("IsLock", "true");
+        selectedEnableDisableAssessments[selectedEnableDisableAssessments.length] = '0|' + batchID;
+    }
+    $get(hndTutorialLockUnlockAssessmentIDs1).value = selectedEnableDisableAssessments.join(',');
+    $get(productsTabHasUnsavedContent).value = '1'; // flag in productsTabHasUnsavedContent indicates the unchanged data exists
+    checkIsPageDirtyEableSaveChages();
+    return false;
+}
+
+function SetEnableDisableModules(sender, tutidModuleid, saveChangesButton) {
+
+var IsLock = sender.getAttribute("IsLock");
+    var colvalues = sender.getAttribute("colvalues");
+    var index = sender.getAttribute("value");
+    var Flag = sender.getAttribute("Flag");
+    var strvalue;
+    var status = 1;
+    var results;
+    //Create object and add values to array list
+    if (colvalues.length > 1) {
+
+        results = colvalues.split("-");
+        var obj =selectedEnableDisableModule[index]
+        if (selectedEnableDisableModule[index] == undefined) {
+            ModuleValues = new Object();            
+            ModuleValues.Enable = results[0];
+            ModuleValues.OptimalResponses = results[1];
+            ModuleValues.RationaleResponses = results[2];
+            strvalue='|'+ tutidModuleid + '|' + results[0] + '|' + results[1] + '|' + results[2];
+        }
+        else {
+            ModuleValues = obj
+            results[0] = ModuleValues.Enable;
+            results[1] = ModuleValues.OptimalResponses;
+            results[2] = ModuleValues.RationaleResponses;
+            strvalue='|'+ tutidModuleid + '|' + results[0] + '|' + results[1] + '|' + results[2];
+        }
+
+        switch (Flag) {
+            case "0":
+                results[0] = IsLock
+                ModuleValues.Enable = results[0];
+//                ModuleValues.OptimalResponses = "";
+//                results[1] = "";
+                break;
+            case "1":
+                results[1] = IsLock
+                ModuleValues.OptimalResponses = results[1];
+//                ModuleValues.Enable = "";
+//                results[0] = "";
+                break;
+            case "2":
+                results[2] = IsLock
+                ModuleValues.RationaleResponses = results[2];
+                break;
+            default:
+
+        }        
+            
+        selectedEnableDisableModule[index] = ModuleValues;
+    }
+
+    if (IsLock == 'True' || IsLock == 'true') {
+
+        sender.src = sender.src.replace("/lock-icon.png", "/unlock-icon.png");
+        sender.setAttribute("IsLock", "false");
+    }
+    else {
+        sender.src = sender.src.replace("/unlock-icon.png", "/lock-icon.png");
+        sender.setAttribute("IsLock", "true")
+    }
+
+    //Check the array for the existing value, if any modification is done for already added value then replace the olde value with new one
+ for (i = 0; i < selectedEnableDisableModules.length; i++){
+        if (selectedEnableDisableModules[i] ==  strvalue){
+            selectedEnableDisableModules[i] = '|' + tutidModuleid + '|' + results[0] + '|' + results[1] + '|' + results[2];
+            status = 0;
+        }
+    }
+    //if value is new then add to array 
+        if(status==1)
+        {
+    selectedEnableDisableModules[selectedEnableDisableModules.length] = '|'+ tutidModuleid + '|' + results[0] + '|' + results[1] + '|' + results[2];
+    $get(hndTutorialLockUnlockModules).value = selectedEnableDisableModules.join(',');
+}
+    //if value is modified then over write the values with array value
+  else{
+     $get(hndTutorialLockUnlockModules).value = selectedEnableDisableModules;
+ }
+
+    $get(productsTabHasUnsavedContent).value = '1'; // flag in productsTabHasUnsavedContent indicates the unchanged data exists
+    checkIsPageDirtyEableSaveChages();
+    return false;
+    
+}
+
+// Added function as per JIRA ATING-3533
+function ModuleValues(Enable, OptimalResponses, RationaleResponses) {
+    this.Enable = Enable;
+    this.OptimalResponses = OptimalResponses;
+    this.RationaleResponses = RationaleResponses;
+    
+}
+
+//ended the code
+
+
+
+function SetEnableDisableTests(sender, tutidModuleid, saveChangesButton) {
+
+    var IsLock = sender.getAttribute("IsLock");
+
+    for (i = 0; i < selectEnableDisableTests.length; i++)
+        if ((selectEnableDisableTests[i] == '1|' + tutidModuleid)
+                     || (selectEnableDisableTests[i] == '0|' + tutidModuleid))
+        selectEnableDisableTests.splice(i, 1);
+
+
+    if (IsLock == 'True' || IsLock == 'true') {
+        sender.src = sender.src.replace("/lock-icon.png", "/unlock-icon.png");
+        sender.setAttribute("IsLock", "false");
+        selectEnableDisableTests[selectEnableDisableTests.length] = '1|' + tutidModuleid;
+    }
+    else {
+        sender.src = sender.src.replace("/unlock-icon.png", "/lock-icon.png");
+        sender.setAttribute("IsLock", "true");
+        selectEnableDisableTests[selectEnableDisableTests.length] = '0|' + tutidModuleid;
+    }
+    $get(hndTutorialLockUnlockTests).value = selectEnableDisableTests.join(',');
+    $get(productsTabHasUnsavedContent).value = '1'; // flag in productsTabHasUnsavedContent indicates the unchanged data exists
+    //alert($get(hndTutorialLockUnlockTests).value);
+    checkIsPageDirtyEableSaveChages();
+    return false;
+}
+
+
+
+function SetModuleProducts(value, link) {
+
+    if (!ContinueCheckUnsavedContent(link))
+        return false;
+
+    var hiddenTutorial = $get(hdnTutorial);
+    var buttonPreviewModule = $get(btnPreviewModule);
+
+    if (hiddenTutorial != null && buttonPreviewModule != null) {
+        hdnTutorial.value = value;
+        buttonPreviewModule.click();
+    }
+    return true;
+}
+
+
+function SetTimeBetweenAttemptsAllTests(defaultTimeValue) {
+    var grid = null;
+    if (IsIE()) {
+        if (TimeBetweenAttemptsSender != null)
+            grid = TimeBetweenAttemptsSender.parentNode.parentNode.parentNode.parentNode.parentNode.children[2].children[0];
+
+        if (defaultTimeValue != null && grid != null) {
+            if (grid.children && grid.children[0].children.length > 0) {
+                for (var i = 0; i < grid.children[0].children.length; i++)
+                    bubbleSetTimeAttemptsAllEvent(defaultTimeValue, grid, i);
+            }
+        }
+    }
+    else {
+        if (TimeBetweenAttemptsSender != null)
+            grid = TimeBetweenAttemptsSender.parentNode.parentNode.parentNode.parentNode.parentNode.children[2].children[0];
+
+        if (defaultTimeValue != null && grid != null) {
+            if (grid.children && grid.children[0].children.length > 0) {
+                for (var i = 0; i < grid.children[0].children.length; i++)
+                    bubbleSetTimeAttemptsAllEvent(defaultTimeValue, grid, i);
+            }
+        }
+    }
+    $get(hdnTimeBetAttempts).value = selectedTimeBtwAttempts.join(',');
+    $get(productsTabHasUnsavedContent).value = '1'; // flag in productsTabHasUnsavedContent indicates the unchanged data exists
+    checkIsPageDirtyEableSaveChages();
+    return false;
+}
+
+function bubbleSetTimeAttemptsAllEvent(setTimeValue, grid, i) {
+
+    var tbCell = null;
+    if (IsIE()) {
+        tbCell = grid.children[0].children[i].children[5];
+
+        if (tbCell != null) {
+
+            for (var j = 0; j < selectedTimeBtwAttempts.length; j++)
+                if (selectedTimeBtwAttempts[j].indexOf('|' + tbCell.getAttribute('BatchID')) >= 0)
+                selectedTimeBtwAttempts.splice(j, 1);
+
+            //if unlock clicked
+            if (setTimeValue == "0" || setTimeValue == "") {
+                tbCell.children[0].style.display = '';
+                tbCell.children[1].style.display = 'none';
+                tbCell.setAttribute("hrs", "0");
+                selectedTimeBtwAttempts[selectedTimeBtwAttempts.length] = '0|' + tbCell.getAttribute('BatchID');
+            }
+            else // if lock clicked
+            {
+                tbCell.children[1].style.display = '';
+                tbCell.children[1].innerText = setTimeValue + " hrs";
+                tbCell.children[0].style.display = 'none';
+                tbCell.setAttribute("hrs", setTimeValue);
+                selectedTimeBtwAttempts[selectedTimeBtwAttempts.length] = setTimeValue + '|' + tbCell.getAttribute('BatchID');
+            }
+        }
+    }
+    else {
+        tbCell = grid.children[0].children[i].children[5];
+        if (tbCell != null) {
+
+            for (var j = 0; j < selectedTimeBtwAttempts.length; j++)
+                if (selectedTimeBtwAttempts[j].indexOf('|' + tbCell.getAttribute('BatchID')) >= 0)
+                selectedTimeBtwAttempts.splice(j, 1);
+
+            //if unlock clicked
+            if (setTimeValue == "0" || setTimeValue == "") {
+                tbCell.children[0].style.display = '';
+                tbCell.children[1].style.display = 'none';
+                tbCell.setAttribute("hrs", "0");
+                selectedTimeBtwAttempts[selectedTimeBtwAttempts.length] = '0|' + tbCell.getAttribute('BatchID');
+            }
+            else // if lock clicked
+            {
+                tbCell.children[1].style.display = '';
+                tbCell.children[1].innerText = setTimeValue + " hrs";
+                tbCell.children[1].innerHTML = setTimeValue + " hrs";
+                tbCell.children[0].style.display = 'none';
+                tbCell.setAttribute("hrs", setTimeValue);
+                selectedTimeBtwAttempts[selectedTimeBtwAttempts.length] = setTimeValue + '|' + tbCell.getAttribute('BatchID');
+            }
+        }
+    }
+}
+
+
+var cutScoreSender = null;
+function ShowCutScoreAllTestsPopup(sender, topOffset, leftOffset) {
+    ClosePopup("divTimeBetweenAttemptsPopup");
+    if (sender == null) return;
+    cutScoreSender = sender;
+    TimeBetweenAttemptsSender = sender;
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get("divCutScorePopup");
+    if (PopUp != null) {
+        PopUp.style.top = (senderPos.Top + topOffset - 160) + 'px';
+        PopUp.style.left = (senderPos.Left + leftOffset - 160) + 'px';
+        var control = $get("slCutScorePopup");
+        var timeInHours = TimeBetweenAttemptsSender.parentNode.getAttribute("percent");
+        control.Content.SilverlightPopup.Title = "Set Pass / Fail Cut Score:";
+        if (timeInHours != null && timeInHours != "")
+            control.Content.SilverlightPopup.TextBoxTime = timeInHours;
+        else
+            control.Content.SilverlightPopup.TextBoxTime = "";
+
+        control.Content.SilverlightPopup.Saved = function(s, e) {
+
+            var timeInHours = control.Content.SilverlightPopup.TextBoxTime;
+
+            if (timeInHours == "")
+                timeInHours = "0";
+
+            if (isNaN(timeInHours))
+                return;
+
+            $get(hdnCutScores).value = parseInt(timeInHours, 10);
+
+            ClosePopup("divCutScorePopup");
+            var radioButttons = $get(rdoSetTimeSelectAll);
+            if (radioButttons != null) {
+
+
+                //set radio to default
+                if (IsIE())
+                    radioButttons.children[0].children[0].children[0].children[0].checked = true;
+                else
+                    radioButttons.children[0].children[0].children[0].children[0].checked = true;
+            }
+            SetCutScoreAllTests($get(hdnCutScores).value);
+            //ShowConfirmSetDefaultTime();
+        };
+
+        control.Content.SilverlightPopup.Canceled = function(s, e) {
+            ClosePopup("divCutScorePopup");
+        };
+
+        PopUp.style.visibility = 'visible';
+    }
+    return false;
+}
+
+
+
+
+
+
+function SetCutScoreAllTests(defaultTimeValue) {
+    var grid = null;
+    if (IsIE()) {
+        if (cutScoreSender != null)
+            grid = cutScoreSender.parentNode.parentNode.parentNode.parentNode.parentNode.children[2].children[0];
+
+        if (defaultTimeValue != null && grid != null) {
+            if (grid.children && grid.children[0].children.length > 0) {
+                for (var i = 0; i < grid.children[0].children.length; i++)
+                    bubbleCutScoreAllEvent(defaultTimeValue, grid, i);
+            }
+        }
+    }
+    else {
+        if (cutScoreSender != null)
+            grid = cutScoreSender.parentNode.parentNode.parentNode.parentNode.parentNode.children[2].children[0];
+
+        if (defaultTimeValue != null && grid != null) {
+            if (grid.children && grid.children[0].children.length > 0) {
+                for (var i = 0; i < grid.children[0].children.length; i++)
+                    bubbleCutScoreAllEvent(defaultTimeValue, grid, i);
+            }
+        }
+    }
+    $get(hdnCutScores).value = selectedCutScore.join(',');
+    $get(productsTabHasUnsavedContent).value = '1'; // flag in productsTabHasUnsavedContent indicates the unchanged data exists
+    checkIsPageDirtyEableSaveChages();
+    return false;
+}
+
+function bubbleCutScoreAllEvent(setTimeValue, grid, i) {
+
+    var tbCell = null;
+    if (IsIE()) {
+        tbCell = grid.children[0].children[i].children[6];
+
+
+        if (tbCell != null) {
+
+            for (var j = 0; j < selectedCutScore.length; j++)
+                if (selectedCutScore[j].indexOf('|' + tbCell.getAttribute('BatchID')) >= 0)
+                selectedCutScore.splice(j, 1);
+
+            //if unlock clicked
+            if (setTimeValue == "0" || setTimeValue == "") {
+                tbCell.children[0].style.display = '';
+                tbCell.children[1].style.display = 'none';
+                tbCell.setAttribute("percent", "0");
+                selectedCutScore[selectedCutScore.length] = '0|' + tbCell.getAttribute('BatchID');
+            }
+            else // if lock clicked
+            {
+                tbCell.children[1].style.display = '';
+                tbCell.children[1].innerText = setTimeValue + " %";
+                tbCell.children[0].style.display = 'none';
+                tbCell.setAttribute("percent", setTimeValue);
+                selectedCutScore[selectedCutScore.length] = setTimeValue + '|' + tbCell.getAttribute('BatchID');
+            }
+        }
+    }
+    else {
+        tbCell = grid.children[0].children[i].children[6];
+
+        if (tbCell != null) {
+
+            for (var j = 0; j < selectedCutScore.length; j++)
+                if (selectedCutScore[j].indexOf('|' + tbCell.getAttribute('BatchID')) >= 0)
+                selectedCutScore.splice(j, 1);
+
+            //if unlock clicked
+            if (setTimeValue == "0" || setTimeValue == "") {
+                tbCell.children[0].style.display = '';
+                tbCell.children[1].style.display = 'none';
+                tbCell.setAttribute("percent", "0");
+                selectedCutScore[selectedCutScore.length] = '0|' + tbCell.getAttribute('BatchID');
+            }
+            else // if lock clicked
+            {
+                tbCell.children[1].style.display = '';
+                tbCell.children[1].innerText = setTimeValue + " %";
+                tbCell.children[1].innerHTML = setTimeValue + " %";
+                tbCell.children[0].style.display = 'none';
+                tbCell.setAttribute("percent", setTimeValue);
+                selectedCutScore[selectedCutScore.length] = setTimeValue + '|' + tbCell.getAttribute('BatchID');
+            }
+        }
+        
+        
+    }
+}
+
+function ShowPassFailCutScorePopup(sender, topOffset, leftOffset) {
+    ClosePopup("divTimeBetweenAttemptsPopup");
+    if (sender == null) return;
+    cutScoreSender = sender;
+    TimeBetweenAttemptsSender = sender;
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get("divCutScorePopup");
+    if (PopUp != null) {
+        PopUp.style.top = (senderPos.Top + topOffset - 170) + 'px';
+        PopUp.style.left = (senderPos.Left + leftOffset - 170) + 'px';
+        var control = $get("slCutScorePopup");
+
+        var timeInHours = TimeBetweenAttemptsSender.parentNode.getAttribute("percent");
+
+        control.Content.SilverlightPopup.Title = "Set Pass / Fail Cut Score:";
+        if (timeInHours != null && timeInHours != "")
+            control.Content.SilverlightPopup.TextBoxTime = timeInHours;
+        else
+            control.Content.SilverlightPopup.TextBoxTime = "";
+
+        control.Content.SilverlightPopup.Saved = function(s, e) {
+
+            var timeInHours = control.Content.SilverlightPopup.TextBoxTime;
+
+            if (timeInHours == "")
+                timeInHours = "0";
+
+            if (!isNaN(timeInHours)) {
+                var minImageIcon = null;
+                var minTextlabel = null;
+                if (IsIE()) {
+                    minImageIcon = TimeBetweenAttemptsSender.parentNode.children[0];
+                    minTextlabel = TimeBetweenAttemptsSender.parentNode.children[1];
+                }
+                else {
+                    minImageIcon = TimeBetweenAttemptsSender.parentNode.children[0];
+                    minTextlabel = TimeBetweenAttemptsSender.parentNode.children[1];
+                }
+
+                TimeBetweenAttemptsSender.parentNode.setAttribute("percent", parseInt(timeInHours, 10));
+                if (timeInHours == "0") {
+                    minImageIcon.style.display = '';
+                    minTextlabel.style.display = 'none';
+                }
+                else {
+
+                    minImageIcon.style.display = 'none';
+                    minTextlabel.style.display = '';
+                    minTextlabel.innerText = parseInt(timeInHours, 10) + " %";
+                    minTextlabel.innerHTML = parseInt(timeInHours, 10) + " %";
+                }
+
+                for (i = 0; i < selectedCutScore.length; i++)
+                    if (selectedCutScore[i].indexOf('|' + TimeBetweenAttemptsSender.parentNode.getAttribute("BatchID")) >= 0)
+                    selectedCutScore.splice(i, 1);
+
+                selectedCutScore[selectedCutScore.length] = parseInt(timeInHours, 10) + '|' + TimeBetweenAttemptsSender.parentNode.getAttribute("BatchID");
+
+                $get(hdnCutScores).value = selectedCutScore.join(',');
+
+
+                $get(productsTabHasUnsavedContent).value = '1'; // flag in productsTabHasUnsavedContent indicates the unchanged data exists
+                checkIsPageDirtyEableSaveChages();
+                TimeBetweenAttemptsSender = null;
+                ClosePopup("divCutScorePopup");
+            }
+        };
+
+        control.Content.SilverlightPopup.Canceled = function(s, e) {
+            TimeBetweenAttemptsSender = null;
+            TimeBetweenAttemptsSenderDefaultButton = null;
+            cutScoreSender = null;
+            ClosePopup("divCutScorePopup");
+        };
+
+        PopUp.style.visibility = 'visible';
+    }
+    return false;
+}
+
+
+
+function SetEnableDisableRational1(sender, tutidModuleid, saveChangesButton) {
+    var IsLock = sender.getAttribute("IsLock");
+
+    for (i = 0; i < selectEnableDisableRational.length; i++)
+        if ((selectEnableDisableRational[i] == '1|' + tutidModuleid)
+                     || (selectEnableDisableRational[i] == '0|' + tutidModuleid))
+        selectEnableDisableRational.splice(i, 1);
+
+
+    if (IsLock == 'True' || IsLock == 'true') {
+        sender.src = sender.src.replace("/lock-icon.png", "/unlock-icon.png");
+        sender.setAttribute("IsLock", "false");
+        selectEnableDisableRational[selectEnableDisableRational.length] = '1|' + tutidModuleid;
+    }
+    else {
+        sender.src = sender.src.replace("/unlock-icon.png", "/lock-icon.png");
+        sender.setAttribute("IsLock", "true");
+        selectEnableDisableRational[selectEnableDisableRational.length] = '0|' + tutidModuleid;
+    }
+    $get(hndTutorialLockUnlockRational).value = selectEnableDisableRational.join(',');
+    $get(productsTabHasUnsavedContent).value = '1'; // flag in productsTabHasUnsavedContent indicates the unchanged data exists
+    //alert($get(hndTutorialLockUnlockRational).value);
+    checkIsPageDirtyEableSaveChages();
+    return false;
+}
+
+
+function SetEnableDisableThinkingMode(sender, tutidModuleid, saveChangesButton) {
+
+    var IsLock = sender.getAttribute("IsLock");
+
+    for (i = 0; i < selectEnableDisableThinkingMode.length; i++)
+        if ((selectEnableDisableThinkingMode[i] == '1|' + tutidModuleid)
+                     || (selectEnableDisableThinkingMode[i] == '0|' + tutidModuleid))
+        selectEnableDisableThinkingMode.splice(i, 1);
+
+
+    if (IsLock == 'True' || IsLock == 'true') {
+        sender.src = sender.src.replace("/lock-icon.png", "/unlock-icon.png");
+        sender.setAttribute("IsLock", "false");
+        selectEnableDisableThinkingMode[selectEnableDisableThinkingMode.length] = '1|' + tutidModuleid;
+    }
+    else {
+        sender.src = sender.src.replace("/unlock-icon.png", "/lock-icon.png");
+        sender.setAttribute("IsLock", "true");
+        selectEnableDisableThinkingMode[selectEnableDisableThinkingMode.length] = '0|' + tutidModuleid;
+    }
+    $get(hndTutorialLockUnlockThinkingMode).value = selectEnableDisableThinkingMode.join(',');
+    $get(productsTabHasUnsavedContent).value = '1'; // flag in productsTabHasUnsavedContent indicates the unchanged data exists
+    //alert($get(hndTutorialLockUnlockThinkingMode).value);
+    checkIsPageDirtyEableSaveChages();
+    return false;
+}
+
+
+function SetEnableDisableScoring(sender, tutidModuleid, saveChangesButton) {
+
+    var IsLock = sender.getAttribute("IsLock");
+
+    for (i = 0; i < selectEnableDisableScoring.length; i++)
+        if ((selectEnableDisableScoring[i] == '1|' + tutidModuleid)
+                     || (selectEnableDisableScoring[i] == '0|' + tutidModuleid))
+        selectEnableDisableScoring.splice(i, 1);
+
+
+    if (IsLock == 'True' || IsLock == 'true') {
+        sender.src = sender.src.replace("/lock-icon.png", "/unlock-icon.png");
+        sender.setAttribute("IsLock", "false");
+        selectEnableDisableScoring[selectEnableDisableScoring.length] = '1|' + tutidModuleid;
+    }
+    else {
+        sender.src = sender.src.replace("/unlock-icon.png", "/lock-icon.png");
+        sender.setAttribute("IsLock", "true");
+        selectEnableDisableScoring[selectEnableDisableScoring.length] = '0|' + tutidModuleid;
+    }
+    $get(hndTutorialLockUnlockScoring).value = selectEnableDisableScoring.join(',');
+    $get(productsTabHasUnsavedContent).value = '1'; // flag in productsTabHasUnsavedContent indicates the unchanged data exists
+    //alert($get(hndTutorialLockUnlockScoring).value);
+    checkIsPageDirtyEableSaveChages();
+    return false;
+}
+
+
+function ClearArrayValues() {
+
+    selectedEnableDisableAssessments = new Array();
+    selectedEnableDisableModules = new Array();
+    selectedEnableDisableModule = new Array(); // added as per JIRA ATING-3533
+    selectEnableDisableTests = new Array();
+    selectedEnableDisableResults = new Array();
+    selectedTimeBtwAttempts = new Array();
+    selectedCutScore = new Array();
+    selectEnableDisableRational = new Array();
+    selectEnableDisableThinkingMode = new Array();
+    selectEnableDisableScoring = new Array();
+    $get(productsTabHasUnsavedContent).value = '';
+    return true;
+}
+
+function LockUnlockEntireColumn(sender, columnIndex, LockOrUnlock) {
+    if (sender != null) {
+        var LockOrUnlock = (LockOrUnlock == 1) ? '/lock' : '/unlock';
+        if (IsIE()) {
+            var grid = sender.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.children[2].children[0];
+            if (grid.children && grid.children[0].children.length > 0) {
+                for (var i = 0; i < grid.children[0].children.length; i++) {
+                    var tbCell = grid.children[0].children[i].children[columnIndex];
+                    if (tbCell != null && tbCell.children[0].src.indexOf(LockOrUnlock) == -1) {
+                        tbCell.children[0].click();
+                    }
+                }
+
+            }
+        }
+        else {
+            var grid = sender.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.children[2].children[0];
+            if (grid.children && grid.children[0].children.length > 0) {
+                for (var i = 0; i < grid.children[0].children.length; i++) {
+                    var tbCell = grid.children[0].children[i].children[columnIndex];
+                    if (tbCell != null && tbCell.children[0].src.indexOf(LockOrUnlock) == -1) {
+                        tbCell.children[0].click();
+                    }
+                }
+
+            }
+        }
+    }
+    return false;
+}
+
+function LockUnlockModulesEntireColumn(sender, columnIndex, LockOrUnlock) {
+    if (sender != null) {
+        var LockOrUnlock = (LockOrUnlock == 1) ? '/lock' : '/unlock';
+        if (IsIE()) {
+            var grid = sender.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.children[2].children[0];
+            if (grid.children && grid.children[0].children.length > 0) {
+                for (var i = 0; i < grid.children[0].children.length; i++) {
+                    var tbCell = grid.children[0].children[i].children[columnIndex];
+                    if (tbCell != null && tbCell.children[0].src.indexOf(LockOrUnlock) == -1) {
+                        tbCell.children[0].click();
+                    }
+                }
+
+            }
+        }
+        else {
+            var grid = sender.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.children[2].children[0];
+            if (grid.children && grid.children[0].children.length > 0) {
+                for (var i = 0; i < grid.children[0].children.length; i++) {
+                    var tbCell = grid.children[0].children[i].children[columnIndex];
+                    if (tbCell != null && tbCell.children[0].src.indexOf(LockOrUnlock) == -1) {
+                        tbCell.children[0].click();
+                    }
+                }
+
+            }
+        }
+    }
+    return false;
+}
+
+function LockUnlockModulesEntireColumnForTutorials(sender, columnIndex, LockOrUnlock) {
+    
+    if (sender != null) {
+        var LockOrUnlock = (LockOrUnlock == 1) ? '/lock' : '/unlock';
+        if (IsIE()) {
+            var grid = sender.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.children[1].children[0].children[0].children[0];
+            if (grid.children && grid.children[0].children.length > 0) {
+                for (var i = 0; i < grid.children[0].children.length; i++) {
+                    var tbCell = grid.children[0].children[i].children[columnIndex];
+                    //Added Undefined check as per JIRA ATING-3533
+                    if (tbCell != null && tbCell.children[0] != undefined && tbCell.children[0].src.indexOf(LockOrUnlock) == -1) {
+                        tbCell.children[0].click();
+                    }
+                }
+
+            }
+        }
+        else {
+    
+            var grid = sender.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.children[1].children[0].children[0].children[0];
+            if (grid.children && grid.children[0].children.length > 0) {
+                for (var i = 0; i < grid.children[0].children.length; i++) {
+                    var tbCell = grid.children[0].children[i].children[columnIndex];
+                    //Added Undefined check as per JIRA ATING-3533
+                    if (tbCell != null && tbCell.children[0] != undefined && tbCell.children[0].src.indexOf(LockOrUnlock) == -1) {
+                        tbCell.children[0].click();
+                    }
+                }
+
+            }
+        }
+    }
+    return false;
+}
+
+/***** Tutorials ****/
+
+function AddTutChildRow(table) {
+    var rowCount = table.rows.length;
+    var row = null;
+    var prodcomments = '';
+    if (prodTutSchedComments != null && prodTutSchedComments != '')
+        prodcomments = prodTutSchedComments.replace(/'/gi, "&#39");
+    row = table.insertRow(rowCount);
+    row.className = "products_tablecontent";
+    var cell1 = row.insertCell(0);
+    cell1.className = "products_tablecontent";
+    cell1.align = "left";
+    var cellSpan = document.createElement("SPAN");
+    cellSpan.onclick = new Function("ShowLessonAssignmentForProducts(this,0,-195,'RB','"
+                                    + prodTutSchedClassId + "',"
+                                    + prodTutSchedUserID + ","
+                                    + prodTutModuleContentID + ","
+                                    + prodTutModuleContentTypeID + ","
+                                    + prodTutModuleID + ","
+                                    + prodTutCourseID + ","
+                                    + prodTutCourseGroupScheduleID + ",'"
+                                    + prodTutDueDate + "',"
+                                    + prodTutTimeRequired + ","
+                                    + "null,'" + prodcomments + "',"
+                                    + prodTutInstitutionPurchaseID + ","
+                                        + prodTutSchedRoleId + ");return false;"); 
+    cellSpan.setAttribute("onmouseover", "ShowToolTip(this.id,0,-125,'" + editGlobalizationString + "','" + editScheduleCourseStringToolTipText + "','RB');");
+    cellSpan.setAttribute("onmouseout", "HideToolTip();");
+    cellSpan.setAttribute("id", "dynamicChildGridCourseName" + Math.floor(Math.random() * 1001));
+    cellSpan.innerText = prodTutSchedCourseName;
+    cellSpan.innerHTML = prodTutSchedCourseName;
+    cell1.appendChild(cellSpan);
+
+    var cell2 = row.insertCell(1);
+    cell2.align = "left";
+    cell2.className = "products_tablecontent";
+    var cellSpan2 = document.createElement("SPAN");
+    cellSpan2.onclick = new Function("ShowLessonAssignmentForProducts(this,0,-195,'RB','"
+                                    + prodTutSchedClassId + "',"
+                                    + prodTutSchedUserID + ","
+                                    + prodTutModuleContentID + ","
+                                    + prodTutModuleContentTypeID + ","
+                                    + prodTutModuleID + ","
+                                    + prodTutCourseID + ","
+                                    + prodTutCourseGroupScheduleID + ",'"
+                                    + prodTutDueDate + "',"
+                                    + prodTutTimeRequired + ","
+                                    + "null,'" + prodcomments + "',"
+                                    + prodTutInstitutionPurchaseID + ","
+                                        + prodTutSchedRoleId + ");return false;");
+    cellSpan2.setAttribute("onmouseover", "ShowToolTip(this.id,0,-125,'" + editGlobalizationString + "','" + editScheduleCourseStringToolTipText + "','RB');");
+    cellSpan2.setAttribute("onmouseout", "HideToolTip();");
+    cellSpan2.setAttribute("id", "dynamicChildGridCourseName" + Math.floor(Math.random() * 1001));
+
+    if (prodTutSchedLessonORTest.indexOf('Lesson ') > -1) {
+        cellSpan2.innerText = 'Lesson';
+        cellSpan2.innerHTML = 'Lesson';
+    }
+
+    else {
+        cellSpan2.innerText = 'Test';
+        cellSpan2.innerHTML = 'Test';
+    }
+
+    cell2.appendChild(cellSpan2);
+
+
+    var cell3 = row.insertCell(2);
+    cell3.align = "left";
+    cell3.className = "products_tablecontent";
+    var cellSpan3 = document.createElement("SPAN");
+    cellSpan3.onclick = new Function("ShowLessonAssignmentForProducts(this,0,-195,'RB','"
+                                    + prodTutSchedClassId + "',"
+                                    + prodTutSchedUserID + ","
+                                    + prodTutModuleContentID + ","
+                                    + prodTutModuleContentTypeID + ","
+                                    + prodTutModuleID + ","
+                                    + prodTutCourseID + ","
+                                    + prodTutCourseGroupScheduleID + ",'"
+                                    + prodTutDueDate + "',"
+                                    + prodTutTimeRequired + ","
+                                    + "null,'" + prodcomments + "',"
+                                    + prodTutInstitutionPurchaseID + ","
+                                        + prodTutSchedRoleId + ");return false;");
+    cellSpan3.setAttribute("onmouseover", "ShowToolTip(this.id,0,-125,'" + editGlobalizationString + "','" + editScheduleCourseStringToolTipText + "','RB');");
+    cellSpan3.setAttribute("onmouseout", "HideToolTip();");
+    cellSpan3.setAttribute("id", "dynamicChildGridCourseName" + Math.floor(Math.random() * 1001));
+    cellSpan3.innerText = prodTutDueDateDisplay;
+    cellSpan3.innerHTML = prodTutDueDateDisplay;
+    cell3.appendChild(cellSpan3);
+
+
+    var cell4 = row.insertCell(3);
+    cell4.align = "left";
+    cell4.className = "products_tablecontent";
+    var cellSpan4 = document.createElement("SPAN");
+    cellSpan4.onclick = new Function("ShowLessonAssignmentForProducts(this,0,-195,'RB','"
+                                    + prodTutSchedClassId + "',"
+                                    + prodTutSchedUserID + ","
+                                    + prodTutModuleContentID + ","
+                                    + prodTutModuleContentTypeID + ","
+                                    + prodTutModuleID + ","
+                                    + prodTutCourseID + ","
+                                    + prodTutCourseGroupScheduleID + ",'"
+                                    + prodTutDueDate + "',"
+                                    + prodTutTimeRequired + ","
+                                    + "null,'" + prodcomments + "',"
+                                    + prodTutInstitutionPurchaseID + ","
+                                        + prodTutSchedRoleId + ");return false;"); 
+    cellSpan4.setAttribute("onmouseover", "ShowToolTip(this.id,0,-125,'" + editGlobalizationString + "','" + editScheduleCourseStringToolTipText + "','RB');");
+    cellSpan4.setAttribute("onmouseout", "HideToolTip();");
+    cellSpan4.setAttribute("id", "dynamicChildGridCourseName" + Math.floor(Math.random() * 1001));
+
+    if (prodTutTimeRequiredString != '' && prodTutTimeRequiredString != 'None') {
+        cellSpan4.innerText = prodTutTimeRequiredString;
+        cellSpan4.innerHTML = prodTutTimeRequiredString;
+    }
+
+    cell4.appendChild(cellSpan4);
+}
+
+
+
+function UpdateTutChildRow(table) {
+    var row = null;
+    var prodcomments = '';
+    if (prodTutSchedComments != null && prodTutSchedComments != '')
+        prodcomments = prodTutSchedComments.replace(/'/gi, "&#39");
+    row = ShowTutTestingScheduleControl.parentNode.parentNode;
+
+if (IsIE())
+    var cellSpan = row.cells[0].children[0];
+else
+    var cellSpan = row.cells[0].children[0];
+
+
+cellSpan.onclick = new Function("ShowLessonAssignmentForProducts(this,0,-195,'RB','"
+                                    + prodTutSchedClassId + "',"
+                                    + prodTutSchedUserID + ","
+                                    + prodTutModuleContentID + ","
+                                    + prodTutModuleContentTypeID + ","
+                                    + prodTutModuleID + ","
+                                    + prodTutCourseID + ","
+                                    + prodTutCourseGroupScheduleID + ",'"
+                                    + prodTutDueDate + "',"
+                                    + prodTutTimeRequired + ","
+                                    + "null,'" + prodcomments + "',"
+                                    + prodTutInstitutionPurchaseID + ","
+                                        + prodTutSchedRoleId + ");return false;"); 
+    cellSpan.setAttribute("onmouseover", "ShowToolTip(this.id,0,-125,'" + editGlobalizationString + "','" + editScheduleCourseStringToolTipText + "','RB');");
+    cellSpan.setAttribute("onmouseout", "HideToolTip();");
+    cellSpan.setAttribute("id", "dynamicChildGridCourseName" + Math.floor(Math.random() * 1001));
+    cellSpan.innerText = prodTutSchedCourseName;
+    cellSpan.innerHTML = prodTutSchedCourseName;
+
+    var cellSpan2 = null;
+    if (IsIE())
+        cellSpan2 = row.cells[1].children[0];
+    else
+        cellSpan2 = row.cells[1].children[0];
+    cellSpan2.onclick = new Function("ShowLessonAssignmentForProducts(this,0,-195,'RB','"
+                                    + prodTutSchedClassId + "',"
+                                    + prodTutSchedUserID + ","
+                                    + prodTutModuleContentID + ","
+                                    + prodTutModuleContentTypeID + ","
+                                    + prodTutModuleID + ","
+                                    + prodTutCourseID + ","
+                                    + prodTutCourseGroupScheduleID + ",'"
+                                    + prodTutDueDate + "',"
+                                    + prodTutTimeRequired + ","
+                                    + "null,'" + prodcomments + "',"
+                                    + prodTutInstitutionPurchaseID + ","
+                                        + prodTutSchedRoleId + ");return false;"); 
+    cellSpan2.setAttribute("onmouseover", "ShowToolTip(this.id,0,-125,'" + editGlobalizationString + "','" + editScheduleCourseStringToolTipText + "','RB');");
+    cellSpan2.setAttribute("onmouseout", "HideToolTip();");
+    cellSpan2.setAttribute("id", "dynamicChildGridCourseName" + Math.floor(Math.random() * 1001));
+    if (prodTutSchedLessonORTest.indexOf('Lesson ') > -1) {
+        cellSpan2.innerText = 'Lesson';
+        cellSpan2.innerHTML = 'Lesson';
+    }
+    else {
+        cellSpan2.innerText = 'Test';
+        cellSpan2.innerHTML = 'Test';
+    }
+
+    var cellSpan3 = null;
+    if (IsIE())
+        cellSpan3 = row.cells[2].children[0];
+    else
+        cellSpan3 = row.cells[2].children[0];
+    cellSpan3.onclick = new Function("ShowLessonAssignmentForProducts(this,0,-195,'RB','"
+                                    + prodTutSchedClassId + "',"
+                                    + prodTutSchedUserID + ","
+                                    + prodTutModuleContentID + ","
+                                    + prodTutModuleContentTypeID + ","
+                                    + prodTutModuleID + ","
+                                    + prodTutCourseID + ","
+                                    + prodTutCourseGroupScheduleID + ",'"
+                                    + prodTutDueDate + "',"
+                                    + prodTutTimeRequired + ","
+                                    + "null,'" + prodcomments + "',"
+                                    + prodTutInstitutionPurchaseID + ","
+                                        + prodTutSchedRoleId + ");return false;"); 
+    cellSpan3.setAttribute("onmouseover", "ShowToolTip(this.id,0,-125,'" + editGlobalizationString + "','" + editScheduleCourseStringToolTipText + "','RB');");
+    cellSpan3.setAttribute("onmouseout", "HideToolTip();");
+    cellSpan3.setAttribute("id", "dynamicChildGridCourseName" + Math.floor(Math.random() * 1001));
+    cellSpan3.innerText = prodTutDueDateDisplay;
+    cellSpan3.innerHTML = prodTutDueDateDisplay;
+
+    var cellSpan4 = null;
+    if (IsIE())
+        cellSpan4 = row.cells[3].children[0];
+    else
+        cellSpan4 = row.cells[3].children[0];
+    cellSpan4.onclick = new Function("ShowLessonAssignmentForProducts(this,0,-195,'RB','"
+                                    + prodTutSchedClassId + "',"
+                                    + prodTutSchedUserID + ","
+                                    + prodTutModuleContentID + ","
+                                    + prodTutModuleContentTypeID + ","
+                                    + prodTutModuleID + ","
+                                    + prodTutCourseID + ","
+                                    + prodTutCourseGroupScheduleID + ",'"
+                                    + prodTutDueDate + "',"
+                                    + prodTutTimeRequired + ","
+                                    + "null,'" + prodcomments + "',"
+                                    + prodTutInstitutionPurchaseID + ","
+                                        + prodTutSchedRoleId + ");return false;"); 
+    cellSpan4.setAttribute("onmouseover", "ShowToolTip(this.id,0,-125,'" + editGlobalizationString + "','" + editScheduleCourseStringToolTipText + "','RB');");
+    cellSpan4.setAttribute("onmouseout", "HideToolTip();");
+    cellSpan4.setAttribute("id", "dynamicChildGridCourseName" + Math.floor(Math.random() * 1001));
+
+    if (prodTutTimeRequiredString != '' && prodTutTimeRequiredString != 'None') {
+        cellSpan4.innerText = prodTutTimeRequiredString;
+        cellSpan4.innerHTML = prodTutTimeRequiredString;
+    }
+
+}
+var prodTutSchedUserID, prodTutSchedClassId, prodTutSchedRoleId, prodTutModuleID, prodTutModuleContentID;
+var prodTutCourseID, prodTutCourseGroupScheduleID, prodTutInstitutionPurchaseID, prodTutTimeRequired, prodTutDueDate, prodTutSchedComments, prodTutModuleContentTypeID;
+var ShowTutTestingScheduleControl = null;
+
+var prodTutSchedCourseName, prodTutSchedLessonORTest, prodTutTimeRequiredString, prodTutDueDateDisplay;
+
+function ShowLessonAssignmentForProducts(sender, top, left, loc, classid, userid, mcid, type, mid, cid, cgsid, date, time, btnid, comments, ip, roleid) {
+
+    ShowTutTestingScheduleControl = sender;
+    var divid = 'divLessonAssignmentPopupForProducts';
+    var slid = 'slLessonAssignmentPopupForProducts';
+    var control = $get(slid);
+    control.Content.SilverlightPopup.Reset();
+    prodTutSchedUserID = userid;
+    prodTutSchedClassId = classid;
+    prodTutSchedRoleId = roleid;
+    prodTutModuleID = mid;
+    prodTutModuleContentID = mcid;
+    prodTutCourseID = cid;
+    prodTutCourseGroupScheduleID = cgsid;
+    prodTutInstitutionPurchaseID = ip;
+    if (time != 0)
+        prodTutTimeRequired = time;
+    prodTutDueDate = date;
+    prodTutSchedComments = comments;
+    prodTutModuleContentTypeID = type;
+    Scheduled = function (s, e) {
+        var bSuccess = control.Content.SilverlightPopup.bSuccess;
+        if (!bSuccess) { } else {
+
+            prodTutSchedUserID = control.Content.SilverlightPopup.UserID;
+            prodTutSchedClassId = control.Content.SilverlightPopup.ClassID;
+            prodTutSchedRoleId = control.Content.SilverlightPopup.RoleID;
+            prodTutModuleID = control.Content.SilverlightPopup.ModuleID;
+            prodTutModuleContentID = control.Content.SilverlightPopup.ModuleContentID;
+            prodTutCourseID = control.Content.SilverlightPopup.CourseID;
+            prodTutCourseGroupScheduleID = control.Content.SilverlightPopup.CourseGroupScheduleID;
+            prodTutInstitutionPurchaseID = control.Content.SilverlightPopup.InstitutionPurchaseID
+            prodTutTimeRequired = control.Content.SilverlightPopup.TimeRequired;
+            prodTutDueDate = control.Content.SilverlightPopup.DueDate;
+            prodTutDueDateDisplay = control.Content.SilverlightPopup.DueDateDisplay;
+            prodTutSchedComments = control.Content.SilverlightPopup.Comments;
+            prodTutModuleContentTypeID = control.Content.SilverlightPopup.ModuleContentTypeID;
+            prodTutSchedCourseName = control.Content.SilverlightPopup.CourseName;
+            prodTutSchedLessonORTest = control.Content.SilverlightPopup.LessonORTest;
+            prodTutTimeRequiredString = control.Content.SilverlightPopup.TimeRequiredString;
+
+            if (control.Content.SilverlightPopup.SLMode == "Add") {
+                if (ShowTutTestingScheduleControl != undefined && ShowTutTestingScheduleControl != null) {
+                    if (IsIE()) {
+                        ShowTutTestingScheduleControl.parentNode.children[1].style.display = ''
+                        var table = ShowTutTestingScheduleControl.parentNode.parentNode.nextSibling.children[0].children[0].children[0];
+                        AddTutChildRow(table);
+                    }
+                    else {
+                        ShowTutTestingScheduleControl.parentNode.children[1].style.display = ''
+                        if (ShowTutTestingScheduleControl.parentNode.parentNode.nextSibling.nextSibling.childNodes.length != 0) //deblina 3354
+                        {
+                            var table = ShowTutTestingScheduleControl.parentNode.parentNode.nextSibling.nextSibling.children[0].children[0].children[0];
+                        }
+                        else {
+                            var table = ShowTutTestingScheduleControl.parentNode.parentNode.nextSibling.children[0].children[0].children[0]
+                        }
+                        AddTutChildRow(table);
+                    }
+
+                }
+            }
+            else if (control.Content.SilverlightPopup.SLMode == "Edit") {
+
+                if (ShowTutTestingScheduleControl != undefined && ShowTutTestingScheduleControl != null) {
+                    var table = ShowTutTestingScheduleControl.parentNode.parentNode.parentNode.parentNode;
+                    UpdateTutChildRow(table);
+                }
+            }
+
+            if (control.Content.SilverlightPopup.SLMode == "Clear") {
+
+                if (ShowTutTestingScheduleControl != undefined && ShowTutTestingScheduleControl != null) {
+                    var table = ShowTutTestingScheduleControl.parentNode.parentNode.parentNode.parentNode;
+                    var row = ShowTutTestingScheduleControl.parentNode.parentNode;
+                    table.deleteRow(row.rowIndex);
+                    if (table.rows.length <= 1) {
+                        var childGridHostingTR = table.parentNode.parentNode.parentNode;
+                        if (IsIE()) {
+                            var maintableRowsCount = 0;
+                            if (childGridHostingTR.previousSibling != undefined && childGridHostingTR.previousSibling.children != undefined) {
+                                maintableRowsCount = childGridHostingTR.previousSibling.children.length;
+                            }
+                            else {
+                                maintableRowsCount = 0
+                            }
+                            if (maintableRowsCount > 0) {
+                                var actualHideUnhideScheduleTR = table.parentNode.parentNode.parentNode.previousSibling;
+                                var subElementCount = actualHideUnhideScheduleTR.children[maintableRowsCount - 2].children.length;
+                                var imageUnhideHide = actualHideUnhideScheduleTR.children[maintableRowsCount - 2].children[subElementCount - 1];
+                                imageUnhideHide.click();
+                                imageUnhideHide.style.display = 'none';
+                            }
+                        }
+                        else {
+                            var maintableRowsCount = 0;
+                            if (childGridHostingTR.previousSibling != undefined && childGridHostingTR.previousSibling.children != undefined) {
+                                maintableRowsCount = childGridHostingTR.previousSibling.children.length;
+                            }
+                            else {
+                                maintableRowsCount = 0
+                            }
+                            if (maintableRowsCount > 0) {
+                                var actualHideUnhideScheduleTR = table.parentNode.parentNode.parentNode.previousSibling;
+                                var imageUnhideHide = actualHideUnhideScheduleTR.children[maintableRowsCount - 2].children[1];
+                                imageUnhideHide.onclick();
+                                imageUnhideHide.style.display = 'none';
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            control.Content.SilverlightPopup.Reset(); ClosePopup(divid);
+            //btn.click();
+        }
+    }
+    Canceled = function(s, e) { control.Content.SilverlightPopup.Reset(); ClosePopup(divid); }
+    control.Content.SilverlightPopup.UserID = userid;
+    control.Content.SilverlightPopup.RoleID = roleid;
+    control.Content.SilverlightPopup.ClassID = classid;
+    control.Content.SilverlightPopup.ModuleID = mid;
+    control.Content.SilverlightPopup.ModuleContentID = mcid;
+    control.Content.SilverlightPopup.CourseID = cid;
+    control.Content.SilverlightPopup.CourseGroupScheduleID = cgsid;
+    control.Content.SilverlightPopup.InstitutionPurchaseID = ip;
+    control.Content.SilverlightPopup.TimeRequired = time;
+    control.Content.SilverlightPopup.DueDate = date;
+    control.Content.SilverlightPopup.Comments = comments.replace(/&#39/gi, "'");
+    control.Content.SilverlightPopup.ModuleContentTypeID = type;
+    //alert(' user id = ' + userid + ' roleid id = ' + roleid + ' classid id = ' + classid + ' mid id = ' + mid +
+    //' mcid id = ' + mcid + ' roleid id = ' + roleid +' cgsid id = ' + cgsid + ' cid id = ' + cid +' user id = ' + userid + ' ip id = ' + ip +
+    //' time id = ' + time + ' date id = ' + date + ' comments id = ' + comments + ' type id = ' + type 
+    //);
+    control.Content.SilverlightPopup.PopulateCourses();
+    OpenTutorialTestAssignmentForProducts(divid, slid, sender, top, left, '', loc, 400, Scheduled, Canceled);
+}
+
+
+function ShowTestAssignment(sender, top, left, loc) {
+    var divid = 'divTestAssignmentPopupForProducts';
+    var slid = 'slTestAssignmentPopupForProducts';
+    var control = $get(slid);
+    Scheduled = function(sender, e) { control.Content.SilverlightPopup.Reset(); ClosePopup(divid); }
+    Canceled = function(sender, e) { control.Content.SilverlightPopup.Reset(); ClosePopup(divid); }
+    OpenTutorialTestAssignmentForProducts(divid, slid, sender, top, left, '', loc, 300, Scheduled, Canceled);
+}
+
+function OpenTutorialTestAssignmentForProducts(divid, slid, sender, topOffset, leftOffset, content, loc, height, fnSavedcallback, fnCanceledcallback) {
+
+    var senderPos = GetTopLeft(sender);
+    var PopUp = $get(divid);
+
+    PopUp.style.top = (senderPos.Top + topOffset - height) + 'px';
+    PopUp.style.left = (senderPos.Left + leftOffset) + 'px';
+
+    var control = $get(slid);
+
+    control.Content.SilverlightPopup.Scheduled = fnSavedcallback;
+
+    control.Content.SilverlightPopup.Canceled = fnCanceledcallback;
+
+    PopUp.style.visibility = 'visible';
+
+}
+
+
+
+function GetXMLStringProcterPractice(sender, ErrorMsg) {
+    if (selectedassessments.length == 0) {
+        ValidateMsg(ErrorMsg);
+        return false;
+    }
+    var retQuery = '';
+    if (!ContinueCheckUnsavedContent(sender))
+        return false;
+
+    for (i = 0; i < selectedassessments.length; i++) {
+        if (i == selectedassessments.length - 1)
+            retQuery += '0|' + selectedassessments[i] + '-1'
+        else {
+            retQuery += '0|' + selectedassessments[i] + '-1|'
+        }
+    }
+    for (var i = 0; i < selectedcheckboxes.length; i++) {
+        if ($get(selectedcheckboxes[i]) != null)
+            $get(selectedcheckboxes[i]).checked = false;
+    }
+
+    selectedassessments.splice(0, selectedassessments.length);
+    selectedcheckboxes.splice(0, selectedcheckboxes.length);
+    $get(hdnStringXML).value = retQuery;
+    return retQuery;
+}
+
+
+
+function GetXMLStringTutorials(sender, ErrorMsg) {
+    var retQuery = '';
+
+    if (selectedassessments.length == 0) {
+        //var msg = "Please make a selection";
+        //Method in SlPopup.js file for Global validation
+        ValidateMsg(ErrorMsg);
+        return false;
+    }
+
+    if (!ContinueCheckUnsavedContent(sender))
+        return false;
+
+    for (var i = 0; i < selectedassessments.length; i++) {
+
+        if (i == selectedassessments.length - 1) {
+            retQuery += '|' + selectedassessments[i] + '-9'
+        }
+
+        else {
+            retQuery += '7|' + selectedassessments[i] + '-9|'
+
+        }
+    }
+    for (var i = 0; i < selectedcheckboxes.length; i++) {
+        if ($get(selectedcheckboxes[i]) != null) {
+            $get(selectedcheckboxes[i]).checked = false;
+        }
+
+    }
+
+    $get(hdnStringXML).value = retQuery;
+    selectedassessments.splice(0, selectedassessments.length);
+
+    return retQuery;
+}
+
+
+
+
+/* grid  */
+
+function TglRow(ctl, row, hideHostingTR, hideFirstCol, hideSecondCol, noColSpan, hasTwoChildGrids, otherHideUnhideImageId, myIndex) {
+    var path = ctl.src;
+    var pt;
+    var gv = window.document.getElementById(row);
+    var gv1 = window.document.getElementById('tbl1');
+    if (path.indexOf('expand-icon.png') > 0) {
+        pt = path.replace('expand-icon.png', 'collapse-icon.png');
+        ctl.src = pt;
+        var tr = ctl.parentNode.parentNode;
+
+        var rowToBeHideUnhide = null;
+        rowToBeHideUnhide = tr.nextSibling;
+        if (rowToBeHideUnhide != null && rowToBeHideUnhide.tagName != 'TR')
+            rowToBeHideUnhide = rowToBeHideUnhide.nextSibling;
+
+
+        var childOfRowToBeHideUnhide = null;
+        childOfRowToBeHideUnhide = rowToBeHideUnhide.children[0];
+        if (childOfRowToBeHideUnhide != null && childOfRowToBeHideUnhide.tagName != 'TD')
+            childOfRowToBeHideUnhide = rowToBeHideUnhide.children[1];
+
+        var colspanForchild = 0;
+        for (var c = 0; c < tr.children.length; c++) {
+            if (tr.children[c].tagName == 'TD')
+                colspanForchild++;
+        }
+        childOfRowToBeHideUnhide.setAttribute("colSpan", colspanForchild);
+        //childOfRowToBeHideUnhide.setAttribute("colspan", colspanForchild);
+
+        var tr = gv.parentNode.parentNode.parentNode;
+
+        if (tr.parentNode && tr.parentNode.parentNode && tr.parentNode.parentNode.parentNode
+                                         && tr.parentNode.parentNode.parentNode.parentNode
+                                        && tr.parentNode.parentNode.parentNode.parentNode.tagName == 'DIV')
+            tr.parentNode.parentNode.parentNode.parentNode.style.height = '260px'
+
+
+
+        if (hasTwoChildGrids != undefined && hasTwoChildGrids == true) {
+            var childOfRowToBeHideUnhide1 = null;
+            var childOfRowToBeHideUnhide2 = null;
+            childOfRowToBeHideUnhide1 = rowToBeHideUnhide.children[0];
+            if (childOfRowToBeHideUnhide1 != null && childOfRowToBeHideUnhide1.tagName != 'TD') {
+                childOfRowToBeHideUnhide1 = rowToBeHideUnhide.children[1];
+                childOfRowToBeHideUnhide2 = rowToBeHideUnhide.children[3];
+                if (childOfRowToBeHideUnhide2 != null && childOfRowToBeHideUnhide2.tagName != 'TD')
+                    childOfRowToBeHideUnhide2 = rowToBeHideUnhide.children[4];
+            }
+            else {
+                childOfRowToBeHideUnhide2 = rowToBeHideUnhide.children[1];
+                if (childOfRowToBeHideUnhide2 != null && childOfRowToBeHideUnhide2.tagName != 'TD')
+                    childOfRowToBeHideUnhide2 = rowToBeHideUnhide.children[2];
+            }
+            if (myIndex == 0) {
+                childOfRowToBeHideUnhide1.style.display = '';
+                childOfRowToBeHideUnhide1.setAttribute("colSpan", colspanForchild);
+                childOfRowToBeHideUnhide2.style.display = 'none';
+
+            }
+            else {
+                childOfRowToBeHideUnhide2.style.display = '';
+                childOfRowToBeHideUnhide1.style.display = 'none';
+            }
+
+            var imgCtrl = window.document.getElementById(otherHideUnhideImageId);
+            if (imgCtrl && imgCtrl.src.indexOf('collapse-icon.png') > 0)
+                imgCtrl.src = imgCtrl.src.replace('collapse-icon.png', 'expand-icon.png');
+
+        }
+
+        rowToBeHideUnhide.style.display = '';
+    }
+    else if (path.indexOf('collapse-icon.png') > 0) {
+        pt = path.replace('collapse-icon.png', 'expand-icon.png');
+        ctl.src = pt;
+
+        var rowToBeHideUnhide = null;
+        rowToBeHideUnhide = ctl.parentNode.parentNode.nextSibling;
+        if (rowToBeHideUnhide != null && rowToBeHideUnhide.tagName != 'TR')
+            rowToBeHideUnhide = rowToBeHideUnhide.nextSibling;
+        rowToBeHideUnhide.style.display = 'none';
+
+
+
+
+
+    }
+}
+
+
+
+//    function TglRow(ctl, row, hideHostingTR, hideFirstCol, hideSecondCol, noColSpan, hasTwoChildGrids, otherHideUnhideImageId, myIndex) {
+//        var path = ctl.src;
+//        var pt;
+//        var gv = window.document.getElementById(row);
+//        var gv1 = window.document.getElementById('tbl1');
+//        if (path.indexOf('expand-icon.png') > 0) {
+//            pt = path.replace('expand-icon.png', 'collapse-icon.png');
+//            ctl.src = pt;
+
+//            if ((hideHostingTR == 'true' || hideHostingTR == 'True') && gv.parentNode && gv.parentNode.parentNode
+//                             && gv.parentNode.parentNode.parentNode && gv.parentNode.parentNode.parentNode.tagName == 'TR') {
+//                var tr = gv.parentNode.parentNode.parentNode;
+//                tr.style.display = '';
+
+
+//                if (hasTwoChildGrids != undefined && hasTwoChildGrids == true) {
+//                    if (myIndex == 0) {
+//                        tr.children[0].style.display = '';
+//                        tr.children[0].colSpan = tr.previousSibling.cells.length;
+//                        tr.children[1].style.display = 'none';
+//                    }
+//                    else {
+//                        tr.children[0].style.display = 'none';
+//                        tr.children[1].style.display = '';
+//                    }
+//                    var imgCtrl = window.document.getElementById(otherHideUnhideImageId);
+//                    if (imgCtrl && imgCtrl.src.indexOf('collapse-icon.png') > 0)
+//                        imgCtrl.src = imgCtrl.src.replace('collapse-icon.png', 'expand-icon.png');
+
+
+//                }
+//                if (tr.children[0] != null && tr.previousSibling != null && tr.previousSibling.cells != null && noColSpan != true) {
+//                    tr.children[0].colSpan = (hideFirstCol != null && hideFirstCol != '') ? tr.previousSibling.cells.length + 1 : tr.previousSibling.cells.length;
+//                    if (hideSecondCol != null && hideSecondCol != '')
+//                        tr.children[0].colSpan = tr.children[0].colSpan + 1;
+//                }
+//                if (tr.parentNode && tr.parentNode.parentNode && tr.parentNode.parentNode.parentNode
+//                                         && tr.parentNode.parentNode.parentNode.parentNode
+//                                        && tr.parentNode.parentNode.parentNode.parentNode.tagName == 'DIV')
+//                    tr.parentNode.parentNode.parentNode.parentNode.style.height = '260px'
+//            }
+
+//            gv.style.display = '';
+//        }
+//        else if (path.indexOf('collapse-icon.png') > 0) {
+//            pt = path.replace('collapse-icon.png', 'expand-icon.png');
+//            ctl.src = pt;
+
+//            if ((hideHostingTR == 'true' || hideHostingTR == 'True') && gv.parentNode && gv.parentNode.parentNode
+//                             && gv.parentNode.parentNode.parentNode && gv.parentNode.parentNode.parentNode.tagName == 'TR') {
+//                var tr = gv.parentNode.parentNode.parentNode;
+//                tr.style.display = 'none';
+
+
+
+
+//                if (hasTwoChildGrids != undefined && hasTwoChildGrids == true) {
+//                    if (myIndex == 0)
+//                        tr.children[0].style.display = '';
+//                    else
+//                        tr.children[1].style.display = '';
+//                }
+
+
+
+//                if (tr.children[0] != null && tr.previousSibling != null && tr.previousSibling.cells != null && noColSpan != true)
+//                    tr.children[0].colSpan = (hideFirstCol != null && hideFirstCol != '') ? tr.previousSibling.cells.length + 1 : tr.previousSibling.cells.length;
+//                {
+//                    if (hideSecondCol != null && hideSecondCol != '')
+//                        tr.children[0].colSpan = tr.children[0].colSpan + 1;
+//                }
+
+//            }
+//            gv.style.display = 'none';
+//        }
+//    }

@@ -1,0 +1,9 @@
+GET http://silverlight.dlservice.microsoft.com/download/d/2/9/d29e5571-4b68-4d95-b43a-4e81ba178455/2.0/ENU/InstallSilverlight.png HTTP/1.1
+Host: silverlight.dlservice.microsoft.com
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0
+Accept: image/png,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://stage-www.atitesting.com/ati_next_gen/Faculty/FacultyLanding.aspx
+Connection: keep-alive
+

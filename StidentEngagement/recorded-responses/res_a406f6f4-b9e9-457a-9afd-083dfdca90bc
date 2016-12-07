@@ -1,0 +1,794 @@
+var ascend = {};
+
+/***************************************************************************
+ *                      MISC functions && settings                         *
+ ***************************************************************************/
+
+ascend.lookForTrFomRowIdx = function(tableComp, rowIdx) {
+    return $($("#" + tableComp.htmlObject).find("tbody").find("tr")[rowIdx]);
+};
+
+ascend.scrollToPh = function($ph) {
+    $(window).scrollTop($ph.position().top);
+};
+
+ascend.lookForCatOrSubCatOrSubSubCat = function(tableComp, lastClick, colIdx) {
+    var val = "";
+    if (colIdx === 0)
+        _.each(tableComp.rawData.resultset, function(row, rowIdx) {
+            if (row[colIdx] === lastClick.rawData.resultset[lastClick.rowIdx][0] && row[1] === "0" && row[2] === "0") {
+                val = rowIdx;
+            }
+        });
+    else if (colIdx === 1) {
+        _.each(tableComp.rawData.resultset, function(row, rowIdx) {
+            if (row[colIdx] === lastClick.rawData.resultset[lastClick.rowIdx][1] && row[0] === lastClick.rawData.resultset[lastClick.rowIdx][0] && row[2] === "0") {
+                val = rowIdx;
+            }
+        });
+    } else {
+        _.each(tableComp.rawData.resultset, function(row, rowIdx) {
+            if (row[0] === lastClick.rawData.resultset[lastClick.rowIdx][0] && row[colIdx] === lastClick.value && row[1] === lastClick.rawData.resultset[lastClick.rowIdx][1]) {
+                val = rowIdx;
+            }
+        });
+    }
+    return val;
+};
+
+ascend.addCommas = function(nStr) {
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    x2 = x2.slice(0, 3);
+    return x1 + x2;
+};
+
+ascend.sortProductASC = function(a,b){
+    if (a[8] === b[8]) {
+        return 0;
+    }
+    else {
+        return (a[8] < b[8]) ? -1 : 1;
+    }
+};
+
+ascend.sortProductDESC = function(a,b){
+    if (a[8] === b[8]) {
+        return 0;
+    }
+    else {
+        return (a[8] > b[8]) ? -1 : 1;
+    }
+};
+
+ascend.sortUsageASC = function(a,b){
+    if (a[5] === b[5]) {
+        return 0;
+    }
+    else {
+        return (a[5] < b[5]) ? -1 : 1;
+    }
+};
+
+ascend.sortUsageDESC = function(a,b){
+    if (a[5] === b[5]) {
+        return 0;
+    }
+    else {
+        return (a[5] > b[5]) ? -1 : 1;
+    }
+};
+
+ascend.sortAccessedASC = function(a,b){
+    if (a[7] === b[7]) {
+        return 0;
+    }
+    else {
+        return (a[7] < b[7]) ? -1 : 1;
+    }
+};
+
+ascend.sortAccessedDESC = function(a,b){
+    if (a[7] === b[7]) {
+        return 0;
+    }
+    else {
+        return (a[7] > b[7]) ? -1 : 1;
+    }
+};
+
+ascend.newClassAdded = function(element, classAdded) {
+
+    var tr = $(".usageTables").find("tr");
+
+    if (classAdded) {
+        _.each(tr, function(num, index, list) {
+            if (list.eq(index).hasClass("stopPropagation")) {
+                if (list.eq(index + 1).hasClass("clicked") && list.eq(index - 1).hasClass("clicked")) {
+                    element.parent().removeClass("stopPropagation");
+                    element.parent().addClass("stopPropagationTopBottom");
+                } else if (list.eq(index - 1).hasClass("clicked")) {
+                    element.parent().removeClass("stopPropagation");
+                    element.parent().addClass("stopPropagationTop");
+                } else if (list.eq(index + 1).hasClass("clicked")) {
+                    element.parent().removeClass("stopPropagation");
+                    element.parent().addClass("stopPropagationBottom");
+                }
+            }
+        });
+    } else {
+        if (element.children().eq(1).text() === "0") {
+            element.addClass("hovered");
+
+            _.each(tr, function(num, index, list) {
+                if (list.eq(index).hasClass("hovered")) {
+                    if (list.eq(index - 1).children().eq(1).text() !== "0" && list.eq(index - 1).children().eq(2).text() === "0") {
+                        list.eq(index - 1).children().eq(6).addClass("xpto");
+                    }
+                }
+            });
+        } else if (element.children().eq(1).text() !== "0" && element.children().eq(2).text() === "0") {
+            element.addClass("hovered");
+
+            _.each(tr, function(num, index, list) {
+                if (list.eq(index).hasClass("hovered")) {
+                    if (list.eq(index - 1).children().eq(1).text() !== "0" && list.eq(index - 1).children().eq(2).text() !== "0" && list.eq(index - 1).children().eq(1).hasClass("circleBig") === false) {
+                        list.eq(index - 1).children().eq(6).addClass("xptoSubSub");
+                    }
+                }
+            });
+        }
+    }
+};
+
+navigator.sayswho = (function() {
+    var ua = navigator.userAgent,
+        tem,
+        M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    if (/trident/i.test(M[1])) {
+        tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
+        return 'MSIE ' + (tem[1] || '');
+    }
+    if (M[1] === 'Chrome') {
+        tem = ua.match(/\bOPR\/(\d+)/);
+        if (tem !== null) return 'Opera ' + tem[1];
+    }
+    M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+    if ((tem = ua.match(/version\/(\d+)/i)) !== null) M.splice(1, 1, tem[1]);
+    return M.join(' ');
+})();
+
+ascend.whichEnvironmentText = "pulse";
+ascend.termsText = "Pulse is a proprietary tool licensed by ATI to its clients for use as a predictive model to assess whether nursing students are on track, are in need of improvement, or are at risk relative to taking ATI's Comprehensive Predictor assessment, also a proprietary product of ATI used by schools to assess a student's readiness to sit for the NCLEX®. Pulse, with its proprietary algorithms and methodologies, is intended to be used as a way of helping to predict student performance on ATI's Comprehensive Predictor earlier in the program by analyzing a student's unique outcomes on multiple ATI proctored assessments.  Rather than waiting until the end of a student's studies, Pulse helps to identify, earlier, both those students who are well on track and those at risk. Pulse also helps to guide learning efforts by comparing each student’s individual usage of ATI products with ATI’s usage benchmark data, thereby providing additional insights into learning behaviors. Pulse results are provided to faculty and students, enabling both to take timely action to remediate and develop a plan for improvement, providing schools with valuable information about how to help students improve their results on ATI’s Comprehensive Predictor.  Please note that use of Pulse, as well as any other ATI product or service, does not guaranty outcomes or that students will necessarily achieve certain performance. <BR><BR>The primary purpose of Pulse is to provide additional prediction and validation of nursing student performance, as well as continuous opportunities to offer targeted remediation.  Accordingly, Pulse is not intended for use in a 'high stakes' fashion, nor should it be used to screen students out of a program or to penalize students for their lack of ATI product use. Of course, as with all testing and predictive tools, Pulse findings and indicators come with a margin of error that is both common and expected and results from a variety of factors. Administration of ATI’s TEAS assessment and all of ATI’s Content Mastery Series proctored test subjects will lead to more accurate Pulse predictions. While the predictive analysis of Pulse will offer meaningful data to school faculty and administrators, it should never be used as a sole criterion for evaluating student performance.<BR>These important Pulse terms will be available for your continued reference via a link in the Pulse tool. ATI reserves the right to update these terms.<BR><BR>(Rev. April 2016)";
+ascend.studentTermsText = "Pulse is a proprietary tool licensed by ATI to nursing programs for use as a predictive model to assess whether nursing students are on track, are in need of improvement, or are at risk relative to taking ATI's Comprehensive Predictor assessment, also a proprietary product of ATI used by schools to assess a student's readiness to sit for the NCLEX®. Pulse, with its proprietary algorithms and methodologies, is intended to be used as a way of helping to predict student performance on ATI's Comprehensive Predictor earlier in the program by analyzing a student's unique outcomes on multiple ATI proctored assessments. Rather than waiting until the end of a student's studies, Pulse helps to identify, earlier, both those students who are well on track and those at risk. Pulse also helps to guide learning efforts by comparing each student’s individual usage of ATI products with ATI’s usage benchmark data, thereby providing additional insights into learning behaviors. Pulse results are provided to faculty and students, enabling both to take timely action to remediate and develop a plan for improvement, providing valuable information about how to help at risk students to improve their results on ATI’s Comprehensive Predictor.  Please note that use of Pulse, as well as any other ATI product or service, does not guaranty outcomes or that students will necessarily achieve certain performance. <BR><BR>These important Pulse terms will be available for your continued reference via a link in the Pulse tool. ATI reserves the right to update these terms.<BR><BR>(Rev. April 2016)";
+
+/***************************************************************************
+ *                             Chart Defaults                               *
+ ***************************************************************************/
+
+
+ascend.defaultExtPoints = function() {
+    var defaults = {
+        "baseAxisRule_strokeStyle": "#CCCCCC",
+        "orthoAxisRule_strokeStyle": "#FFFFFF",
+        "orthoAxisTicks_strokeStyle": "#FFFFFF",
+        "baseAxisGrid_strokeStyle": "#CCCCCC",
+        "orthoAxisGrid_strokeStyle": "#CCCCCC",
+        "baseAxisLabel_textStyle": "#7E7E7E",
+        "orthoAxisTitleLabel_textStyle": "#7E7E7E"
+    };
+    $.extend(this.chartDefinition, defaults);
+};
+
+ascend.predictorExtPoints = function() {
+    var defaults = {
+        "baseAxisTicks_strokeStyle": "#CCCCCC",
+        "baseAxisLabel_font": "12px sans-serif",
+        "orthoAxisLabel_font": "12px sans-serif",
+        "baseAxisLabel_textAlign": "right",
+        "baseAxisLabel_textBaseline": "middle",
+        "baseAxisLabel_textAngle": "-1.0471975511965977461542144610932"
+    };
+    $.extend(this.chartDefinition, defaults);
+};
+
+ascend.completeExtPoints = function() {
+    var defaults = {
+        "plot2Line_lineWidth": "5",
+        "plot2Dot_shapeSize": "250",
+        "plot2Label_textStyle": "#FFFFFF",
+        "barPanel_overflow": "hidden"
+    };
+    $.extend(this.chartDefinition, defaults);
+};
+
+ascend.usageExtPoints = function() {
+    var defaults = {
+        "baseAxisTicks_strokeStyle": "#FFFFFF",
+        "baseAxisLabel_font": "12px sans-serif",
+        "orthoAxisLabel_font": "12px sans-serif"
+    };
+    $.extend(this.chartDefinition, defaults);
+};
+
+ascend.barChartBG = function() {
+    var defaults = {
+        "baseAxisGrid": true,
+        "baseAxisGrid_lineWidth": 0,
+        "baseAxisGrid_add": function() {
+            // Add a Protovis background panel
+            return new pv.Panel()
+                // Use -20 to send behind ortho gridlines
+                .zOrder(-12)
+                .visible(function(scene) {
+                    // Hide the last band 
+                    // cause it is fictitious.
+                    return this.index !== scene.parent.childNodes.length;
+                })
+                .height(function() {
+                    // The band excludes empty space
+                    var cccContext = this.getContext();
+                    var baseScale = cccContext.chart.axes.base.scale;
+                    return baseScale.range().band;
+                })
+                .bottom(function() {
+                    // The step includes empty space
+                    var cccContext = this.getContext();
+                    var baseScale = cccContext.chart.axes.base.scale;
+                    return this.delegate() + Math.round(baseScale.range().step / 5);
+                })
+                .fillStyle('lightblue');
+        }
+    };
+    $.extend(this.chartDefinition, defaults);
+};
+
+ascend.customLabel = function (){
+    var defaults = {
+        "baseAxisLabel_textBaseline": "bottom",
+        "baseAxisLabel_textMargin": 5,
+        "baseAxisOverlappedLabelsMode": 'leave',
+        "baseAxisTickFormatter": function(v) {
+            var lines = v.split("-");
+            return lines[0].length > lines[1].length ? lines[0] : lines[1];
+        },
+        "baseAxisLabel_text": function(s) {
+            return s.vars.tick.rawValue.split("-")[0];
+        },
+        "baseAxisLabel_add": function() {
+            return new pv.Label()
+                .textMargin(5) // adjust to actual font and line spacing
+                .textBaseline('top')
+                .text(function(s) {
+                    return s.vars.tick.rawValue.split("-")[1];
+            });
+        }
+    };
+    $.extend(this.chartDefinition, defaults);
+};
+
+ascend.twoSeriesBar = function() {
+
+    var seriesOrder = ["Total", "Partial"];
+
+    this.chartDefinition.dimensions = {
+        category: {
+            label: "Practice",
+        },
+        "series": {
+            label: "Measure",
+
+            // Dimensions bound to dataPart
+            // visual role are hidden by default.
+            "isHidden": false,
+
+            // Change series labels
+            formatter: function(value) {
+                switch (value) {
+                    case "Total":
+                        return "Total # of Questions Available";
+                    case "Partial":
+                        return "# of Questions Answered";
+                }
+                return value;
+            },
+
+            // Fix total/partial order
+            comparer: function(a, b) {
+                return def.compare(
+                    seriesOrder.indexOf(a),
+                    seriesOrder.indexOf(b));
+            }
+        }
+    };
+
+    this.chartDefinition.colors = ["#A4D0E9", "#5B9BD5"];
+
+    this.chartDefinition.dataPartRole = "series";
+    this.chartDefinition.plots = [
+        // Main plot (type bar)
+        {
+            name: "main",
+            dataPart: "Total",
+            barSizeMax: 30,
+            valuesVisible: false
+        },
+
+        // Second plot
+        {
+            type: "bar",
+            dataPart: "Partial",
+            barSizeMax: 30,
+            valuesVisible: true,
+            valuesAnchor: "Right",
+            label_textAlign: "right",
+            label_textBaseline: "middle",
+            
+            // make as close as possible to the panel
+            label_textMargin: 3,
+            
+            // Prevent hiding the text when values are too small
+            label_visible: true,
+            
+            label_text: function(scene){
+                if ( scene.vars.value.value > 2 ){
+                    return scene.vars.value.value +'%';
+                }
+            }
+        }
+    ];
+
+    this.chartDefinition.legend = true;
+    this.chartDefinition.legendPosition = 'top';
+    var defaults = {
+
+    };
+    $.extend(this.chartDefinition, defaults);
+};
+
+/***************************************************************************
+ *                             Chart Functions                              *
+ ***************************************************************************/
+
+
+ascend.avgsBar = function() {
+    var defaults = {
+        "plot_add": function() {
+            // National and Institution Avgs Lines
+            return new pv.Rule()
+                .data(function() {
+                    return avgsParam[0];
+                })
+                .bottom(function(v) {
+                    var orthoScale = this.getContext().chart.axes.ortho.scale;
+                    var line = orthoScale(v - Dashboards.getParameterValue('zeroParam'));
+                    return line;
+                })
+                .height(null)
+                .left(0)
+                .right(0)
+                .top(null)
+                .lineWidth(3)
+                .strokeStyle(function() {
+                    return this.index ? 'rgba(101, 140, 119, 1)' : 'rgba(50, 113, 192, 1)';
+                })
+                .strokeDasharray(function() {
+                    return this.index ? 'dash' : '';
+                });
+        }
+    };
+
+    var ep = this.chartDefinition.extensionPoints || [];
+    var objEp = Dashboards.propertiesArrayToObject(ep);
+    objEp = $.extend({}, defaults, objEp);
+    this.chartDefinition.extensionPoints = Dashboards.objectToPropertiesArray(objEp);
+};
+
+ascend.errorLine = function() {
+    var defaults = {
+        "plot2Plot_add": function() {
+            // Error Line
+            var panel = new pv.Panel()
+                .zOrder(-1);
+            var errorLine = panel.add(pv.Rule)
+                .zOrder(-1)
+                .bottom(function() {
+                    var orthoScale = this.getContext().chart.axes.ortho.scale;
+                    var line = orthoScale(errorLineParam[0][1] - Dashboards.getParameterValue('zeroParam'));
+                    return line;
+                })
+                .height(function() {
+                    var orthoScale = this.getContext().chart.axes.ortho.scale;
+                    var line = orthoScale(errorLineParam[0][0] - errorLineParam[0][1]);
+                    return line;
+                })
+                .left(function() {
+                    var baseScale = this.getContext().chart.axes.base.scale;
+                    //var line = baseScale("My Likelihood of Passing NCLEX");
+                    var line = baseScale("Average Probability of Passing NCLEX");
+                    return line;
+                })
+                .right(null)
+                .width(null)
+                .lineWidth(1)
+                .strokeStyle('red');
+                
+            errorLine.anchor("top").add(pv.Dot)
+                .shapeRadius(3)
+                .fillStyle('red')
+                .strokeStyle('red');
+            errorLine.anchor("bottom").add(pv.Dot)
+                .shapeRadius(3)
+                .fillStyle('red')
+                .strokeStyle('red');
+            
+            return panel;
+        }
+    };
+    
+    var ep = this.chartDefinition.extensionPoints || [];
+    var objEp = Dashboards.propertiesArrayToObject(ep);
+    objEp = $.extend({}, defaults, objEp);
+    this.chartDefinition.extensionPoints = Dashboards.objectToPropertiesArray(objEp);
+};
+
+ascend.hideValues = function() {
+    var defaults = {
+        "label_visible": function(scene) {
+            // Hide values for last right bar
+            return scene.vars.category.label !== "My Likelihood of Passing NCLEX" &&
+                scene.vars.category.label !== "Average Probability of Passing NCLEX" &&
+                scene.vars.category.label !== "My Probability of Passing NCLEX" &&
+                scene.vars.category.label !== "Comprehensive Predictor" ? true : false;
+        }
+    
+    };
+    
+    var ep = this.chartDefinition.extensionPoints || [];
+    var objEp = Dashboards.propertiesArrayToObject(ep);
+    objEp = $.extend({}, defaults, objEp);
+    this.chartDefinition.extensionPoints = Dashboards.objectToPropertiesArray(objEp);
+};
+
+ascend.finalBar = function() {
+    var defaults = {
+        "plot2Plot_add": function() {
+            // Final Bar
+            var panel = new pv.Panel()
+                .zOrder(-1);
+            var errorLine = panel.add(pv.Rule)
+                .zOrder(-1)
+                .bottom(function() {
+                    var orthoScale = this.getContext().chart.axes.ortho.scale;
+                    var line = orthoScale(0);
+                    return line;
+                })
+                .height(function() {
+                    var orthoScale = this.getContext().chart.axes.ortho.scale;
+                    var line = orthoScale(finalResultParam); //- Dashboards.getParameterValue('zeroParam'));
+                    return line;
+                })
+                .left(function() {
+                    var baseScale = this.getContext().chart.axes.base.scale;
+                    var line = baseScale("Comprehensive Predictor");
+                    return line;
+                })
+                .right(null)
+                .width(null)
+                .lineWidth(14)
+                .strokeStyle('blue');
+                
+            return panel;
+        }
+    };
+
+    var ep = this.chartDefinition.extensionPoints || [];
+    var objEp = Dashboards.propertiesArrayToObject(ep);
+    objEp = $.extend({}, defaults, objEp);
+    this.chartDefinition.extensionPoints = Dashboards.objectToPropertiesArray(objEp);
+};
+
+ascend.series = function() {
+
+    this.chartDefinition.calculations = [{
+        // Split rows into != data parts, 
+        // depending on the "series" dimension's value.
+        names: 'dataPart',
+        calculation: function(datum, atoms) {
+            var dataPart;
+            
+            switch (datum.atoms.series.value) {
+                case 'ProctoredTestScore': // main plot: bars
+                case 'Green':
+                case 'Yellow':
+                case 'Red':
+                    dataPart = '0';
+                    break;
+                
+                case 'PulseScore': // sec plot: dot line
+                    dataPart = '1';
+                    break;
+                
+                case 'warningLine': // third plot: warning line
+                    dataPart = '2';
+                    break;
+            
+            }
+            atoms.dataPart = dataPart;
+        }
+    }];
+
+    var state = Dashboards.getParameterValue('warningParam');
+    var up = !!state && state > 0;
+    
+    this.chartDefinition.plots = [{
+        name: 'main',
+        dataPart: "0",
+        orthoAxis: 1,
+        panel_overflow: "hidden"
+    }, {
+        name: 'sec',
+        dataPart: "1",
+        type: 'point',
+        orthoAxis: 1,
+        linesVisible: true,
+        dotsVisible: true,
+        valuesVisible: true,
+        valuesMask: "{value}%",
+        valuesAnchor: "center",
+        line_strokeStyle: "#FF9A28",
+        line_lineWidth: 5,
+        dot_shapeSize: 250,
+        label_textStyle: "#FFFFFF"
+    }, {
+        name: 'third',
+        dataPart: "2",
+        type: 'point',
+        orthoAxis: 1,
+        linesVisible: true,
+        line_width: "3",
+        line_fillStyle: up ? "green" : "red",
+        line_strokeStyle: up ? "green" : "red",
+        line_call: function(line) {
+            var dot = line.add(pv.Dot)
+                .shape(function(scene) {
+                    return scene.isIntermediate ? 'circle' : 'diamond';
+                })
+                .shapeRadius(function(scene) {
+                    return scene.isIntermediate ? 10 : 4;
+                });
+            dot.add(pv.Label)
+                .textStyle('white')
+                .text('!')
+                .textBaseline('middle')
+                .visible(function(scene) {
+                    return scene.isIntermediate;
+                })
+                .font('bold 12px sans-serif');
+        }
+    }, ];
+
+};
+
+
+
+/***************************************************************************
+ *                             Patch for bug CDF-354                        *
+ ***************************************************************************/
+
+pvc.PercentValue.parse = function(value) {
+    if (value != null && value !== '') {
+        switch (typeof value) {
+            case 'number':
+                return value;
+            case 'string':
+                var match = value.match(/^(.+?)\s*(%)?$/);
+                if (match) {
+                    var n = +match[1];
+                    if (!isNaN(n)) {
+                        if (!match[2]) return n;
+                        if (n >= 0) return new pvc.PercentValue(n / 100);
+                    }
+                }
+                break;
+                
+            case 'object':
+                if (value instanceof pvc.PercentValue) return value;
+                break;
+        }
+        
+        if (pvc.debug) pvc.log(def.format("Invalid margins component '{0}'", ['' + value]));
+    }
+};
+
+/***************************************************************************
+ *                             Addins                                      *
+ ***************************************************************************/
+(function() {
+
+    function defineArc(vis, angle, colour) {
+        vis.add(pv.Wedge)
+            .startAngle(angle)
+            .left(75)
+            .innerRadius(30)
+            .outerRadius(51)
+            .fillStyle(colour);
+    }
+
+    function defineRangeColour(vis, colour, colourData, fixedData, range) {
+        var length = colourData.length,
+            inc = range[1],
+            count = length,
+            arrayRange = _.range(20, inc, -1);
+        
+        _.each(arrayRange, function(num) {
+            var i = num;
+            var dial = vis.add(pv.Wedge)
+                .startAngle(-(i - 1) * Math.PI / 20)
+                .endAngle(-Math.PI * (i) / 20)
+                .left(75)
+                .innerRadius(31)
+                .outerRadius(50)
+                .data(fixedData);
+            
+            /*if (range[0] <= i) {
+                dial.fillStyle(pv.Scale.linear().domain(0, colourData[count - length]).range('white', colour));
+            } else if (range[1] < i) {
+                dial.fillStyle(pv.Scale.linear().domain(0, colourData[count - length]).range(colour, 'white'));
+            } else {
+                dial.fillStyle(pv.Scale.linear().domain(0, 172).range(colour));
+            }*/
+            dial.fillStyle(colour);
+            dial.strokeStyle(colour);
+            count++;
+        });
+    }
+
+
+    var dialChart = {
+        name: "dialChart",
+        label: "dialChart",
+        defaults: {},
+        
+        init: function(){
+            $.fn.dataTableExt.oSort[this.name+'-asc'] = function ( a, b ){
+                x = a === null ? -1 : a;
+                y = b === null ? -1 : b;
+                return x - y;
+            };
+            $.fn.dataTableExt.oSort[this.name+'-desc'] = function ( a, b ){
+                x = a === null ? -1 : a;
+                y = b === null ? -1 : b;
+                return y - x;
+            };
+        },
+        
+        implementation: function(tgt, st, opt) {
+            
+            $(tgt).empty();
+            var container = $("<div></div>").appendTo($(tgt)),
+                containerValue,
+                count = (st.value * 180) / 100,
+                angleRight = (-180 + count) * Math.PI / 180,
+                colour = "#B2B2B2",
+                range = [],
+                colourRight = "#B2B2B2",
+                colourData = [],
+                studentExist = Dashboards.getParameterValue("studentExistParam"),
+                arrayRange = _.range(1, 21);
+            fixedData = [];
+            
+            if ( st.value === null ){
+                containerValue = $("<div class='noUsageValue'>" + 'N/A' + "</div>").appendTo(container);
+                $(tgt).removeClass('dialChart').addClass('noUsageValue');
+                return;
+            }
+            
+            if (studentExist) {
+                containerValue = $("<div class='usageValueDial tableValueDial'>" + st.value + '%' + "</div>").appendTo($(tgt));
+                $("<div class='usageLabelDial'>" + 'Usage' + "</div>").appendTo(containerValue);
+            } else {
+                containerValue = $("<div class='usageValueDial'>" + st.value + '%' + "</div>").appendTo($(tgt));
+                $("<div class='usageLabelDial'>" + 'Usage' + "</div>").appendTo(containerValue);
+            }
+            
+            
+            if (st.value >= 40 && st.value < 85) {
+                //colourData = [101, 90, 80, 68, 50, 40, 35, 29, 50, 68, 80, 101, 120, 135, 136, 172, 172];
+                //fixedData = [172, 136, 135, 120, 101, 90, 85, 80, 68, 50, 40, 35, 29, 19];
+                colourData = [1];
+                fixedData = [1];
+                colour = "#F6CC56"; //yellow
+                range = [12, 3];
+            
+            } else if (st.value === 100 || st.value >= 85) {
+                //colourData = [101, 90, 80, 68, 50, 40, 35, 29, 68, 68, 80, 101, 110, 120, 135, 136, 150, 160, 172, 172];
+                //fixedData = [172, 160, 150, 136, 135, 120, 110, 101, 90, 85, 80, 68, 50, 40, 35, 29, 19];
+                colourData = [1];
+                fixedData = [1];
+                colour = "#CFD45C"; //green
+                range = [13, 0];
+            
+            } else {
+                //colourData = [101, 68, 50, 40, 50, 68, 80, 172];
+                //fixedData = [172, 136, 135, 101, 80, 68, 50, 40, 35, 29, 19];
+                colourData = [1];
+                fixedData = [1];
+                colour = "#E54D42"; //red
+                range = [17, 12];
+            }
+            
+            
+            var vis = new pv.Panel()
+                .canvas(container.get(0))
+                .width(150)
+                .height(5)
+                .top(55);
+            
+            vis.add(pv.Wedge)
+                .startAngle(-Math.PI)
+                .left(75)
+                .innerRadius(0)
+                .outerRadius(50)
+                .fillStyle("white");
+            
+            defineRangeColour(vis, colour, colourData, fixedData, range);
+            defineArc(vis, angleRight, colourRight);
+            
+            _.each(arrayRange, function(num) {
+                var i = num;
+                if (angleRight * (-1) >= (i * Math.PI / 20)) {
+                    vis.add(pv.Wedge)
+                        .startAngle(-i * Math.PI / 20)
+                        .left(75)
+                        .innerRadius(31)
+                        .outerRadius(50)
+                        .fillStyle(null);
+                        //.strokeStyle("white");
+                }
+            });
+            
+            vis.render();
+            
+        }
+    };
+    Dashboards.registerAddIn("Table", "colType", new AddIn(dialChart));
+    
+    var circleBig = {
+        name: "circleBig",
+        label: "circleBig",
+        defaults: {
+            textFormat: function(v, st, opt) {
+                return st.colFormat ? sprintf(st.colFormat, v) : v;
+            }
+        },
+        
+        init: function() {
+            $.fn.dataTableExt.oSort[this.name + '-asc'] = $.fn.dataTableExt.oSort['string-asc'];
+            $.fn.dataTableExt.oSort[this.name + '-desc'] = $.fn.dataTableExt.oSort['string-desc'];
+        },
+        
+        implementation: function(tgt, st, opt) {
+            var line = st.rowIdx;
+            var result = st.rawData.resultset;
+            
+            $(tgt).empty();
+            if (result[line][1]) {
+                $(tgt).append($('<div class="circle"style="background:green"><div style="color: transparent;"</div>'));
+            } else {
+                $(tgt).append($('<div class="circle"style="background:red"><div style="color: transparent;"</div>'));
+            }
+            return;
+        }
+        
+    };
+    Dashboards.registerAddIn("Table", "colType", new AddIn(circleBig));
+
+})();

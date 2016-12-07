@@ -1,0 +1,11 @@
+GET /r/collect?t=dc&aip=1&_r=3&v=1&_v=j47&tid=UA-6539623-2&cid=1586064877.1473941688&jid=1088271893&_u=QCEAgAAB~&z=338771421 HTTP/1.1
+Host: stats.g.doubleclick.net
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
+X-Client-Data: CIe2yQEIpLbJAQjBtskBCIKZygE=
+Accept: image/webp,image/*,*/*;q=0.8
+Referer: https://stage-www.atitesting.com/home.aspx
+Accept-Encoding: gzip, deflate, sdch, br
+Accept-Language: en-US,en;q=0.8
+Cookie: id=2261f26867030099||t=1421159148|et=730|cs=002213fd48be1abd13770e3391; IDE=AHWqTUkr9sEtj195YX3ibYM0unl7NV3xLYucHU7-Gj_MvJTXin-k1mz0AA; DSID=ADyxukui5uSf41XXMM8YJJ9G_KCvEZ5-jdbIu-FwvaumLUToSm76em5DSjj9hnnofwJgnFfnj1K6jfVoyJYG5Vjw4sTLKzy68OFsMK2omr_tdktf7B01XT0
+

@@ -1,0 +1,15 @@
+POST /pentaho/plugin/cda/api/doQuery? HTTP/1.1
+Host: stg-pulse.atitesting.com
+Connection: keep-alive
+Content-Length: 230
+Accept: */*
+Origin: https://stg-pulse.atitesting.com
+X-Requested-With: XMLHttpRequest
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
+Content-Type: application/x-www-form-urlencoded;charset=UTF-8
+Referer: https://stg-pulse.atitesting.com/pentaho/api/repos/:public:ascend:dashboards:usage.wcdf/generatedContent?bookmarkState={%22impl%22%3A%22client%22%2C%22params%22%3A%20{%22institutionIDParam%22%3A+%226341%22+%2C%22classIDParam%22%3A+%2239184%22+%2C%22studentIDParam%22%3A+%222582201%22}}
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.8
+Cookie: JSESSIONID=45AAF4967C242DE20F915511F0CF5D09; session-flushed=true; hsfirstvisit=https%3A%2F%2Fstage-student.atitesting.com%2FLogin|https%3A%2F%2Fstage-student.atitesting.com%2FProducts|1475839657890; ATI=%7B%22bookId%22%3A%22cc7804fd-3d75-489b-9f8a-f2f97841d95b%22%2C%22subscriptionId%22%3A%220970fe94-bd14-4512-8ced-cea8fb6f2176%22%2C%22tpsSubscriptionId%22%3A%22TUT288851%22%2C%22attemptId%22%3A%22de74787a-97e7-46d6-83fc-b84f8bae294a%22%2C%22testType%22%3A%22OP_POST%22%2C%22ticket%22%3A%22ST-79-ErcEk3dwfWq33YAVk6GY-atiqa%22%7D; ATINextGenWorkStationID=WShgxxn255qzfccs3xjxp0a2bn; ARRAffinity=0e006dfe654f24e00316d665d260905c0a5924d9326123d7fd08ed9a70c4a16f; _ga=GA1.2.1586064877.1473941688; __hstc=128800851.77b286c550b7906c5527c2d2d186c345.1475839657904.1476852841743.1476857096816.20; __hssrc=1; __hssc=128800851.8.1476857096816; hubspotutk=77b286c550b7906c5527c2d2d186c345; UserFullName=Load Test910001; UserRole=Instructor; UserPortalLink=/ati_next_gen/Faculty/FacultyLanding.aspx; ATINextGenSessionID=hgxxn255qzfccs3xjxp0a2bn; ATINextGenSessionUserID=3899481; ATINextGenWorkStationUserID=3899481; .ASPXAUTH=C00FF56C4C1E7C3360DCA76C1CF3663DEE63503468E89452AAE00ECC9A73DE9E091543075AD90EF823FB8E5807BB8AFDB248714B333C6D5791964206BCE5D41BD41F89B8CD44338F0D29F543949E870C
+
+paramstudentIDParam=2582201&paramcontentAreaParam=All&paramexpandedCat=All&paramexpandedSubcat=All&path=%2Fpublic%2Fascend%2Fdashboards%2Fusage.cda&dataAccessId=testTableQuery&outputIndexId=1&pageSize=0&pageStart=0&paramsearchBox=

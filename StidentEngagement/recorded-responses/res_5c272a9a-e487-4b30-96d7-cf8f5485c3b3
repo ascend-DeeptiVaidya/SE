@@ -1,0 +1,1 @@
+{"queryInfo":{"totalRows":"5"},"resultset":[[0,"Current Graduation Years"],[2018,"2018"],[2017,"2017"],[2016,"2016"],[2015,"2015"]],"metadata":[{"colIndex":0,"colType":"Integer","colName":"GradYear"},{"colIndex":1,"colType":"String","colName":"GradYearDisplay"}]}

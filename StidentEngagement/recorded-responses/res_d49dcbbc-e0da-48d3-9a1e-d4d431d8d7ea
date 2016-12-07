@@ -1,0 +1,724 @@
+﻿var cint_MAXNUMSELECTED = 60;
+
+function GetNumSelected(obj) {
+    var intI;
+    var intCount;
+    intCount = 0;
+    for (intI = 0; intI < obj.options.length; intI++)
+        if (obj.options[intI].selected == true) {
+        intCount++;
+    }
+    return (intCount);
+}
+
+//2006-01-10 sboco -added strClientID parameter for keeping instance
+function moveItemsTo(strDirection, strLeftListName, strRightListName, strBtnJSCallback, strCallbackArgs, strClientID) {
+
+    var iCtr;
+    var strFromListName;
+    var strToListName;
+    var objFromList;
+    var objToList;
+
+    if (strDirection == 'LEFT') {
+        strFromListName = strRightListName;
+        strToListName = strLeftListName;
+    }
+    else {
+        if (strDirection == 'RIGHT') {
+            strFromListName = strLeftListName;
+            strToListName = strRightListName;
+        }
+    }
+
+    objFromList = document.getElementById(strFromListName);
+    objToList = document.getElementById(strToListName);
+
+    if ((objFromList) && (objToList)) {
+        var cntFrom = objFromList.options.length;
+
+        if (GetNumSelected(document.getElementById(strFromListName)) > cint_MAXNUMSELECTED) {
+            //alert('Please limit your selection to ' + cint_MAXNUMSELECTED + ' items or less.');
+            ValidateMsg('Please limit your selection to ' + cint_MAXNUMSELECTED + ' items or less.');
+            return;
+        }
+
+        for (var i = 0; i < objFromList.options.length; ) {
+            if (objFromList.options[i].selected == true) {
+                addItemsTo(objToList, objFromList.options[i].text, objFromList.options[i].value);
+                removeItemsFrom(objFromList, i);
+            }
+            else i++;
+        }
+
+        //2006-01-10 sboco -used eval to call correct function instance
+        var objRight = eval('get_hidRightListID_' + strClientID + '();');       
+
+        //var objLeft = eval('get_hidLeftListID_' + strClientID + '();');
+
+        if (strDirection == 'LEFT') {
+            //GetValues(objToList, objLeft);
+            sortlist11(strToListName);
+            GetValues(objFromList, objRight);
+        }
+        else {
+            if (strDirection == 'RIGHT') {
+                //  GetValues(objFromList, objLeft);
+                GetValues(objToList, objRight);
+                //GetValuesAppendingItsText(objToList, objRight);
+            }
+        }
+    }
+
+    if (strBtnJSCallback != "") {
+        eval(strBtnJSCallback + "(" + strCallbackArgs + ")");
+    }
+}
+
+
+function moveItemsTo_For_GetValuesAppendingItsText(strDirection, strLeftListName, strRightListName, strBtnJSCallback, strCallbackArgs, strClientID) {
+
+    var iCtr;
+    var strFromListName;
+    var strToListName;
+    var objFromList;
+    var objToList;
+
+    if (strDirection == 'LEFT') {
+        strFromListName = strRightListName;
+        strToListName = strLeftListName;
+    }
+    else {
+        if (strDirection == 'RIGHT') {
+            strFromListName = strLeftListName;
+            strToListName = strRightListName;
+        }
+    }
+
+    objFromList = document.getElementById(strFromListName);
+    objToList = document.getElementById(strToListName);
+
+    if ((objFromList) && (objToList)) {
+        var cntFrom = objFromList.options.length;
+
+        if (GetNumSelected(document.getElementById(strFromListName)) > cint_MAXNUMSELECTED) {
+            //alert('Please limit your selection to ' + cint_MAXNUMSELECTED + ' items or less.');
+            ValidateMsg('Please limit your selection to ' + cint_MAXNUMSELECTED + ' items or less.');
+            return;
+        }
+
+        for (var i = 0; i < objFromList.options.length; ) {
+            if (objFromList.options[i].selected == true) {
+                addItemsTo(objToList, objFromList.options[i].text, objFromList.options[i].value);
+                removeItemsFrom(objFromList, i);
+            }
+            else i++;
+        }
+
+        //2006-01-10 sboco -used eval to call correct function instance
+        var objRight = eval('get_hidRightListID_' + strClientID + '();');
+
+        //var objLeft = eval('get_hidLeftListID_' + strClientID + '();');
+
+        if (strDirection == 'LEFT') {
+            //GetValues(objToList, objLeft);
+            sortlist11(strToListName);
+            GetValuesAppendingItsText(objFromList, objRight);
+        }
+        else {
+            if (strDirection == 'RIGHT') {
+                //  GetValues(objFromList, objLeft);
+                //GetValues(objToList, objRight);
+                GetValuesAppendingItsText(objToList, objRight);
+            }
+        }
+    }
+
+    if (strBtnJSCallback != "") {
+        eval(strBtnJSCallback + "(" + strCallbackArgs + ")");
+    }
+}
+
+
+
+
+function moveItemsToDE(strDirection, strLeftListName, strRightListName, strBtnJSCallback, strCallbackArgs, strClientID,strToRightBtn,strToLeftBtn) {
+
+    var iCtr;
+    var strFromListName;
+    var strToListName;
+    var objFromList;
+    var objToList;
+
+    if (strDirection == 'LEFT') {
+        strFromListName = strRightListName;
+        strToListName = strLeftListName;
+    }
+    else {
+        if (strDirection == 'RIGHT') {
+            strFromListName = strLeftListName;
+            strToListName = strRightListName;
+        }
+    }
+
+    objFromList = document.getElementById(strFromListName);
+    objToList = document.getElementById(strToListName);
+
+    if ((objFromList) && (objToList)) {
+        var cntFrom = objFromList.options.length;
+
+        if (GetNumSelected(document.getElementById(strFromListName)) > cint_MAXNUMSELECTED) {
+            //alert('Please limit your selection to ' + cint_MAXNUMSELECTED + ' items or less.');
+            ValidateMsg('Please limit your selection to ' + cint_MAXNUMSELECTED + ' items or less.');
+            return;
+        }
+
+        for (var i = 0; i < objFromList.options.length; ) {
+            if (objFromList.options[i].selected == true) {
+                addItemsTo(objToList, objFromList.options[i].text, objFromList.options[i].value);
+                removeItemsFrom(objFromList, i);
+            }
+            else i++;
+        }
+
+        //2006-01-10 sboco -used eval to call correct function instance
+        var objRight = eval('get_hidRightListID_' + strClientID + '();');
+        if ('get_hidRightListText_' + strClientID + '()' != undefined) {            
+            var objRightText = eval('get_hidRightListText_' + strClientID + '();');
+        }
+
+        //var objLeft = eval('get_hidLeftListID_' + strClientID + '();');
+
+        if (strDirection == 'LEFT') {
+            //GetValues(objToList, objLeft);
+
+            sortlist11(strToListName);
+            if (objRightText != undefined) {
+                GetValuesWithText(objFromList, objRight, objRightText);
+            }
+            else {
+                GetValues(objFromList, objRight);
+            }
+        }
+        else {
+            if (strDirection == 'RIGHT') {
+                //  GetValues(objFromList, objLeft);
+                if (objRightText != undefined) {
+                    GetValuesWithText(objToList, objRight, objRightText);
+                }
+                else {
+                    GetValues(objToList, objRight); 
+                }
+            }
+        }
+    }
+
+   
+    if (strDirection == 'LEFT') {
+        if (document.getElementById(strRightListName).length > 0) {
+            document.getElementById(strToLeftBtn).disabled = false;
+        }
+        else {
+            document.getElementById(strToLeftBtn).disabled = true;
+        }
+        if (document.getElementById(strLeftListName).length > 0) {
+            document.getElementById(strToRightBtn).disabled = false;
+        }
+        else {
+            document.getElementById(strToRightBtn).disabled = true;
+        }
+    }
+    else {
+        if (strDirection == 'RIGHT') {
+            if (document.getElementById(strLeftListName).length > 0) {
+                document.getElementById(strToRightBtn).disabled = false;
+            }
+            else {
+                document.getElementById(strToRightBtn).disabled = true;
+            }
+            if (document.getElementById(strRightListName).length > 0) {
+                document.getElementById(strToLeftBtn).disabled = false;
+            }
+            else {
+                document.getElementById(strToLeftBtn).disabled = true;
+            }
+        }
+    }
+    if (strBtnJSCallback != "") {
+        eval(strBtnJSCallback + "(" + strCallbackArgs + ")");
+    }
+}
+function sortlist11(mylist) {
+    var lb = document.getElementById(mylist);
+    arrTexts = new Array(lb.options.length);
+    //arrVals = new Array();
+
+    for (i = 0; i < lb.length; i++) {
+        arrTexts[i] = new Array(2);
+        arrTexts[i][0] = lb.options[i].text;
+        arrTexts[i][1] = lb.options[i].value;
+
+        //arrTexts[i] = lb.options[i].text;
+        //arrVals[i] = lb.options[i].value;
+    }
+
+    //arrTexts.sort();
+    arrTexts.sort(
+		function(x, y) {
+		    var a = String(x).toUpperCase();
+		    var b = String(y).toUpperCase();
+
+		    if (a > b) return 1
+		    if (a < b) return -1
+
+		    return 0;
+		}
+	);
+    for (i = 0; i < lb.length; i++) {
+        lb.options[i].text = arrTexts[i][0];
+        lb.options[i].value = arrTexts[i][1];
+
+    }
+
+}
+
+function addItemsTo(objOption, text, value) {
+    var o = new Option();
+    var idx = objOption.options.length;
+    o.text = text;
+    o.value = value;
+    objOption.options[idx] = o;
+}
+
+function removeItemsFrom(objOption, index) {
+    if (objOption.options.length > 0) {
+        objOption.options[index] = null;
+    }
+}
+
+function GetValues(objVar, hidVar) {
+    //11-10-2005 jelo Bug 838
+    //hidVar.value = "";
+    //for (var i = 0; i < objVar.options.length; i++) {
+    //	if (hidVar.value == null || hidVar.value == "")
+    //		hidVar.value = objVar.options[i].value;
+    //	else
+    //		hidVar.value = hidVar.value + "," + objVar.options[i].value;
+    //}
+
+    var max = objVar.options.length;
+    var temp = new Array(max);
+
+    for (var i = 0; i < max; i++) {
+        temp[i] = objVar.options[i].value;
+        //alert(objVar.options[i].value);
+    }
+    hidVar.value = temp.toString();
+}
+
+function GetValuesAppendingItsText(objVar, hidVar) {
+    //11-10-2005 jelo Bug 838
+    //hidVar.value = "";
+    //for (var i = 0; i < objVar.options.length; i++) {
+    //	if (hidVar.value == null || hidVar.value == "")
+    //		hidVar.value = objVar.options[i].value;
+    //	else
+    //		hidVar.value = hidVar.value + "," + objVar.options[i].value;
+    //}
+
+    var max = objVar.options.length;
+    //    var temp = new Array(max);
+    var temp = "";
+    for (var i = 0; i < max; i++) {
+        temp += objVar.options[i].value + "|" + objVar.options[i].text + "#";
+        //alert(objVar.options[i].value);
+    }
+    //hidVar.value = temp.toString();
+    hidVar.value = temp.toString();
+}
+
+function GetValuesWithText(objVar, hidVar, hidVarText) {
+
+
+    var max = objVar.options.length;
+    var temp = new Array(max);
+    var tempText = new Array(max);
+
+    for (var i = 0; i < max; i++) {
+        temp[i] = objVar.options[i].value;
+        tempText[i] = objVar.options[i].text+"|";
+        //alert(objVar.options[i].value);
+    }
+    hidVar.value = temp.toString();
+    hidVarText.value = tempText.toString();
+    
+}
+
+//2006-01-10 sboco -added strClientID parameter for keeping instance
+function copyItemsTo(strDirection, strLeftListName, strRightListName, strBtnJSCallback, strCallbackArgs, bSortItems, strClientID) {
+    var strFromListName;
+    var strToListName;
+    var objFromList;
+    var objToList;
+
+    if (strDirection == 'LEFT') {
+        strFromListName = strRightListName;
+        strToListName = strLeftListName;
+    }
+    else {
+        if (strDirection == 'RIGHT') {
+            strFromListName = strLeftListName;
+            strToListName = strRightListName;
+        }
+    }
+
+    objFromList = document.getElementById(strFromListName);
+    objToList = document.getElementById(strToListName);
+
+    if ((objFromList) && (objToList)) {
+        if (GetNumSelected(document.getElementById(strFromListName)) > cint_MAXNUMSELECTED) {
+            alert('Please limit your selection to ' + cint_MAXNUMSELECTED + ' items or less.');
+            return;
+        }
+
+        var cntFrom = objFromList.options.length;
+        for (var i = 0; i < cntFrom; i++) {
+            if (objFromList.options[i].selected == true) {
+                addUniqItemsTo(objToList, objFromList.options[i].text, objFromList.options[i].value, objFromList, bSortItems);
+            }
+        }
+
+        //2006-01-10 sboco -used eval to call correct function instance
+        var objRight = eval('get_hidRightListID_' + strClientID + '();');
+        //  var objLeft = eval('get_hidLeftListID_' + strClientID + '();');
+
+        if (strDirection == 'LEFT') {
+            //GetValues(objToList, objLeft);
+            GetValues(objFromList, objRight);
+        }
+        else {
+            if (strDirection == 'RIGHT') {
+                //   GetValues(objFromList, objLeft);
+                
+                GetValues(objToList, objRight);
+            }
+        }
+
+        //--2008-03-12 -- jpagkaliwangan [witem#403] - enable/disable buttons--// 
+        // 2008-03-13 jaquino - append clientID to function name
+        //EnableButton();
+        eval('EnableButton_' + strClientID + '();');
+
+        if (objFromList.options.length == objToList.options.length) {
+            //EnableDisableButtons(true);
+            eval('EnableDisableButtons_' + strClientID + '(true);');
+        }
+    }
+
+    if (strBtnJSCallback != "") {
+        eval(strBtnJSCallback + "(" + strCallbackArgs + ")");
+    }
+}
+
+//2006-01-10 sboco -added strClientID parameter for keeping instance
+function deleteItems(strListBox, strListName, strBtnJSCallback, strCallbackArgs, strClientID) {
+
+    var objList;
+
+    objList = document.getElementById(strListName);
+
+    if (objList) {
+
+        if (GetNumSelected(document.getElementById(strListName)) > cint_MAXNUMSELECTED) {
+            alert('Please limit your selection to ' + cint_MAXNUMSELECTED + ' items or less.');
+            return;
+        }
+
+        for (var i = 0; i < objList.options.length; ) {
+            if (objList.options[i].selected == true) {
+                removeItemsFrom(objList, i);
+            }
+            else i++;
+        }
+
+        var objValue;
+        if (strListBox == 'LEFT') {
+            //2006-01-10 sboco -used eval to call correct function instance
+            objValue = eval('get_hidLeftListID_' + strClientID + '();');
+        }
+        else {
+            if (strListBox == 'RIGHT') {
+                //2006-01-10 sboco -used eval to call correct function instance
+                objValue = eval('get_hidRightListID_' + strClientID + '();');
+            }
+        }
+
+        //--2008-03-12 -- jpagkaliwangan [witem#403] - enable/disable buttons--//
+        // 2008-03-13 jaquino - append clientID to function name
+        //EnableButton();
+        eval('EnableButton_' + strClientID + '();');
+
+
+        if (objList.options.length == 0) {
+            //EnableDisableButtons(false);
+            eval('EnableDisableButtons_' + strClientID + '(false);');
+        }
+
+        GetValues(objList, objValue);
+    }
+
+    if (strBtnJSCallback != "") {
+        eval(strBtnJSCallback + "(" + strCallbackArgs + ")");
+    }
+
+}
+
+function addUniqItemsTo(objOption, text, value, objOrderSrc, bSortItems) {
+    if (bSortItems) {
+        var len = objOption.options.length;
+        var arOrder = new Array(len);
+        var order;
+        var i;
+
+        for (i = 0; i < len; i++) {
+            if (objOption.options[i].value == value)
+                return;
+            arOrder[i] = GetValueOrder(objOrderSrc, objOption.options[i].value);
+        }
+
+        order = GetValueOrder(objOrderSrc, value);
+        for (i = 0; i < len; i++) {
+            if (order <= arOrder[i])
+                break;
+        }
+        insertItemsTo(objOption, i, text, value);
+    }
+    else {
+        var o = new Option();
+        var idx = objOption.options.length;
+
+        for (var i = 0; i < idx; i++) {
+            if (objOption.options[i].value == value) {
+                return;
+            }
+        }
+
+        o.text = text;
+        o.value = value;
+        objOption.options[idx] = o;
+    }
+}
+
+function GetValueOrder(objOrderSrc, value) {
+    var len = objOrderSrc.options.length;
+
+    for (var i = 0; i < len; i++) {
+        if (objOrderSrc.options[i].value == value)
+            return i;
+    }
+    return len;
+}
+
+function insertItemsTo(objOption, destIdx, text, value) {
+    var o = new Option();
+    var idx = objOption.options.length;
+
+    while ((idx > 0) && (idx > destIdx)) {
+        var no = new Option();
+        no.text = objOption.options[(idx - 1)].text;
+        no.value = objOption.options[(idx - 1)].value;
+        objOption.options[idx] = no;
+        idx--;
+    }
+    o.text = text;
+    o.value = value;
+    objOption.options[idx] = o;
+}
+
+//--2008-03-11 jpagkaliwangan [witem#403] - for move all functionality --//
+function copyAllItemsTo(strDirection, strLeftListName, strRightListName, strBtnJSCallback, strCallbackArgs, bSortItems, strClientID) {
+    var strFromListName;
+    var strToListName;
+    var objFromList;
+    var objToList;
+
+    if (strDirection == 'LEFT') {
+        strFromListName = strRightListName;
+        strToListName = strLeftListName;
+    }
+    else {
+        if (strDirection == 'RIGHT') {
+            strFromListName = strLeftListName;
+            strToListName = strRightListName;
+        }
+    }
+
+    objFromList = document.getElementById(strFromListName);
+    objToList = document.getElementById(strToListName);
+
+    if ((objFromList) && (objToList)) {
+        var cntFrom = objFromList.options.length;
+        for (var i = 0; i < cntFrom; i++) {
+            addUniqItemsTo(objToList, objFromList.options[i].text, objFromList.options[i].value, objFromList, bSortItems);
+        }
+
+        var objRight = eval('get_hidRightListID_' + strClientID + '();');
+        // var objLeft = eval('get_hidLeftListID_' + strClientID + '();');
+
+        if (strDirection == 'LEFT') {
+            //GetValues(objToList, objLeft);
+            GetValues(objFromList, objRight);
+        }
+        else {
+            if (strDirection == 'RIGHT') {
+                //GetValues(objFromList, objLeft);
+                GetValues(objToList, objRight);
+            }
+        }
+        // 2008-03-13 jaquino - append clientID to EnableDisalbeButtons
+        eval('EnableDisableButtons_' + strClientID + '(true);');
+    }
+
+    if (strBtnJSCallback != "") {
+        eval(strBtnJSCallback + "(" + strCallbackArgs + ")");
+    }
+
+}
+
+//--2008-03-11 jpagkaliwangan [witem#403] - for delete all functionality --//
+function deleteAllItems(strListBox, strListName, strBtnJSCallback, strCallbackArgs, strClientID) {
+
+    var objList;
+
+    objList = document.getElementById(strListName);
+
+    if (objList) {
+
+        objList.options.length = 0;
+
+        var objValue;
+        if (strListBox == 'LEFT') {
+            //objValue = eval('get_hidLeftListID_' + strClientID + '();');
+        }
+        else {
+            if (strListBox == 'RIGHT') {
+                objValue = eval('get_hidRightListID_' + strClientID + '();');
+            }
+        }
+
+        GetValues(objList, objValue);
+        // 2008-03-13 jaquino - append clientID to function name
+        //EnableDisableButtons(false);
+        eval('EnableDisableButtons_' + strClientID + '(false);');
+    }
+
+    if (strBtnJSCallback != "") {
+        eval(strBtnJSCallback + "(" + strCallbackArgs + ")");
+    }
+
+}
+
+//2006-01-10 sboco -added strClientID parameter for keeping instance
+function moveItemsAndCalculateFee(strDirection, strLeftListName, strRightListName, strBtnJSCallback, strCallbackArgs, strClientID) {
+    var iCtr;
+    var strFromListName;
+    var strToListName;
+    var objFromList;
+    var objToList;
+    var objRightList;
+
+    if (strDirection == 'LEFT') {
+        strFromListName = strRightListName;
+        strToListName = strLeftListName;
+    }
+    else {
+        if (strDirection == 'RIGHT') {
+            strFromListName = strLeftListName;
+            strToListName = strRightListName;
+        }
+    }
+
+    objFromList = document.getElementById(strFromListName);
+    objToList = document.getElementById(strToListName);
+
+    if ((objFromList) && (objToList)) {
+        var cntFrom = objFromList.options.length;
+
+        if (GetNumSelected(document.getElementById(strFromListName)) > cint_MAXNUMSELECTED) {
+            alert('Please limit your selection to ' + cint_MAXNUMSELECTED + ' items or less.');
+            return;
+        }
+        for (var i = 0; i < cntFrom; i++) {
+            if (objFromList.options[i].selected == true) {
+                addItemsTo(objToList, objFromList.options[i].text, objFromList.options[i].value);
+            }
+        }
+
+        for (var i = 0; i < objFromList.options.length; ) {
+            if (objFromList.options[i].selected == true) {
+                removeItemsFrom(objFromList, i);
+            }
+            else i++;
+        }
+
+        //2006-01-10 sboco -used eval to call correct function instance
+        var objRight = eval('get_hidRightListID_' + strClientID + '();');
+        //var objLeft = eval('get_hidLeftListID_' + strClientID + '();');
+
+        if (strDirection == 'LEFT') {
+            //GetValues(objToList, objLeft);
+            GetValues(objFromList, objRight);
+        }
+        else {
+            if (strDirection == 'RIGHT') {
+                //GetValues(objFromList, objLeft);
+                GetValues(objToList, objRight);
+            }
+        }
+
+
+        var strExamFee = get_ExamFee();
+        var strResultsFee = get_ResultsFee();
+        var hidTotalID = get_hidTotalID();
+        var hidTotalTestResultsID = get_hidTotalTestResultsID();
+        var objTestResultsID = get_lblTestResultsID();
+        var objTotalID = get_lblTotalID();
+        var objInstDescID = get_lblInstDescID();
+        var objInstitutionQty = get_hidInstitutionQty();
+
+        objRightList = document.getElementById(strRightListName);
+        objInstDescID.innerHTML = objRightList.options.length;
+
+        objTestResultsID.innerHTML = cent(parseFloat(strResultsFee.value));
+        objTotalID.innerHTML = cent(parseFloat(strResultsFee.value) * parseInt(objRightList.options.length) + parseFloat(strExamFee.value));
+
+        hidTotalTestResultsID.value = cent(parseFloat(objTestResultsID.innerHTML) * parseInt(objRightList.options.length));
+        hidTotalID.value = cent(parseFloat(objTotalID.innerHTML));
+        objInstitutionQty.value = parseInt(objRightList.options.length);
+
+    }
+
+    if (strBtnJSCallback != "") {
+        eval(strBtnJSCallback + "(" + strCallbackArgs + ")");
+    }
+}
+
+function Stretch(Q, L, c) {
+    var S = Q
+    if (c.length > 0) while (S.length < L) { S = c + S }
+    return S
+}
+function StrU(X, M, N) { // X>=0.0
+    var T, S = new String(Math.round(X * Number("1e" + N)))
+    if (S.search && S.search(/\D/) != -1) { return '' + X }
+    with (new String(Stretch(S, M + N, '0')))
+        return substring(0, T = (length - N)) + '.' + substring(T)
+}
+function Sign(X) { return X < 0 ? '-' : ''; }
+function StrS(X, M, N) { return Sign(X) + StrU(Math.abs(X), M, N) }
+
+Number.prototype.toFixed = new Function('n', 'return StrS(this,1,n)')
+
+function cent(amount) {
+    return amount.toFixed(2);
+}

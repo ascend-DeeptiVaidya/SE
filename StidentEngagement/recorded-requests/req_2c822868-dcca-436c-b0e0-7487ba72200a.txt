@@ -1,0 +1,9 @@
+GET /__ptq.gif?k=1&sd=1366x768&cd=24-bit&cs=UTF-8&ln=en-us&bfp=2964529366&v=1.1&a=1270502&r=http%3A%2F%2Fstage-www.atitesting.com%2Fati_next_gen%2FReports%2FViewResults.aspx%3Fid%3D3&t=ATI+Testing+%7C+Nursing+Education+%7C+NCLEX+Exam+Review+%7C+TEAS+Testing&cts=1465896555611&vi=76700dbca6e65c91f2d36b54c1d26c23&nc=false&u=128800851.76700dbca6e65c91f2d36b54c1d26c23.1465896112520.1465896112520.1465896112520.1&b=128800851.2.1465896112521 HTTP/1.1
+Host: track.hubspot.com
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0
+Accept: image/png,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Referer: https://stage-www.atitesting.com/home.aspx
+Connection: keep-alive
+

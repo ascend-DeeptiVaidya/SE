@@ -1,0 +1,14 @@
+POST /pentaho/plugin/cda/api/doQuery? HTTP/1.1
+Host: stg-pulse.atitesting.com
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded;charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Referer: https://stg-pulse.atitesting.com/pentaho/api/repos/:public:ascend:dashboards:usage.wcdf/generatedContent?bookmarkState={%22impl%22%3A%22client%22%2C%22params%22%3A%20{%22institutionIDParam%22%3A+%226341%22+%2C%22classIDParam%22%3A+%2237269%22+%2C%22studentIDParam%22%3A+%222543894%22}}
+Content-Length: 169
+Cookie: JSESSIONID=BE28EEF26B76F4D6FC5949956BFC240C; __hstc=128800851.76700dbca6e65c91f2d36b54c1d26c23.1465896112520.1465896112520.1465896112520.1; __hssrc=1; __hssc=128800851.1.1465896112521; hsfirstvisit=https%3A%2F%2Fstage-www.atitesting.com%2FHome.aspx||1465896112514; hubspotutk=76700dbca6e65c91f2d36b54c1d26c23; .ASPXAUTH=550096EC33C7CE1D0473C1D9E627FCB71421F5451D2ECAC1FB2A7E6F5F41AA652AFC6F2D3D4227F80FDCC927178F5610CC35347AFA00ED4505C93ACF5587691888D5859899AD1CB1E93CC146076228CC; UserFullName=Juan C Caluya Jr; UserRole=Instructor; UserPortalLink=/ati_next_gen/Faculty/FacultyLanding.aspx; ATINextGenSessionID=cvuly1ugrx5faujpskrsoo55; ATINextGenSessionUserID=1189251; ATINextGenWorkStationID=WScvuly1ugrx5faujpskrsoo55; ATINextGenWorkStationUserID=1189251; _ga=GA1.3.414815966.1465896502; _gat_UA-74380544-3=1; _gat_UA-74380544-2=1; _gat_UA-74380544-4=1; _pendo_visitorId.e2b10921-3ecd-45d0-7828-a16fd5c63b3d=undefined; _pendo_meta.e2b10921-3ecd-45d0-7828-a16fd5c63b3d=2747266788
+Connection: keep-alive
+
+paramstudentIDParam=2543894&path=%2Fpublic%2Fascend%2Fdashboards%2Fusage.cda&dataAccessId=studentNameQuery&outputIndexId=1&pageSize=0&pageStart=0&sortBy=&paramsearchBox=

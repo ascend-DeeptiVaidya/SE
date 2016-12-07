@@ -1,0 +1,9 @@
+GET /gtm.js?id=GTM-5JXGJN HTTP/1.1
+Host: www.googletagmanager.com
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Referer: https://stg-pulse.atitesting.com/pentaho/api/repos/:public:ascend:dashboards:student_drilldown.wcdf/generatedContent?bookmarkState={%22impl%22%3A%22client%22%2C%22params%22%3A%20{%22institutionIDParam%22%3A+%226341%22+%2C%22classIDParam%22%3A+%2237269%22+%2C%22studentIDParam%22%3A+%222543894%22}}
+Connection: keep-alive
+

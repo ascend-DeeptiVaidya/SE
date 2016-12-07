@@ -1,0 +1,112 @@
+﻿function RequiredFieldValidatorEvaluateIsValid(controlToValidate, alertMessageControl) {
+    switch (controlToValidate.type) {
+        case "text":
+        case "password":
+            {
+                with (controlToValidate) {
+                    if (value == null || value.replace(/^\s+|\s+$/gm, '') == "") {
+                        DisplayAlertMessage(true, alertMessageControl);
+                        return false;
+                    }
+                    else {
+                        DisplayAlertMessage(false, alertMessageControl);
+                        return true;
+                    }
+                    break;
+                }
+            }
+        case "select-one":
+            {
+                if (controlToValidate.value == -1) {
+                    DisplayAlertMessage(true, alertMessageControl);
+                    return false;
+                }
+                else {
+                    DisplayAlertMessage(false, alertMessageControl);
+                    return true;
+                }
+                break;
+            }
+    }
+
+}
+var browserName = navigator.appName;
+
+var is_ie_version6 = navigator.appVersion.toLocaleLowerCase().indexOf('msie 6') > -1;
+var is_ie_version7 = navigator.appVersion.toLocaleLowerCase().indexOf('msie 7') > -1;
+var is_ie_version8 = checkVersion();
+
+function getInternetExplorerVersion() {
+    var rv = -1; // Return value assumes failure.
+    if (navigator.appName == 'Microsoft Internet Explorer') {
+        var ua = navigator.userAgent;
+        var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+        if (re.exec(ua) != null)
+            rv = parseFloat(RegExp.$1);
+    }
+    return rv;
+}
+function checkVersion() {
+    var ver = getInternetExplorerVersion();
+    if (ver > -1) {
+        if (ver >= 8.0)
+            return true;
+        else
+            return false;
+    }
+}
+
+function DisplayAlertMessage(option, alertMessageControl) {
+
+    //alert(browserName);
+    if (is_ie_version6 || (is_ie_version7  && !is_ie_version8)) {
+        if (option == true) {
+            alertMessageControl.style.display = '';
+        }
+        else {
+            alertMessageControl.style.display = 'none';
+        }
+    }
+    else {
+        if (option == true) {
+            alertMessageControl.style.visibility = 'visible';
+            alertMessageControl.style.display = 'inline';
+        }
+        else {
+            alertMessageControl.style.visibility = 'collapse';
+            alertMessageControl.style.display = 'none';
+        }
+    }
+}
+
+function CompareValidatorEvaluateIsValid(controlToValidate, controlToCompareWith, alertMessageControl) {
+    if (controlToValidate.value == controlToCompareWith.value) {
+        DisplayAlertMessage(false, alertMessageControl);
+        return true;
+    }
+    else {
+        DisplayAlertMessage(true, alertMessageControl);
+        return false;
+    }
+}
+function RegularExpressionValidatorEvaluateIsValid(controlToValidate, alertMessageControl, patternExpression) {
+    if (ValidatorTrim(controlToValidate.value).length == 0) {
+        return true;
+    }
+    var rx = new RegExp(patternExpression);
+    var matches = rx.exec(controlToValidate.value);
+    var result = (matches != null && controlToValidate.value == matches[0]);
+    if (result) {
+        DisplayAlertMessage(false, alertMessageControl);
+        return true;
+    }
+    else {
+        DisplayAlertMessage(true, alertMessageControl);
+        return false;
+    }
+}
+
+function ValidatorTrim(s) {
+    var m = s.match(/^\s*(\S+(\s+\S+)*)\s*$/);
+    return (m == null) ? "" : m[1];
+}

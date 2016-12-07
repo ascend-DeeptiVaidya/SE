@@ -1,0 +1,84 @@
+.RadTabStrip_MySite2
+{
+	font: 11px Arial, Helvetica, sans-serif;	
+	padding-left: 1px;
+}
+
+
+.RadTabStrip_MySite2 .rtsLink
+{
+    padding-left: 9px;
+    line-height: 24px;
+    background: transparent url('Img/tabOff.gif') 0px 0px no-repeat;	
+	color: #838996;
+	font-weight: normal;
+    text-decoration  :none;     	
+}
+
+
+.RadTabStrip_MySite2 .rtsOut
+{   
+    
+	line-height: 24px;
+	background: transparent url('Img/tabRightLastOff.gif') right 0px no-repeat;	
+}
+
+.RadTabStrip_MySite2 .rtsIn
+{
+    background: transparent url('Img/tabRightLastOffIn.gif') right 0px repeat-x;
+}
+
+.RadTabStrip_MySite2 .rtsTxt
+{       
+	line-height: 24px;
+	background:transparent url('Img/tabStripeOff.gif') 0px 0px repeat-x;
+	text-align: center;
+}
+
+.RadTabStrip_MySite2 .rtsLink:hover,
+.RadTabStrip_MySite2 .rtsOut:hover,
+.RadTabStrip_MySite2 .rtsIn:hover,
+.RadTabStrip_MySite2 .rtstxt:hover
+{
+    color: #545a66;
+}
+
+.RadTabStrip_MySite2 .rtsSelected
+{   
+    padding-left: 9px;
+	background: transparent url('Img/tabLeftFirstOn.gif') 0px 0px no-repeat;
+	line-height: 24px;
+}
+
+.RadTabStrip_MySite2 .rtsSelected .rtsOut
+{    
+   
+    background-image:url('Img/tabRightLastOn.gif');
+	line-height: 24px;	
+	color: #8cac01;
+	color: #737373;	
+}
+
+
+.RadTabStrip_MySite2 .rtsSelected .rtsIn
+{
+   background: transparent url('Img/tabLeftFirstOn.gif') right 0px repeat-x;
+	
+}
+
+.RadTabStrip_MySite2 .rtsSelected .rtsTxt
+{
+   line-height: 24px;
+	background:transparent url('Img/tabStripeOn.gif') 0px 0px repeat-x;
+	text-align: center;
+
+}
+/* <disabled tabs> */
+.RadTabStrip_MySite2 .rtsDisabled
+{
+	color: #aaa;
+	cursor: default;
+	text-decoration: line-through;
+}
+/* </disabled tabs> */
+

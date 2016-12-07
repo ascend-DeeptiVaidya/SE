@@ -1,0 +1,1205 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		  <title>Faculty Students Dashboard</title><!-- cdf-bootstrap-script-includes -->		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js/cdf-bootstrap-script-includes.js?v=4b882a2650d4c63fce58d7802308a537"></script>
+<!-- cdf-bootstrap-ie8script-includes --><!--[if lte IE 8]>
+		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js-legacy/lib/html5shiv/html5shiv.js?v=ee68da404bd6cbdab3adb3bf9219c207"></script>
+<![endif]-->
+<!-- cdf-bootstrap-style-includes -->		<link href="/pentaho/api/repos/pentaho-cdf/css/cdf-bootstrap-style-includes.css?v=8fff571c27b55af6ffd0805ebf6f22b6" rel="stylesheet" type="text/css" />
+<!-- bootstrap.css.map --><!-- cdf-bootstrap-ie8scriptAfterLink-includes --><!--[if lte IE 8]>
+		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js-legacy/lib/respond/respond.js?v=c03b5dcc8955c34fa65e59e7e7daacf0"></script>
+<![endif]-->
+<!-- cdf-cdf-dashboard-script-includes -->
+		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js-legacy/lib/daterangepicker/daterangepicker.jQuery.js?v=9f077778b7bab42c6f5821b32aa3fda8"></script>
+		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js-legacy/lib/sparkline/jquery.sparkline.js?v=c7638b825bc7deb1cf58c990825d35b2"></script>
+<!-- cdf-cdf-dashboard-style-includes -->
+		<link href="/pentaho/api/repos/pentaho-cdf/js-legacy/lib/daterangepicker/ui.daterangepicker.css?v=52fc5b767447f35ff9b1d41168c3efb2" rel="stylesheet" type="text/css" />
+  <script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf-dd/js/CDF.js?v=e752b25601e29d1d54a2bc6cd388b9ef"></script>
+  <link href="/pentaho/api/repos/pentaho-cdf-dd/css/CDF-CSS.css?v=f2b55b007fca25c54861edcb0831b7bc" rel="stylesheet" type="text/css" />
+
+<script language="javascript" type="text/javascript">
+Dashboards.context = {
+  "locale": "en_US",
+  "params": {},
+  "path": "/public/ascend/dashboards/faculty_students.wcdf",
+  "queryData": {},
+  "roles": [
+    "Authenticated",
+    "Instructor",
+    "SSOUser"
+  ],
+  "serverLocalDate": 1476860792183,
+  "serverUTCDate": 1476860792183,
+  "sessionAttributes": {},
+  "sessionTimeout": 7200,
+  "user": "910001"
+}
+Dashboards.initialStorage = {}
+
+</script>
+
+	</head>
+	<body>
+		<script language="javascript">
+			// Init jQuery i18n plugin
+			loadMessageBundles = function(lang) {
+				jQuery.i18n.properties({
+					name:'messages',
+					path:'/pentaho/api/repos/pentaho-cdf-dd/tmp/.cache/public/ascend/dashboards/',
+					mode:'both',
+					language:(lang == 'browser' ? jQuery.i18n.browserLang() : lang),
+					callback: function() {
+						
+					}
+				});
+				Dashboards.setI18nSupport('en-US', jQuery.i18n);
+			}
+
+			$(document).ready(function(){
+				// Initialize jquery.i18n plugin - load message files
+				var userLocale = 'en-US';
+				var formProvider = cdo.format.language(userLocale);
+				cdo.format.language(formProvider);
+				moment.locale(userLocale);
+				loadMessageBundles(userLocale);
+			});
+		</script>
+	
+		
+  <div class='container'>
+    <script language="javascript" type="text/javascript" src="/pentaho/plugin/pentaho-cdf-dd/api/resources/public/ascend/dashboards/../files/iframeResizer.contentWindow.js?v=1476860792026"></script>
+    
+    <script language="javascript" type="text/javascript" src="/pentaho/plugin/pentaho-cdf-dd/api/resources/public/ascend/dashboards/../files/ascend.js?v=1476860792026"></script>
+    
+    <link rel="stylesheet" type="text/css" href="/pentaho/plugin/pentaho-cdf-dd/api/resources/public/ascend/dashboards/../files/ascend.css?v=1476860792026" />
+    
+    <div id='mainContent'  class='row clearfix ' >
+      <div class='col-xs-12 last'><div id='mainColumn' >
+        <div id='headerRow'  class='WDheader row clearfix ' >
+        </div>
+        <div id='nameRoleObj'  class='nameRole row clearfix ' >
+        </div>
+        <div id='classRow'  class='className row clearfix ' >
+          <div class='col-xs-7'><div id='classNameObj'  class='facultyTitle marginLeft ' >
+          </div></div>
+          <div class='col-xs-1'><div id='feedbackButtonObj'  class='WDhidden ' >
+          </div></div>
+          <div class='col-xs-1 last'><div id='printButtonObj'  class='print ' >
+          </div></div>
+        </div>
+        <div id='headerUsageRow'  class='shadow headerColumn row clearfix ' >
+          <div class='col-xs-3'><div id='studentsChart' >
+            <div id='studentsCountObj'  class='studentsTitle row clearfix ' >
+            </div>
+            <div id='studentsChartRow'  class='row clearfix ' >
+              <div class='col-xs-12'><div id='studentsChartMessage'  class='WDhidden errorMessage ' >
+                No Results Available 
+                
+              </div></div>
+              <div class='col-xs-12 last'><div id='studentsChartObj'  class='studentsChart ' >
+              </div></div>
+            </div>
+          </div></div>
+          <div class='col-xs-3'><div id='studentStatusColumn'  class='statusFaculty ' >
+          </div></div>
+          <div class='col-xs-6 last'><div id='averageTable' >
+            <div id='averageHeader'  class='row clearfix ' >
+              <div class='col-xs-10 average'><div id='averageTitle'  class='studentsTitle ' >
+              </div></div>
+              <div class='col-xs-1 last'><div id='averagePopupObj'  class='titlePopup ' >
+              </div></div>
+            </div>
+            <div id='average'  class='row clearfix ' >
+              <div class='col-xs-3'><div id='studentsAver'  class='titleText ' >
+              </div></div>
+              <div class='col-xs-4 last'><div id='studentButtonObj'  class='detailButton ' >
+              </div></div>
+            </div>
+          </div></div>
+        </div>
+        <div id='usageRow'  class='row clearfix ' >
+          <div class='col-xs-8'><div id='usageColumn' >
+            <div id='usageDetailsSelectorsRow'  class='usageDetailsSelectors row clearfix ' >
+              <div class='col-xs-3'><div id='usageDetailsText' >
+                ATI Performance Level 
+                
+              </div></div>
+              <div class='col-xs-9 last'><div id='contentAreaSelectorObj' >
+              </div></div>
+            </div>
+            <div id='studentTableRow'  class='row clearfix ' >
+              <div class='col-xs-12 last'><div id='studentTableObj'  class='facultyStudentsTable ' >
+              </div></div>
+            </div>
+            <div id='footer'  class='row clearfix ' >
+              <div class='col-xs-12 last'><div id='footerObj'  class='footer ' >
+              </div></div>
+            </div>
+          </div></div>
+          <div class='col-xs-4 last'><div id='infoColumn'  class='infoColumn WDhidden ' >
+            <div id='likelihood'  class='shadow row clearfix ' >
+              <div class='col-xs-10 last'><div id='likelihoodBox' >
+                <span  class='studentsTitle studentsTitle ' >Likelihood of Passing NCLEX®
+<br> 
+                </span>
+                <br>
+<p>Based on the current progress and performance on proctored assessments for students in this class, ATI has preicted how likely the student is to pass the NCLEX® upon completion of the nursing program.</p> 
+<br>
+<p>The current LIkelihood of Passing NCLEX® assumes the remaining assessment scores will be similar to the current performance.</p>
+<br>
+<p>The Likelihood of Passing NCLEX® will become more accurate as more protored assessmens are compeleted.</p> 
+                
+              </div></div>
+            </div>
+            <div id='trending'  class='shadow row clearfix ' >
+              <div class='col-xs-10 last'><div id='trendingBox' >
+                <span  class='studentsTitle studentsTitle ' >Trending<br>
+ 
+                </span>
+                <br>
+<p>Students trending up performed better on the most recent proctored assessment and their likelihood of passing the NCLEX® has incressed.</p>
+<br>
+<p>Studentes trending down performed worse on the most recent proctored assessment and their likelihood of passing NCLEX® has decressed.</p> 
+                
+              </div></div>
+            </div>
+          </div></div>
+        </div>
+      </div></div>
+    </div>
+    <div id='hiddenElements'  class='WDhidden row clearfix ' >
+      <div class='col-xs-12'><div id='likelihoodBoxObj'  class='titlePopup ' >
+        <span  class='popupTitle popupTitle ' >Probability of Passing NCLEX® 
+        </span>
+        <span  class='popupText popupText ' ><p>Based on the current progress and performance on proctored assessments for students in this class, ATI has predicted how likely the student is to pass the NCLEX® upon completion of the nursing program.</p> 
+<p>The current Probability of Passing NCLEX® assumes the remaining assessment scores will be similar to the current performance.</p>
+<p>The Probability of Passing NCLEX® will become more accurate as more proctored assessments are completed.</p> 
+        </span>
+      </div></div>
+      <div class='col-xs-12'><div id='statusBoxObj'  class='titlePopup ' >
+        <span  class='popupTitle popupTitle ' >Number of Missed Assessments 
+        </span>
+        <span  class='popupText popupText ' ><p>This student has completed fewer assessments than other students in the class. If appropriate, you can drop the student by going to the Products tab on the faculty portal, selecting the class, and deleting the student from the roster. 
+        </span>
+      </div></div>
+      <div class='col-xs-1'><div id='statusPopupObj'  class='titlePopup ' >
+      </div></div>
+      <div class='col-xs-12'><div id='trendingBoxObj'  class='titlePopup ' >
+        <span  class='popupTitle popupTitle ' >Trending 
+        </span>
+        <span  class='popupText popupText ' ><p>Students trending up performed better on the most recent proctored assessment, and their probability of passing the NCLEX® has increased.</p>
+<p>Students trending down performed worse on the most recent proctored assessment, and their probability of passing NCLEX® has decreased.</p> 
+        </span>
+      </div></div>
+      <div class='col-xs-1'><div id='trendingPopupObj'  class='titlePopup ' >
+      </div></div>
+      <div class='col-xs-6'><div id='commentsColumn'  class='feedback ' >
+        <div id='titleRow'  class='studentsTitle row clearfix ' >
+          <div class='col-xs-10'><div id='feedbackTitle' >
+            Feedback 
+            
+          </div></div>
+          <div class='col-xs-2 last'><div id='saveButtonObj' >
+          </div></div>
+        </div>
+        <div id='feedbackRow'  class='row clearfix ' >
+          <div class='col-xs-12 last'><div id='feedbackObj'  class='feedback ' >
+          </div></div>
+        </div>
+      </div></div>
+      <div class='col-xs-12'><div id='totalBoxObj'  class='titlePopup ' >
+        <div id='totalHeaderText'  class='popupTitle row clearfix ' >
+          <span  class='popupTitle popupTitle ' >Number of Missed Assessments 
+          </span>
+        </div>
+        <div id='totalText'  class='popupText row clearfix ' >
+          This student has completed fewer assessments than other students in the class. If appropriate, you can drop the student by going to the Products tab on the faculty portal, selecting the class, and deleting the student from the roster. 
+          
+        </div>
+      </div></div>
+      <div class='col-xs-12'><div id='emptyPopupObj' >
+        Please insert feedback 
+        
+      </div></div>
+      <div class='col-xs-12'><div id='sendOkPopupObj' >
+        Thank you for your feedback. 
+        
+      </div></div>
+      <div class='col-xs-12'><div id='sendNotOkPopupObj' >
+        Please send again your feedback. 
+        
+      </div></div>
+      <div class='col-xs-2 last'><div id='termsPopupObj'  class='titlePopup ' >
+        <div id='termsTitle'  class='popupTitle row clearfix ' >
+          ATI’S PULSE PRODUCT 
+          
+        </div>
+        <div id='termsText'  class='popupText row clearfix ' >
+        </div>
+      </div></div>
+    </div>
+    <div id='Version1.01'  class='WDhidden row clearfix ' >
+    </div>
+  </div>
+<script language="javascript" type="text/javascript">
+wcdfSettings = {
+  "title": "Faculty Students Dashboard",
+  "author": "",
+  "description": "Faculty Students Dashboard",
+  "style": "Clean",
+  "widgetName": "",
+  "widget": false,
+  "rendererType": "bootstrap",
+  "require": false,
+  "widgetParameters": []
+};
+
+Dashboards.addParameter("studentExistParam", "True");
+Dashboards.setBookmarkable("studentExistParam");
+Dashboards.setParameterViewMode("studentExistParam", "unused");
+
+Dashboards.addParameter("studentIDParam", "");
+Dashboards.setBookmarkable("studentIDParam");
+Dashboards.setParameterViewMode("studentIDParam", "unused");
+
+Dashboards.addParameter("classIDParam", "");
+Dashboards.setBookmarkable("classIDParam");
+Dashboards.setParameterViewMode("classIDParam", "unused");
+
+Dashboards.addParameter("classNameParam", "");
+Dashboards.setParameterViewMode("classNameParam", "unused");
+
+Dashboards.addParameter("institutionIDParam", "");
+Dashboards.setBookmarkable("institutionIDParam");
+Dashboards.setParameterViewMode("institutionIDParam", "unused");
+
+Dashboards.addParameter("gradYearParam", "");
+Dashboards.setBookmarkable("gradYearParam");
+Dashboards.setParameterViewMode("gradYearParam", "unused");
+
+Dashboards.addParameter("currentGradYearParam", "");
+Dashboards.setBookmarkable("currentGradYearParam");
+Dashboards.setParameterViewMode("currentGradYearParam", "unused");
+
+Dashboards.addParameter("studentsCountParam", "");
+Dashboards.setParameterViewMode("studentsCountParam", "unused");
+
+Dashboards.addParameter("studentLegendParam", "");
+Dashboards.setParameterViewMode("studentLegendParam", "unused");
+
+Dashboards.addParameter("studentAverageParam", "");
+Dashboards.setParameterViewMode("studentAverageParam", "unused");
+
+Dashboards.addParameter("programTypeParam", "");
+Dashboards.setParameterViewMode("programTypeParam", "unused");
+
+Dashboards.addParameter("contentAreaParam", "All");
+Dashboards.setBookmarkable("contentAreaParam");
+Dashboards.setParameterViewMode("contentAreaParam", "unused");
+
+Dashboards.addParameter("feedbackParam", "");
+Dashboards.setParameterViewMode("feedbackParam", "unused");
+
+Dashboards.addParameter("userParam", "");
+Dashboards.setParameterViewMode("userParam", "unused");
+
+Dashboards.addParameter("dateParam", "");
+Dashboards.setParameterViewMode("dateParam", "unused");
+
+Dashboards.addParameter("browserParam", "");
+Dashboards.setParameterViewMode("browserParam", "unused");
+
+Dashboards.addParameter("versionParam", "");
+Dashboards.setParameterViewMode("versionParam", "unused");
+
+Dashboards.addParameter("commentParam", "");
+Dashboards.setParameterViewMode("commentParam", "unused");
+
+Dashboards.addParameter("dashboardParam", "Faculty Students");
+Dashboards.setParameterViewMode("dashboardParam", "unused");
+
+var render_dateRange_dummy = {
+  type: "DateRangeInput",
+  name: "render_dateRange_dummy",
+  priority: 5,
+  parameter: [],
+  listeners: [],
+  singleInput: true,
+  inputSeparator: ">",
+  canClickOutsidePopup: false,
+  earliestDate: "-1years",
+  latestDate: "+1years",
+  leftOffset: 0,
+  topOffset: 15,
+  executeAtStart: false
+};
+
+var render_feedbackText = {
+  type: "textInput",
+  name: "render_feedbackText",
+  priority: 5,
+  parameter: "feedbackParam",
+  listeners: [],
+  htmlObject: "feedbackObj",
+  executeAtStart: true
+};
+
+var render_contentAreaSelector = {
+  type: "Select",
+  name: "render_contentAreaSelector",
+  priority: 3,
+  parameter: "contentAreaParam",
+  htmlObject: "contentAreaSelectorObj",
+  listeners: [],
+  parameters: [["institutionIDParam","institutionIDParam"],["classIDParam","classIDParam"]],
+  valuesArray: [],
+  valueAsId: false,
+  executeAtStart: true,
+  extraOptions: [],
+  queryDefinition:  {
+    dataAccessId: "performanceSelectorQuery",
+    path: "/public/ascend/dashboards/faculty_students.cda"
+  }
+};
+
+var render_nameSessionVarQueryComponent = {
+  type: "Query",
+  name: "render_nameSessionVarQueryComponent",
+  priority: 0,
+  parameters: [],
+  executeAtStart: true,
+  listeners: [],
+  asynchronousMode: true,
+  postFetch: function f(data){
+    var result = data.resultset;
+    
+    Dashboards.setParameter("roleParam", result[0][1]);
+    Dashboards.setParameter("userIDParam", result[1][1]);
+        
+    return data;
+} ,
+  queryDefinition:  {
+    dataAccessId: "nameSessionVariables",
+    path: "/public/ascend/dashboards/faculty_students.cda"
+  }
+};
+
+var render_studentCountQueryComponent = {
+  type: "Query",
+  name: "render_studentCountQueryComponent",
+  priority: 1,
+  parameters: [["classIDParam","classIDParam"]],
+  resultvar: "studentsCountParam",
+  executeAtStart: true,
+  listeners: [],
+  asynchronousMode: true,
+  queryDefinition:  {
+    dataAccessId: "studentsCountQuery",
+    path: "/public/ascend/dashboards/faculty_students.cda"
+  }
+};
+
+var render_studentNameQueryComponent = {
+  type: "Query",
+  name: "render_studentNameQueryComponent",
+  priority: 1,
+  parameters: [],
+  executeAtStart: true,
+  listeners: [],
+  asynchronousMode: true,
+  postFetch: function f(data){
+    var result = data.resultset;
+    
+    Dashboards.setParameter("nameParam", result[0][0]);
+        
+    return data;
+} ,
+  queryDefinition:  {
+    dataAccessId: "studentNameQuery",
+    path: "/public/ascend/dashboards/faculty_students.cda"
+  }
+};
+
+var render_nameRoleHeader = {
+  type: "textComponent",
+  name: "render_nameRoleHeader",
+  priority: 2,
+  expression: function f(){
+    var ph = $('#nameRoleObj');
+    
+    var $welcome = $("<div class='welcomeRole'>Welcome</div>").appendTo(ph);
+    var $name =$("<div class='textRole'></div>").appendTo(ph);
+    $name.text ( nameParam.split(',').slice(-1) + (" ") + nameParam.split(',').slice(0,-1) + (" (") + roleParam + ("). "));
+    var $text =$("<div class='textRole1'></div>").appendTo(ph);
+    if ( nameParam.split(',').length == 1 ){
+        $text.text ("If you are not " + nameParam + (", click"));
+    }else{
+        $text.text ("If you are not " + nameParam.split(',').slice(-1) + " " + nameParam.split(',').slice(0,-1) + (", click"));
+    }
+    
+    var MyEnv = ascend.whichEnvironmentText;
+    
+    /* var $here =$("<div> <a class='hereRole' href='http://www.atitesting.com/ati_next_gen/Logout.aspx'> here </a> </div>").appendTo(ph);  */
+    var $here =$("<div> <a class='hereRole' href='https://" + MyEnv + ".atitesting.com/pentaho/Logout'> here </a> </div>").appendTo(ph); 
+ /*   var $here =$("<div> <a class='hereRole' href='"+webAppPath+"/Logout'> here </a> </div>").appendTo(ph);*/
+} ,
+  htmlObject: "nameRoleObj",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_classHeader = {
+  type: "textComponent",
+  name: "render_classHeader",
+  priority: 2,
+  expression: function f() {
+    return "Class " + classNameParam + " - Students"; 
+    
+},
+  htmlObject: "classNameObj",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_studentCountText = {
+  type: "textComponent",
+  name: "render_studentCountText",
+  priority: 2,
+  expression: function f() {
+    return "Students (" + studentsCountParam + ")"; 
+    
+} ,
+  htmlObject: "studentsCountObj",
+  listeners: ['studentCountParam'],
+  executeAtStart: true
+};
+
+var render_classQueryComponent = {
+  type: "Query",
+  name: "render_classQueryComponent",
+  priority: 0,
+  parameters: [["institutionIDParam","institutionIDParam"],["classIDParam","classIDParam"]],
+  resultvar: "classNameParam",
+  executeAtStart: true,
+  listeners: [],
+  asynchronousMode: true,
+  queryDefinition:  {
+    dataAccessId: "studentsClassQuery",
+    path: "/public/ascend/dashboards/faculty_students.cda"
+  }
+};
+
+var render_feedbackPopupButton = {
+  type: "buttonComponent",
+  name: "render_feedbackPopupButton",
+  priority: 5,
+  label: "Feedback",
+  htmlObject: "feedbackButtonObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [],
+  expression: function f(){
+    render_feedbackPopup.popup($('.WDheader'));
+},
+  actionDefinition:  {
+
+  }
+};
+
+var render_feedbackPopup = {
+  type: "popup",
+  name: "render_feedbackPopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "commentsColumn",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_saveButtonComponent = {
+  type: "buttonComponent",
+  name: "render_saveButtonComponent",
+  priority: 5,
+  label: "Save",
+  htmlObject: "saveButtonObj",
+  buttonStyle: "classic",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [["userParam","userParam"],["dateParam","dateParam"],["browserParam","browserParam"],["versionParam","versionParam"],["commentParam","commentParam"],["dashboardParam","dashboardParam"]],
+  expression: function f(){
+    if ( feedbackParam === "" ){
+        render_emptyFeedbackPopup.popup($('.feedback input'));
+    }else{
+        Dashboards.setParameter('userParam', Dashboards.context.user );
+        Dashboards.setParameter('dateParam', new Date().toString('yyyy-MM-dd HH:mm:ss.sss') );
+        Dashboards.setParameter('browserParam', navigator.sayswho.split(' ')[0] );
+        Dashboards.setParameter('versionParam', navigator.sayswho.split(' ')[1] );
+        Dashboards.setParameter('commentParam', Dashboards.getParameterValue('feedbackParam') );
+        render_sendOkPopup.popup($('.feedback input'));
+    }
+    feedbackParam = "";
+    render_feedbackText.update();
+    //this.block();
+}
+
+,
+  actionDefinition:  {
+    dataAccessId: "sendCommentQuery",
+    path: "/public/ascend/dashboards/faculty_students.cda"
+  }
+};
+
+var render_emptyFeedbackPopup = {
+  type: "popup",
+  name: "render_emptyFeedbackPopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "emptyPopupObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_sendOkPopup = {
+  type: "popup",
+  name: "render_sendOkPopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "sendOkPopupObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_sendNotOkPopup = {
+  type: "popup",
+  name: "render_sendNotOkPopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "sendNotOkPopupObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_printButton = {
+  type: "buttonComponent",
+  name: "render_printButton",
+  priority: 5,
+  label: "Print",
+  htmlObject: "printButtonObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [],
+  expression: function f() { 
+    window.print();
+},
+  actionDefinition:  {
+
+  }
+};
+
+var render_legendQueryComponent = {
+  type: "Query",
+  name: "render_legendQueryComponent",
+  priority: 0,
+  parameters: [["institutionIDParam","institutionIDParam"],["classIDParam","classIDParam"]],
+  resultvar: "studentLegendParam",
+  executeAtStart: true,
+  listeners: [],
+  asynchronousMode: true,
+  queryDefinition:  {
+    dataAccessId: "studentsRiskQuery",
+    path: "/public/ascend/dashboards/faculty_students.cda"
+  }
+};
+
+var render_averageFreeformComponent = {
+  type: "freeform",
+  name: "render_averageFreeformComponent",
+  priority: 5,
+  parameters: [],
+  manageCallee: true,
+  executeAtStart: true,
+  customfunction: function f() {
+    //get the average
+    var $aph = $("#studentsAver");
+      
+    $aph.text(""+Math.round(studentAverageParam)+"%");
+    
+},
+  listeners: [],
+  queryDefinition:  {
+
+  }
+};
+
+var render_averageTitleQueryComponent = {
+  type: "Query",
+  name: "render_averageTitleQueryComponent",
+  priority: 0,
+  parameters: [["institutionIDParam","institutionIDParam"]],
+  resultvar: "programTypeParam",
+  executeAtStart: true,
+  listeners: [],
+  asynchronousMode: true,
+  queryDefinition:  {
+    dataAccessId: "programTypeQuery",
+    path: "/public/ascend/dashboards/faculty_students.cda"
+  }
+};
+
+var render_averageQueryComponent = {
+  type: "Query",
+  name: "render_averageQueryComponent",
+  priority: 0,
+  parameters: [["institutionIDParam","institutionIDParam"],["classIDParam","classIDParam"]],
+  resultvar: "studentAverageParam",
+  executeAtStart: true,
+  listeners: [],
+  asynchronousMode: true,
+  queryDefinition:  {
+    dataAccessId: "studentsAverageQuery",
+    path: "/public/ascend/dashboards/faculty_students.cda"
+  }
+};
+
+var render_averageTitle = {
+  type: "textComponent",
+  name: "render_averageTitle",
+  priority: 3,
+  expression: function f(){
+    if (programTypeParam ==3){
+        type = "-PN";
+    }else{
+        type = "-RN";
+    }
+    return "Pulse: Probability of Passing NCLEX" + type + "®"; 
+} ,
+  htmlObject: "averageTitle",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_averagePopupButton = {
+  type: "buttonComponent",
+  name: "render_averagePopupButton",
+  priority: 5,
+  label: "i",
+  htmlObject: "averagePopupObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [],
+  expression: function f(){
+    render_averagePopup.popup($('#averagePopupObj'));
+},
+  actionDefinition:  {
+
+  }
+};
+
+var render_averagePopup = {
+  type: "popup",
+  name: "render_averagePopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "likelihoodBoxObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_studentDetailsButton = {
+  type: "buttonComponent",
+  name: "render_studentDetailsButton",
+  priority: 5,
+  label: "Details",
+  htmlObject: "studentButtonObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [],
+  expression: function f() {
+  
+  var bookmark = '{"impl"%3A"client"%2C"params"%3A {"classIDParam"%3A+' + '"' + classIDParam + '"' + '+%2C"institutionIDParam"%3A+' + '"' + institutionIDParam + '"' + '+%2C"gradYearParam"%3A+' + '"' + gradYearParam + '"' + '+%2C"currentGradYearParam"%3A+' + '"' + currentGradYearParam + '"' + '}}';
+    
+  window.open(webAppPath+"/api/repos/:public:ascend:dashboards:faculty_class_details.wcdf/generatedContent?" + 'bookmarkState=' + bookmark,"_self");
+}
+ ,
+  actionDefinition:  {
+
+  }
+};
+
+var render_studentTable = {
+  type: "Table",
+  name: "render_studentTable",
+  priority: 5,
+  htmlObject: "studentTableObj",
+  listeners: ['contentAreaParam'],
+  parameters: [["institutionIDParam","institutionIDParam"],["classIDParam","classIDParam"]],
+  executeAtStart: true,
+  postFetch: function f(data){
+    var result = data.resultset,
+        length = result.length,
+        newResult = [],
+        total = 0;
+        
+    for ( var i = 0; i < length; i++ ){
+        if ( result[i][1] == contentAreaParam ){
+            newResult[newResult.length] = result[i];
+        }else if ( contentAreaParam == " " ){
+            newResult[i] = result[i];
+        }
+        if (!isNaN(result[i][2])){
+            result[i][2] = parseFloat(Math.round(result[i][2]*100)/100) + "%";
+        }
+        if ( result[i][4] !== null ){
+            result[i][4] = parseFloat(Math.round(result[i][4]*100)/100);
+        }
+    }
+    data.resultset = newResult;
+    // Calculate number of Total missed Assessments
+    //for ( i = 0; i < newResult.length; i++){
+    //   total +=newResult [i][6];
+    //}
+    //Dashboards.setParameter("totalParam",total)
+    return data;
+}
+ ,
+  preExecution: function f(){
+    this.setAddInOptions("colType","dialChart", function(){
+        
+        return {
+            textFormat: function(v,st) {
+            return v;
+            }
+        };
+    });    
+    
+} ,
+  postExecution: function f(){
+    $("#"+this.htmlObject).find('th.column4').removeClass("dialChart");
+    
+    /*
+    $('#statusPopupObj').clone(a).appendTo(a);
+    var b = $("#"+this.htmlObject).find('th.trendArrow.column3');
+    $('#trendingPopupObj').clone(b).appendTo(b);
+    var $ph = $("#"+this.htmlObject).find('th.sorting_disabled.column1');
+    //Insert number of Total missed Assessments on Header
+    $ph.text("Status ("+totalParam+")");
+    */
+} ,
+  extraOptions: [],
+  expandParameters: [],
+  expandOnClick: false,
+  chartDefinition:  {
+    dataAccessId: "studentsTableQuery",
+    path: "/public/ascend/dashboards/faculty_students.cda",
+    clickAction: function f(a){
+    var studentIDParam = a.rawData.resultset[a.rowIdx][5],
+        bookmark = '{"impl"%3A"client"%2C"params"%3A {"institutionIDParam"%3A+' + '"' + institutionIDParam + '"' + '+%2C"classIDParam"%3A+' + '"' + classIDParam + '"' + '+%2C"studentIDParam"%3A+' + '"' + studentIDParam + '"' + '}}';
+    if ( a.colIdx === 0 ){
+        window.open(webAppPath+"/api/repos/:public:ascend:dashboards:student_drilldown.wcdf/generatedContent?"+'bookmarkState='+ bookmark,"_self");
+    } else if ( a.colIdx === 4 ){
+        if ( a.value === null ){
+            return;
+        } else {
+            window.open(webAppPath+"/api/repos/:public:ascend:dashboards:usage.wcdf/generatedContent?"+'bookmarkState='+ bookmark,"_self");
+        }
+    }
+} ,
+    colHeaders: ["Student","Status","Probability of<br>Passing NCLEX","Trending","Student Usage"],
+    colTypes: ["formattedText","formattedText","formattedText","trendArrow","dialChart"],
+    colFormats: ["%s","%s","%s","%0.0f","%s"],
+    colWidths: ["20%","20%","20%","20%","20%"],
+    colSortable: [],
+    colSearchable: [],
+    paginate: true,
+    paginateServerside: false,
+    paginationType: "two_button",
+    filter: true,
+    info: true,
+    sort: false,
+    sortBy: [],
+    lengthChange: false,
+    tableStyle: "classic"
+  }
+};
+
+var render_statusPopupButton = {
+  type: "buttonComponent",
+  name: "render_statusPopupButton",
+  priority: 4,
+  label: "a",
+  htmlObject: "statusPopupObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [],
+  expression: function f(){
+    render_statusPopup.popup($('#statusPopupObj'));
+} ,
+  actionDefinition:  {
+
+  }
+};
+
+var render_statusPopup = {
+  type: "popup",
+  name: "render_statusPopup",
+  priority: 4,
+  executeAtStart: true,
+  htmlObject: "statusBoxObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_trendingPopupButton = {
+  type: "buttonComponent",
+  name: "render_trendingPopupButton",
+  priority: 4,
+  label: "a",
+  htmlObject: "trendingPopupObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [],
+  expression: function f(){
+    render_trendingPopup.popup($('#trendingPopupObj'));
+},
+  actionDefinition:  {
+
+  }
+};
+
+var render_trendingPopup = {
+  type: "popup",
+  name: "render_trendingPopup",
+  priority: 4,
+  executeAtStart: true,
+  htmlObject: "trendingBoxObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_totalPopup = {
+  type: "popup",
+  name: "render_totalPopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "totalBoxObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_termsButton = {
+  type: "buttonComponent",
+  name: "render_termsButton",
+  priority: 5,
+  label: "User terms and conditions",
+  htmlObject: "footerObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [],
+  expression: function f(){
+    render_termsPopup.popup($('#footerObj'));
+},
+  actionDefinition:  {
+
+  }
+};
+
+var render_termsPopup = {
+  type: "popup",
+  name: "render_termsPopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "termsPopupObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_termsText = {
+  type: "textComponent",
+  name: "render_termsText",
+  priority: 5,
+  expression: function (){
+    return ascend.termsText;
+    }
+    ,
+  htmlObject: "termsText",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_studentsChart = {
+  type: "cccBarChart",
+  name: "render_studentsChart",
+  priority: 5,
+  parameters: [["institutionIDParam","institutionIDParam"],["classIDParam","classIDParam"]],
+  executeAtStart: true,
+  postFetch: function f(data) {
+    //get the title placeholder
+    var $ph = $("#studentsChartTitle"),
+        result = data.resultset,
+        length = result.length,
+        total = 0,
+        i;
+    
+    if ( length === 0 ){
+        $('.errorMessage').removeClass('WDhidden');
+        $('.studentsChart').addClass('WDhidden');
+    }
+    /*
+    for( i = 0; i < length; i++){
+        total += result[i][1];
+    }
+    $ph.text("Students ("+total+")");
+    */
+    return data;   
+}
+ ,
+  htmlObject: "studentsChartObj",
+  postExecution: function f() {
+    if (studentLegendParam.length !== 0){
+    
+    var ph = $('.statusFaculty');
+    
+    var $topRow = $("<div class='studentsTitle'>Status</div>").appendTo(ph);
+    
+    var $textRow = $("<div class='textRow'>&nbsp;</div>").appendTo(ph);
+    
+    var $topText = $("<div class='topText'>&nbsp;</div>").appendTo($textRow);
+    $topText.text(studentLegendParam[0][0]);
+    var $topPercent = $("<div class='topPercent'>&nbsp;</div>").appendTo($textRow);
+    $topPercent.text(studentLegendParam[0][2]);
+    
+    var $middleText = $("<div class='middleText'>&nbsp;</div>").appendTo($textRow);
+    $middleText.text(studentLegendParam[1][0]);
+    var $middlePercent = $("<div class='middlePercent'>&nbps;</div>").appendTo($textRow);
+    $middlePercent.text(studentLegendParam[1][2]);
+    
+    var $bottomText = $("<div class='bottomText'>At Risk</div>").appendTo($textRow);
+    $bottomText.text(studentLegendParam[2][0]);
+    var $bottomPercent = $("<div class='bottomPercent'> < 79% </div>").appendTo($textRow);
+    $bottomPercent.text(studentLegendParam[2][2]);
+    }
+},
+  listeners: [],
+  chartDefinition:  {
+    dataAccessId: "studentsRiskQuery",
+    path: "/public/ascend/dashboards/faculty_students.cda",
+    width: 175,
+    height: 150,
+    extensionPoints: [["label_textStyle","white"]],
+    colors: ["#CFD45C","#F6CC56","#E54D42"],
+    animate: false,
+    barOrthoSizeMin: 1.5,
+    barSizeMax: 40,
+    barSizeRatio: 0.9,
+    barStackedMargin: 0,
+    baseAxisGrid: false,
+    baseAxisOffset: 0,
+    baseAxisOverlappedLabelsMode: "hide",
+    baseAxisTicks: false,
+    baseAxisTitleFont: "12px sans-serif",
+    baseAxisTitleMargins: "0",
+    baseAxisTooltipAutoContent: "value",
+    baseAxisTooltipEnabled: false,
+    baseAxisVisible: false,
+    clearSelectionMode: "emptySpaceClick",
+    clickable: false,
+    color2AxisColors: [],
+    color2AxisLegendClickMode: "toggleVisible",
+    color2AxisLegendVisible: false,
+    compatVersion: 2,
+    contentMargins: "0",
+    contentPaddings: "0",
+    crosstabMode: true,
+    ctrlSelectMode: true,
+    dataIgnoreMetadataLabels: false,
+    dataMeasuresInColumns: false,
+    dataSeparator: "~",
+    groupedLabelSep: " ~ ",
+    hoverable: false,
+    ignoreNulls: true,
+    isMultiValued: false,
+    leafContentOverflow: "auto",
+    legend: true,
+    legendAlign: "right",
+    legendClickMode: "toggleVisible",
+    legendFont: "10px sans-serif",
+    legendItemPadding: "2.5",
+    legendMargins: "0",
+    legendMarkerSize: 15,
+    legendPaddings: "5",
+    legendPosition: "right",
+    legendTextMargin: 6,
+    legendVisible: false,
+    margins: "3",
+    measuresIndexes: [],
+    multiChartColumnsMax: 3,
+    multiChartIndexes: [],
+    multiChartOverflow: "grow",
+    multiChartSingleColFillsHeight: true,
+    multiChartSingleRowFillsHeight: true,
+    nullInterpolationMode: "none",
+    orientation: "horizontal",
+    ortho2AxisDomainRoundMode: "tick",
+    ortho2AxisDomainScope: "global",
+    ortho2AxisGrid: false,
+    ortho2AxisMinorTicks: true,
+    ortho2AxisOffset: 0,
+    ortho2AxisOverlappedLabelsMode: "hide",
+    ortho2AxisTicks: true,
+    ortho2AxisTickUnitMax: "Infinity",
+    ortho2AxisTickUnitMin: "0",
+    ortho2AxisTitleFont: "12px sans-serif",
+    ortho2AxisTitleMargins: "0",
+    ortho2AxisVisible: true,
+    ortho2AxisZeroLine: true,
+    orthoAxisDomainRoundMode: "tick",
+    orthoAxisDomainScope: "global",
+    orthoAxisGrid: false,
+    orthoAxisMinorTicks: true,
+    orthoAxisOffset: 0,
+    orthoAxisOverlappedLabelsMode: "hide",
+    orthoAxisTicks: true,
+    orthoAxisTickUnitMax: "Infinity",
+    orthoAxisTickUnitMin: "0",
+    orthoAxisTitleFont: "12px sans-serif",
+    orthoAxisTitleMargins: "0",
+    orthoAxisVisible: false,
+    orthoAxisZeroLine: false,
+    overflowMarkersVisible: false,
+    paddings: "0",
+    panelSizeRatio: 0.9,
+    plot2: false,
+    plot2AreasVisible: false,
+    plot2ColorAxis: 2,
+    plot2DotsVisible: true,
+    plot2LinesVisible: true,
+    plot2NullInterpolationMode: "none",
+    plot2OrthoAxis: 1,
+    plot2Series: [],
+    plot2SeriesIndexes: -1,
+    plot2Stacked: false,
+    plot2ValuesFont: "10px sans-serif",
+    plot2ValuesMask: "{value}",
+    plot2ValuesVisible: false,
+    plotFrameVisible: false,
+    pointingMode: "near",
+    readers: [],
+    selectable: false,
+    seriesInRows: true,
+    smallContentMargins: "0",
+    smallContentPaddings: "0",
+    smallMargins: "2%",
+    smallPaddings: "0",
+    smallTitleFont: "14px sans-serif",
+    smallTitleMargins: "0",
+    smallTitlePaddings: "0",
+    smallTitlePosition: "top",
+    stacked: false,
+    timeSeries: false,
+    timeSeriesFormat: "%Y-%m-%d",
+    titleFont: "14px sans-serif",
+    titleMargins: "0",
+    titlePaddings: "0",
+    titlePosition: "top",
+    tooltipEnabled: true,
+    tooltipFade: true,
+    tooltipFollowMouse: false,
+    tooltipHtml: true,
+    tooltipOpacity: 0.9,
+    trendAreasVisible: false,
+    trendColorAxis: 2,
+    trendDotsVisible: false,
+    trendLinesVisible: true,
+    trendOrthoAxis: 1,
+    trendStacked: false,
+    trendValuesAnchor: "right",
+    trendValuesFont: "10px sans-serif",
+    trendValuesVisible: false,
+    valuesFont: "10px sans-serif",
+    valuesNormalized: false,
+    valuesOptimizeLegibility: true,
+    valuesOverflow: "hide",
+    valuesVisible: true
+  }
+};
+
+Dashboards.addComponents([render_dateRange_dummy, render_feedbackText, render_contentAreaSelector, render_nameSessionVarQueryComponent, render_studentCountQueryComponent, render_studentNameQueryComponent, render_nameRoleHeader, render_classHeader, render_studentCountText, render_classQueryComponent, render_feedbackPopupButton, render_feedbackPopup, render_saveButtonComponent, render_emptyFeedbackPopup, render_sendOkPopup, render_sendNotOkPopup, render_printButton, render_legendQueryComponent, render_averageFreeformComponent, render_averageTitleQueryComponent, render_averageQueryComponent, render_averageTitle, render_averagePopupButton, render_averagePopup, render_studentDetailsButton, render_studentTable, render_statusPopupButton, render_statusPopup, render_trendingPopupButton, render_trendingPopup, render_totalPopup, render_termsButton, render_termsPopup, render_termsText, render_studentsChart]);
+
+</script>
+
+<script language="javascript" type="text/javascript">
+Dashboards.init();
+</script>
+
+		
+				<script type="text/javascript">
+		$( function(){
+				//$(".round").corner();
+				$(".cdfdd-round").corner();
+				$(".cdfdd-bevel").corner("bevel");
+				$(".cdfdd-notch").corner("notch");
+				$(".cdfdd-bite").corner("bite");
+				$(".cdfdd-bevel_top").corner("bevel top");
+				$(".cdfdd-dog_tr").corner("dog tr");
+			} ) ;
+		</script>
+		
+
+	</body>
+</html>
+
+

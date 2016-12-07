@@ -1,0 +1,59 @@
+function opacity(id, opacStart, opacEnd, millisec) {
+	var speed = Math.round(millisec / 100);
+	var timer = 0;
+
+	if(opacStart > opacEnd) {
+		for(i = opacStart; i >= opacEnd; i--) {
+			setTimeout("changeOpac(" + i + ",'" + id + "')",(timer * speed));
+			timer++;
+		}
+	} else if(opacStart < opacEnd) {
+		for(i = opacStart; i <= opacEnd; i++)
+			{
+			setTimeout("changeOpac(" + i + ",'" + id + "')",(timer * speed));
+			timer++;
+		}
+	}
+}
+
+function changeOpac(opacity, id) {
+	var object = document.getElementById(id).style; 
+	object.opacity = (opacity / 100);
+	object.MozOpacity = (opacity / 100);
+	object.KhtmlOpacity = (opacity / 100);
+	object.filter = "alpha(opacity=" + opacity + ")";
+}
+
+function shiftOpacity(id, millisec) {
+	if(document.getElementById(id).style.opacity == 0) {
+		opacity(id, 0, 100, millisec);
+	} else {
+		opacity(id, 100, 0, millisec);
+	}
+}
+
+function blendimage(divid, imageid, imagefile, millisec) {
+	var speed = Math.round(millisec / 100);
+	var timer = 0;
+	
+	document.getElementById(divid).style.backgroundImage = "url(" + document.getElementById(imageid).src + ")";
+	
+	changeOpac(0, imageid);
+	
+	document.getElementById(imageid).src = imagefile;
+
+	for(i = 0; i <= 100; i++) {
+		setTimeout("changeOpac(" + i + ",'" + imageid + "')",(timer * speed));
+		timer++;
+	}
+}
+
+function currentOpac(id, opacEnd, millisec) {
+	var currentOpac = 100;
+	
+	if(document.getElementById(id).style.opacity < 100) {
+		currentOpac = document.getElementById(id).style.opacity * 100;
+	}
+
+	opacity(id, currentOpac, opacEnd, millisec)
+}

@@ -1,0 +1,173 @@
+﻿//build associative array with menu information
+function initMenu(myMenuTypeID, myjsLocationID, jsportalTypeID) {
+    var myUserType = 'student';
+    switch (myMenuTypeID) {
+        case 1:
+        case 2:
+            myUserType = 'student';
+            if (!myjsLocationID > 0) myjsLocationID = 8;
+            break;
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+            myUserType = 'faculty';
+            if (!myjsLocationID > 0) myjsLocationID = 1;
+            break;
+    }
+    populateMenu(populateArray(myUserType, myMenuTypeID, jsportalTypeID), myjsLocationID);
+    populateSubMenu(myjsLocationID);
+}
+
+function populateArray(myUserType, myMenuTypeID, jsportalTypeID) {
+    var menuArray = new Array();
+    var menuCounter = 0;
+    if (jsportalTypeID == 1) { //Allied Health
+        if (myUserType == 'student') {
+            //menuArray[1] = new Array(); //PrimaryMenuStudent 1 //PrimaryMenuMyCEStudent 2
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Student Home'; menuArray[menuCounter]['location'] = 8; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'My Products'; menuArray[menuCounter]['location'] = 14; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'My Results and Review'; menuArray[menuCounter]['location'] = 10; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'My Purchases & Payments'; menuArray[menuCounter]['location'] = 12; menuCounter++;
+            if (myMenuTypeID == 2) { menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'My CEs'; menuArray[menuCounter]['location'] = 17; menuCounter++; }
+            // menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Demos'; menuArray[menuCounter]['location'] = 13; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'How To'; menuArray[menuCounter]['location'] = 19; menuCounter++;
+        }
+        else if (myUserType == 'faculty') {
+            //4/11/2013 -- Lines #36 -#52 have been updated to exclude CMAP for AH users with a Personnel role 
+            if (myMenuTypeID == 5) {//For AH Personnel users, cmap is removed
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Faculty Home'; menuArray[menuCounter]['location'] = 1; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Products'; menuArray[menuCounter]['location'] = 18; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Results'; menuArray[menuCounter]['location'] = 3; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Users'; menuArray[menuCounter]['location'] = 4; menuCounter++;
+        } else {
+            //menuArray[2] = new Array(); //PrimaryMenuWithCMAP 3 //PrimaryMenuWithoutCMAP 4 //PrimaryMenuProctorWithCMAP 5 //PrimaryMenuProctorWithoutCMAP 6
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Faculty Home'; menuArray[menuCounter]['location'] = 1; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Products'; menuArray[menuCounter]['location'] = 18; menuCounter++;
+            if (myMenuTypeID == 3 || myMenuTypeID == 4) { menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Results'; menuArray[menuCounter]['location'] = 3; menuCounter++; }
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Users'; menuArray[menuCounter]['location'] = 4; menuCounter++;
+            // menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Demos'; menuArray[menuCounter]['location'] = 5; menuCounter++;
+            if (myMenuTypeID == 3 /*|| myMenuTypeID == 5*/) { menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'C-MAP'; menuArray[menuCounter]['location'] = 6; menuCounter++; }
+            // menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'My Professional Development'; menuArray[menuCounter]['location'] = 7; menuCounter++;
+        }
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'How To'; menuArray[menuCounter]['location'] = 19; menuCounter++;
+        }
+    } else {//Nursing
+        if (myUserType == 'student') {
+            //menuArray[1] = new Array(); //PrimaryMenuStudent 1 //PrimaryMenuMyCEStudent 2
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Student Home'; menuArray[menuCounter]['location'] = 8; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'My Products'; menuArray[menuCounter]['location'] = 14; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'My Results'; menuArray[menuCounter]['location'] = 10; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'My Purchases & Payments'; menuArray[menuCounter]['location'] = 12; menuCounter++;
+            if (myMenuTypeID == 2) { menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'My CEs'; menuArray[menuCounter]['location'] = 17; menuCounter++; }
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Demos'; menuArray[menuCounter]['location'] = 13; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'How To'; menuArray[menuCounter]['location'] = 19; menuCounter++;
+        }
+        else if (myUserType == 'faculty') {
+            //menuArray[2] = new Array(); //PrimaryMenuWithCMAP 3 //PrimaryMenuWithoutCMAP 4 //PrimaryMenuProctorWithCMAP 5 //PrimaryMenuProctorWithoutCMAP 6
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Faculty Home'; menuArray[menuCounter]['location'] = 1; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Products'; menuArray[menuCounter]['location'] = 18; menuCounter++;
+            if (myMenuTypeID == 3 || myMenuTypeID == 4) { menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Results'; menuArray[menuCounter]['location'] = 3; menuCounter++; }
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Users'; menuArray[menuCounter]['location'] = 4; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Demos'; menuArray[menuCounter]['location'] = 5; menuCounter++;
+            if (myMenuTypeID == 3 || myMenuTypeID == 5) { menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'C-MAP'; menuArray[menuCounter]['location'] = 6; menuCounter++; }
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'My Professional Development'; menuArray[menuCounter]['location'] = 7; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'How To'; menuArray[menuCounter]['location'] = 19; menuCounter++;
+        }
+
+    }
+    return menuArray;
+
+}
+
+function populateMenu(menuArray, myjsLocationID) {
+    for (i = 0; i < menuArray.length; i++) {
+        classname = "";
+        if (myjsLocationID == menuArray[i]['location']) classname = "selected";
+        myLIstring = '<li><a href="#" class="' + classname + '" onclick="javascript:GetPage(' + menuArray[i]['location'] + ');">' + menuArray[i]['text'] + '</a></li>';
+        $(".pncontainer ul ").append(myLIstring);
+
+    }
+    $(".pncontainer ul").prepend("<li class='logo'></li>");
+
+
+}
+
+function populateSubMenu(myjsLocationID) {
+    $(".pnscontainer ul").append('<li>&nbsp;</li>');
+}
+
+//build associative array with menu information
+/*function initMenu(myMenuTypeID, myjsLocationID, jsportalTypeID) 
+{
+    var myUserType = 'student';
+    switch(myMenuTypeID)
+    {
+        case 1:
+        case 2:
+            myUserType = 'student';
+            if (!myjsLocationID > 0) myjsLocationID = 8;
+            break;
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+            myUserType = 'faculty';
+            if (!myjsLocationID > 0) myjsLocationID = 1;
+            break;
+    }
+    populateMenu(populateArray(myUserType, myMenuTypeID), myjsLocationID);
+    populateSubMenu(myjsLocationID);
+}
+
+function populateArray(myUserType, myMenuTypeID)
+{
+    var menuArray = new Array();
+    var menuCounter = 0;
+    
+        if (myUserType == 'student') {
+            //menuArray[1] = new Array(); //PrimaryMenuStudent 1 //PrimaryMenuMyCEStudent 2
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Student Home'; menuArray[menuCounter]['location'] = 8; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'My Products'; menuArray[menuCounter]['location'] = 14; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'My Results'; menuArray[menuCounter]['location'] = 10; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'My Purchases & Payments'; menuArray[menuCounter]['location'] = 12; menuCounter++;
+            if (myMenuTypeID == 2) { menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'My CEs'; menuArray[menuCounter]['location'] = 17; menuCounter++; }
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Demos'; menuArray[menuCounter]['location'] = 13; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'How To'; menuArray[menuCounter]['location'] = 19; menuCounter++;
+        }
+        else if (myUserType == 'faculty') {
+            //menuArray[2] = new Array(); //PrimaryMenuWithCMAP 3 //PrimaryMenuWithoutCMAP 4 //PrimaryMenuProctorWithCMAP 5 //PrimaryMenuProctorWithoutCMAP 6
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Faculty Home'; menuArray[menuCounter]['location'] = 1; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Products'; menuArray[menuCounter]['location'] = 18; menuCounter++;
+            if (myMenuTypeID == 3 || myMenuTypeID == 4) { menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Results'; menuArray[menuCounter]['location'] = 3; menuCounter++; }
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Users'; menuArray[menuCounter]['location'] = 4; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'Demos'; menuArray[menuCounter]['location'] = 5; menuCounter++;
+            if (myMenuTypeID == 3 || myMenuTypeID == 5) { menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'C-MAP'; menuArray[menuCounter]['location'] = 6; menuCounter++; }
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'My Professional Development'; menuArray[menuCounter]['location'] = 7; menuCounter++;
+            menuArray[menuCounter] = new Array(2); menuArray[menuCounter]['text'] = 'How To'; menuArray[menuCounter]['location'] = 19; menuCounter++;
+        }
+
+    
+        return menuArray;
+    
+}
+
+function populateMenu(menuArray,myjsLocationID)
+{
+    for (i = 0; i < menuArray.length; i++)
+    {
+        classname = "";
+        if (myjsLocationID == menuArray[i]['location']) classname = "selected";
+        myLIstring = '<li><a href="#" class="' + classname + '" onclick="javascript:GetPage(' + menuArray[i]['location'] + ');">' + menuArray[i]['text'] + '</a></li>';
+        $(".pncontainer ul ").append(myLIstring);
+
+    }
+    $(".pncontainer ul").prepend("<li class='logo'></li>");
+
+    
+}
+
+function populateSubMenu(myjsLocationID)
+{
+    $(".pnscontainer ul").append('<li>&nbsp;</li>');
+}*/

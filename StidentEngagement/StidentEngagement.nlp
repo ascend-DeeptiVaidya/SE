@@ -1,0 +1,11 @@
+#Project description file
+#Wed Oct 19 19:35:55 IST 2016
+project.name=StidentEngagement
+project.config.storage=ZIP
+product.version=5.1.4
+product.original.name=NeoLoad
+product.name=NeoLoad
+product.original.version=5.1.4
+project.config.path=config.zip
+project.version=5.1
+project.original.version=5.1

@@ -1,0 +1,5 @@
+pendo.guides=[];
+pendo.normalizedUrl="http://stg-pulse.atitesting.com/pentaho/api/repos/%3Apublic%3Aascend%3Adashboards%3Astudent_drilldown.wcdf/generatedContent?bookmarkState=%7B%22impl%22%3A%22client%22%2C%22params%22%3A+%7B%22institutionIDParam%22%3A+%226341%22+%2C%22classIDParam%22%3A+%2237269%22+%2C%22studentIDParam%22%3A+%222543894%22%7D%7D";
+pendo.lastGuideStepSeen={"isMultiStep":false,"state":""};
+pendo.guideWidget={"enabled":false,"hidePoweredBy":false,"data":{}};
+pendo.olark=false;

@@ -1,0 +1,47 @@
+jQuery(function ($) {
+
+    $('.buttonDashboard').click(function (e) {
+        var checkSelectedID = $(this).attr('id');
+        if (checkSelectedID == "dashfacMyAcc") {
+            $('#dashfacMyAccWindow').modal('', { overlayId: '#simplemodal-overlay', containerId: '#simplemodal-container' });
+
+        }
+        if (checkSelectedID == "dashInteMat") {
+            $('#tdTreeViewContainer').modal('', { overlayId: '#simplemodal-overlay', containerId: '#simplemodal-container' });
+            //$('#diveBookPopup').css("margin-top", -400); //DEBUG ATING-1212
+            $('#simplemodal-container').css('position', 'absolute');
+        }
+        if (checkSelectedID == "dashstuMyAcc") {
+            $('#dashstuMyAccWindow').modal('', { overlayId: '#simplemodal-overlay', containerId: '#simplemodal-container' });
+
+        }
+        if (checkSelectedID == "dashstuInteMat") {
+            $('#tdStuTreeViewContainer').modal('', { overlayId: '#simplemodal-overlay', containerId: '#simplemodal-container'});
+            //$('#diveBookPopup').css("margin-top", -400); //DEBUG ATING-1212
+            $('#simplemodal-container').css('position', 'absolute');
+        }
+        if (checkSelectedID == "dashfacMyAccWindow") {
+            $('#tdStuTreeViewContainer').modal('', { overlayId: '#simplemodal-overlay', containerId: '#simplemodal-container' });
+            //$('#diveBookPopup').css("margin-top", -400); //DEBUG ATING-1212
+        }
+    });
+    $('#portalLandingErrors').click(function (e) {
+        $('#notifiactionWindow').modal('', { overlayId: '#simplemodal-overlay', containerId: '#simplemodal-container' });
+
+    });
+    $("#studentvideo-newui").click(function (e) {
+
+        $('#FacultyVideo-NewUI').modal('', { overlayId: '#simplemodal-overlay', containerId: '#simplemodal-container' });
+        $('#simplemodal-container').css('height', '360');
+        $('#simplemodal-container').css('top', '100px');
+    });
+
+    $('.notifList li:even').css("background-color", "#ddd");
+    $('.notifList li:odd').css("background-color", "#eee");
+
+    $("#ctl00_contentPlaceHolderBody_ListBoxAccountInfo_lblHeader").text("My Account");
+    $("#ctl00_contentPlaceHolderBody_ucTreeView_lblResources").text(jsResourceLabel);
+    $("#ctl00_contentPlaceHolderBody_ListBoxViewAccountInfo_lblHeader").text("My Account");
+    $("#ctl00_contentPlaceHolderBody_upTreeviewPanel #ctl00_contentPlaceHolderBody_ucTreeView_lblResources").text(jsResourceLabel);
+
+});

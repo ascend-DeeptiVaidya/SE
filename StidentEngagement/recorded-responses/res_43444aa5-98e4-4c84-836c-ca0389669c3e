@@ -1,0 +1,336 @@
+﻿// checkbox behavior for datagrid
+var frontString = "_ctl0_dtgTopics__ctl";
+var backString = "checkboxCol";
+var batchId = "";
+var bookletId = "";
+var hasRecords = false;
+
+//2007-12-11 jsandoval -added property for client ID mangling
+function GetIDPrefix() {
+    return 'ctl00_contentPlaceHolderBody_ReportWizardNavigationControl1_ucNewEditFocusedReview_';    
+}
+
+var frpopup;
+
+window.onfocus = focusfrompopup;
+
+function focusfrompopup() {
+    if (frpopup != null) {
+        if (!frpopup.closed)
+            frpopup.close();
+    }
+}
+
+function GetIncludeData(chkValue) {
+    var chkInstructor = document.getElementById("_ctl0_chkInstructor");
+    var chkStudent = document.getElementById("_ctl0_chkStudent");
+
+    if (chkInstructor.checked && chkStudent.checked)
+        document.getElementById("_ctl0_hdnCheckStatus").value = 2;
+    else if (chkInstructor.checked && !chkStudent.checked)
+        document.getElementById("_ctl0_hdnCheckStatus").value = 1;
+    else if (!chkInstructor.checked && chkStudent.checked)
+        document.getElementById("_ctl0_hdnCheckStatus").value = 0;
+    else if (!chkInstructor.checked && !chkStudent.checked)
+        document.getElementById("_ctl0_hdnCheckStatus").value = -1;
+
+    document.forms(0).submit();
+}
+
+function SelectCheckBox(obj) {
+    if (obj == null)
+        return;
+
+    var numberClientID = new Number(GetClientID(obj));
+
+    var checkBoxObj = document.getElementById(frontString + numberClientID + "_" + backString);
+    var level = document.getElementById("_ctl0_dtgTopics__ctl" + numberClientID + "_Level_" + numberClientID);
+
+    if (level.innerText == "1") {
+        do {
+            numberClientID++;
+
+            var nextCheckBoxObj = document.getElementById(frontString + numberClientID + "_" + backString);
+            var nextLevel = document.getElementById("_ctl0_dtgTopics__ctl" + numberClientID + "_Level_" + numberClientID);
+
+            if (nextCheckBoxObj == null && nextLevel == null)
+                return;
+
+            if (nextLevel.innerText != "1")
+                nextCheckBoxObj.checked = checkBoxObj.checked;
+            else
+                return;
+
+        } while (nextLevel.innerText != "1");
+    }
+}
+
+function GetClientID(obj) {
+    var currentClientID = new String(obj.id);
+
+    var frontStringIndex = currentClientID.indexOf(frontString);
+
+    var backStringIndex = currentClientID.indexOf(backString);
+
+    var newClientID = currentClientID.substring(0, backStringIndex - 1);
+    newClientID = newClientID.substring(frontString.length);
+
+    return newClientID;
+}
+
+// creating xml data for Viewing	
+function GenerateSectionXML() {
+    var topicSelectorView = document.getElementById("_ctl0_hdnTsView");
+    var xmlString;
+    var param = "";
+
+    if (topicSelectorView == null)
+        return false;
+
+    if (topicSelectorView.value == "1") {
+        xmlString = GenerateInstructorXML();
+
+        batchId = document.getElementById("_ctl0_hdnBatchId").value;
+    }
+    else {
+        xmlString = GenerateStudentXML();
+
+        bookletId = document.getElementById("_ctl0_hdnBookletId").value;
+    }
+
+    if (!hasRecords)
+        return false;
+
+
+    if (xmlString != "" && batchId != "") {
+        param = "?BatchID=" + batchId;
+       // retVal = window.showModalDialog("../focusedreview/FocusedReview.aspx" + param, xmlString, "dialogHeight:100;dialogWidth:100;edge:raised;center:yes;help:no;scroll:no;status:no;");
+
+        //if (retVal == "saved")
+            //window.location = "../focusedreview/FocusedReview.aspx?frtab=1&keepMask=1";
+    }
+    else if (xmlString != "" && bookletId != "") {
+        param = "?BookletID=" + bookletId;
+        //retVal = window.showModalDialog("../focusedreview/FocusedReview.aspx" + param, xmlString, "dialogHeight:100;dialogWidth:100;edge:raised;center:yes;help:no;scroll:no;status:no;");
+    }
+
+    hasRecords = false;
+
+    return true;
+}
+
+
+function GenerateInstructorXML() {
+    var frm = document.aspnetForm;
+    var xmlString = "<ROOT><SECTIONS><Section>";
+
+    for (i = 0; i < frm.length; i++) {
+        e = frm.elements[i];
+        if (e.type == 'checkbox' && e.name.indexOf('checkboxCol:level2:parentsection') != -1) {
+            if (e.checked) {
+                var questionID = e.name.split(':question')[1];
+                if (questionID != "" && questionID != "0")
+                    xmlString += "<Question id='" + questionID + "' ></Question>";
+
+                hasRecords = true;
+            }
+        }
+    }
+
+    xmlString += "</Section></SECTIONS>";
+   
+    var customGroupId = document.getElementById("_ctl0_hdnCustomGroupID").value;
+    if (customGroupId != "0" && customGroupId != "")
+        xmlString += "<OTHERS><CustomGroups><CustomGroup id='" + customGroupId + "'></CustomGroup></CustomGroups></OTHERS>";
+
+    xmlString += "</ROOT>";
+    return xmlString;
+}
+
+
+function GenerateStudentXML() {
+    var frm = document.aspnetForm;
+    var xmlString = "<ROOT><SECTIONS><Section>";
+
+    for (i = 0; i < frm.length; i++) {
+        e = frm.elements[i];
+
+           if (e.type == 'checkbox' && e.name.indexOf('checkboxCol:level') != -1) {
+            if (e.checked) {
+                var sectionID = e.name.split(':section')[1].split(':')[0];
+                var questionIDs = document.getElementById('_ctl0_txtHidden_' + sectionID).value;
+
+                var splitString = questionIDs.split(",");
+
+                for (var j = 0; j < splitString.length; j++) {
+                    var questionID = splitString[j];
+
+                    if (questionID != "")
+                        xmlString += "<Question id='" + questionID + "' ></Question>";
+
+                    hasRecords = true;
+                }
+            }
+        }
+    }
+
+    xmlString += "</Section></SECTIONS></ROOT>";
+    return xmlString;
+}
+
+/**
+* Generate a comma delimited list of questionids. 
+**/
+function GenerateStudentList() {
+    var frm = document.aspnetForm;
+    var list = "";
+
+    for (i = 0; i < frm.length; i++) {
+        e = frm.elements[i];
+
+        if (e.type == 'checkbox' && e.name.indexOf('checkboxCol:level') != -1) {
+            if (e.checked) {
+                var sectionID = e.name.split(':section')[1].split(':')[0];
+                var questionIDs = document.getElementById(GetIDPrefix() + 'txtHidden_' + sectionID).value;
+
+                var splitString = questionIDs.split(",");
+
+                for (var j = 0; j < splitString.length - 1; j++) {
+                    var questionID = splitString[j];
+
+                    if (questionID != "")
+                        list += questionID;
+                    if (i != frm.length - 1)
+                        list += ",";
+                    hasRecords = true;
+                }
+            }
+        }
+    }
+
+    return list;
+}
+
+/**
+* Generate a comma delimited list of questionids. 
+* In addition to a comma delimited list of questionids this method will add a pipe character and a custom group id at the end of the string when applicable.
+**/
+function GenerateInstructorList(hdnCustomGroupID) {
+    var frm = document.aspnetForm;
+    var list = "";
+
+    for (i = 0; i < frm.length; i++) {
+        e = frm.elements[i];
+        if (e.type == 'checkbox' && e.name.indexOf('checkboxCol:level2:parentsection') != -1) {
+            if (e.checked) {
+                var questionID = e.name.split(':question')[1];
+                if (questionID != "" && questionID != "0")
+                    list += questionID;
+                if (i != frm.length - 1)
+                    list += ","
+                hasRecords = true;
+            }
+        }
+    }
+
+
+    var customGroupId = document.getElementById(hdnCustomGroupID).value;
+    if (customGroupId != "0" && customGroupId != "")
+        list += "|" + customGroupId;
+
+    return list;
+}
+
+/**
+* Generate a comma delimited list of checked items in dtgTopics datagrid and to store the state of
+* radio button and txtPercent value.
+**/
+function GenerateTopicsList(hdnDgTopicsList, hdnDgRadioSelection, validate)
+{
+    var frm = document.aspnetForm;
+    var list = "";
+    var radioSelected = "";
+    var txtPercentage = "";
+    for (i=0; i < frm.length; i++) {
+        e = frm.elements[i];
+        
+        if (e.type == 'checkbox' && e.name.indexOf('checkboxCol') != -1) {
+            if (e.checked) {
+                var tmpchkBox = e.name.split('Topics$ctl')[1];
+                var chkboxID = tmpchkBox.split('$checkboxCol')[0];
+                if(chkboxID != "" && chkboxID != "0")
+                    list += chkboxID;
+                if (i != frm.length - 1)
+                    list += ",";
+                hasRecords = true;
+            }
+        }
+        if (e.type == 'radio' && e.name.indexOf('rbTopicSelector') != -1) {
+            if (e.checked) {
+                radioSelected = e.value;
+            }
+        }
+        if (e.type == 'text' && e.name.indexOf('txtPercent') != -1) {
+            txtPercentage = e.value;
+        }
+    }
+    if (list != "") {
+        document.getElementById(hdnDgTopicsList).value = list;
+        document.getElementById(hdnDgRadioSelection).value = radioSelected + "-" +txtPercentage;
+    }
+
+    if (radioSelected == 'rb3' && txtPercentage == "" && validate == true) {
+        return CheckPercentValue();
+    }
+    return true;
+}
+
+function GenerateSectionList(IsStudent, hdnTsView, hdnBatchId, hdnBookletId, btnCreateFocusedReview, btnPrevious, hdnCustomGroupID, hdnQuestionList, hdnDgTopicsList, hdnDgRadioSelection) {
+    var topicSelectorView = document.getElementById(hdnTsView);
+    var list;
+    var param = "";    
+    if (topicSelectorView == null)
+        return false;
+
+    if (topicSelectorView.value == "1") {
+        list = GenerateInstructorList(hdnCustomGroupID);
+        batchId = document.getElementById(hdnBatchId).value;
+    }
+    else {
+        list = GenerateStudentList();
+        bookletId = document.getElementById(hdnBookletId).value;
+    }
+
+    GenerateTopicsList(hdnDgTopicsList, hdnDgRadioSelection, false);
+    if (list.replace(/,/gi, '') == "")
+        return false;
+
+    if (!hasRecords)
+        return false;
+
+    var retVal;
+
+    if (list != "" && batchId != "")
+        param = "?BatchID=" + batchId;
+    else if (list != "" && bookletId != "")
+        param = "?BookletID=" + bookletId;
+
+    document.getElementById(hdnQuestionList).value = list;
+   
+    
+    //frpopup = window.open("../focusedreview/FocusedReview.aspx" + param, "fr_create", "height=" + screen.height + ",width=" + screen.width + ",scrollbars=no,status=no,resizable=no")
+    //frpopup.dialogArguments = list;
+
+//    if (list != "" && batchId != "") {
+//        if (retVal == "saved")
+//           // window.location = "/faculty/reports/ViewReportsWiz.aspx?frtab=1&keepMask=1";
+    //}
+
+    hasRecords = false;
+
+    if (IsStudent) {
+        document.getElementById(btnCreateFocusedReview).value = "Recreate Focused Review";
+        document.getElementById(btnPrevious).value = "Return To My Results";
+    }
+    return true;
+}

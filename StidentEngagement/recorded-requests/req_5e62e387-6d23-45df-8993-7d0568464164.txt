@@ -1,0 +1,10 @@
+GET http://stage-www.atitesting.com/ati_next_gen/Telerik.Web.UI.WebResource.axd?_TSM_HiddenField_=ctl00_ScriptManager1_TSM&compress=1&_TSM_CombinedScripts_=%3b%3bSystem.Web.Extensions%2c+Version%3d3.5.0.0%2c+Culture%3dneutral%2c+PublicKeyToken%3d31bf3856ad364e35%3aen-US%3aeb198dbd-2212-44f6-bb15-882bde414f00%3aea597d4b%3ab25378d2%3a76254418%3bAjaxControlToolkit%2c+Version%3d3.0.20820.31124%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3a7876e3f7-f7f3-41c9-9df1-0d4477bce7e0%3ab14bb7d5%3a13f47f54%3a3c55b13e%3adc2d6e36%3ade51bc8f%3a1d056c78%3aa3e10fa2%3a701e375f%3aa4313c7a HTTP/1.1
+Host: stage-www.atitesting.com
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://stage-www.atitesting.com/ati_next_gen/Faculty/FacultyLanding.aspx
+Cookie: ASP.NET_SessionId=cvuly1ugrx5faujpskrsoo55; _ga=GA1.3.464979468.1465896111; _dc_gtm_UA-6539623-2=1; __hstc=128800851.76700dbca6e65c91f2d36b54c1d26c23.1465896112520.1465896112520.1465896112520.1; __hssrc=1; __hssc=128800851.1.1465896112521; hsfirstvisit=https%3A%2F%2Fstage-www.atitesting.com%2FHome.aspx||1465896112514; hubspotutk=76700dbca6e65c91f2d36b54c1d26c23; .ASPXAUTH=26EEB487564688970797BDD16B78088F5A743BF3692CAEACFC9FE1E0F43758D672F982B065AB9BA29B0D7658488096CB1E3EB30901896233C53BE1DCAEE800E673F8A3A023D9418BA2790294732D7CC7; UserFullName=Juan C Caluya Jr; UserRole=Instructor; UserPortalLink=/ati_next_gen/Faculty/FacultyLanding.aspx; ATINextGenSessionID=cvuly1ugrx5faujpskrsoo55; ATINextGenSessionUserID=1189251; ATINextGenWorkStationID=WScvuly1ugrx5faujpskrsoo55; ATINextGenWorkStationUserID=1189251
+Connection: keep-alive
+

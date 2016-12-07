@@ -1,0 +1,10 @@
+GET /WebResource.axd?d=CprpFpCxf889CnZhXxIh2do-TmecyCbPluS7RaHsrb7HEnlyVg8Y-4nB2oSN_kQl-MSZrxJ5-H9Llcrp9iVoJirprOxYeRQEfXKgkly_J_s1&t=634239539880000000 HTTP/1.1
+Host: stage-www.atitesting.com
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Referer: https://stage-www.atitesting.com/Home.aspx
+Cookie: ASP.NET_SessionId=cvuly1ugrx5faujpskrsoo55
+Connection: keep-alive
+

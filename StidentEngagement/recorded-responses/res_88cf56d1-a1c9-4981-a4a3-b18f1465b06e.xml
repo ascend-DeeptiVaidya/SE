@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?><s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Header><h:ServerVersionInfo MajorVersion="15" MinorVersion="1" MajorBuildNumber="659" MinorBuildNumber="25" Version="V2016_07_13" xmlns:h="http://schemas.microsoft.com/exchange/services/2006/types" xmlns="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/></s:Header><s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><m:GetItemResponse xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types"><m:ResponseMessages><m:GetItemResponseMessage ResponseClass="Success"><m:ResponseCode>NoError</m:ResponseCode><m:Items><t:Message><t:ItemId Id="AAMkADEwMjlhYjU1LTMyM2MtNDhkZC1iOWMzLWJjNTQ2NDRiYjIxNABGAAAAAADgRzMw8FwWS7NhYt8RRfynBwA2XPz5cO0nSJRDHPNC1maxAAADWFWAAAA2XPz5cO0nSJRDHPNC1maxAAHoBZTyAAA=" ChangeKey="CQAAABYAAAA2XPz5cO0nSJRDHPNC1maxAAHoQ1nS"/><t:ItemClass>IPM.Note.Microsoft.Conversation</t:ItemClass><t:Subject>Conversation with Sangeetakumari Belavigi</t:Subject><t:DateTimeReceived>2016-10-19T09:32:05Z</t:DateTimeReceived><t:Importance>Normal</t:Importance><t:DateTimeSent>2016-10-19T09:32:05Z</t:DateTimeSent><t:ExtendedProperty><t:ExtendedFieldURI PropertyTag="0xe1d" PropertyType="String"/><t:Value>Conversation with Sangeetakumari Belavigi</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI DistinguishedPropertySetId="PublicStrings" PropertyName="IsCustomSubject.{703DC3CB-8F24-4e3f-932F-206233656759}" PropertyType="Integer"/><t:Value>0</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI DistinguishedPropertySetId="PublicStrings" PropertyName="Modalities.{0885EA21-B7A5-4050-BFDB-AD46DE1D6A87}" PropertyType="Integer"/><t:Value>1</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI DistinguishedPropertySetId="PublicStrings" PropertyName="Direction.{2DA4DF04-920D-4b0b-A1D7-5FC9D21857FE}" PropertyType="Integer"/><t:Value>1</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI DistinguishedPropertySetId="PublicStrings" PropertyName="RemoteParty.{664AD731-19D0-4344-93FD-682FE0440D95}" PropertyType="String"/><t:Value>sip:sangeetakumari.b@happiestminds.com</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI PropertyTag="0x3fde" PropertyType="Integer"/><t:Value>20127</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI PropertyTag="0xc1e" PropertyType="String"/><t:Value>SMTP</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI PropertyTag="0xc1f" PropertyType="String"/><t:Value>sangeetakumari.b@happiestminds.com</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI PropertyTag="0x64" PropertyType="String"/><t:Value>SMTP</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI PropertyTag="0x65" PropertyType="String"/><t:Value>sangeetakumari.b@happiestminds.com</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI PropertyTag="0xc1a" PropertyType="String"/><t:Value>Sangeetakumari Belavigi</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI PropertyTag="0x42" PropertyType="String"/><t:Value>Sangeetakumari Belavigi</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI DistinguishedPropertySetId="PublicStrings" PropertyName="ConversationXml.{CA2F170A-A22B-4f0a-B899-93439DEC3FBC}" PropertyType="String"/><t:Value>&lt;conversations                 xmlns="http://schemas.microsoft.com/2008/10/sip/convItems"                                 minSupportedClientVersion="3.0.0.0"&gt;&lt;conversationXml&gt;&lt;imReceived xmlns="http://schemas.microsoft.com/2008/10/sip/convItems" ts="2016-10-19T09:28:03Z" from="sip:sangeetakumari.b@happiestminds.com" displayName="Sangeetakumari Belavigi" firstMessage="true" type="text/rtf"&gt;
+&lt;messageInfo type="text/rtf" msgid="" sequenceid="1"&gt;{\rtf1\fbidis\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Segoe UI;}{\f1\fnil Segoe UI;}}
+{\colortbl ;\red0\green0\blue0;}
+{\*\generator Riched20 15.0.4703}{\*\mmathPr\mwrapIndent1440 }\viewkind4\uc1 
+\pard\cf1\f0\fs20 ok thank u\f1\par
+{\*\lyncflags&amp;lt;rtf=1&amp;gt;}}
+&lt;/messageInfo&gt;
+&lt;/imReceived&gt;
+&lt;/conversationXml&gt;&lt;conversationXml&gt;&lt;imReceived xmlns="http://schemas.microsoft.com/2008/10/sip/convItems" ts="2016-10-19T09:30:11Z" from="sip:sangeetakumari.b@happiestminds.com" displayName="Sangeetakumari Belavigi" firstMessage="true" type="text/rtf"&gt;
+&lt;messageInfo type="text/rtf" msgid="" sequenceid="1"&gt;{\rtf1\fbidis\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Segoe UI;}{\f1\fnil Segoe UI;}}
+{\colortbl ;\red0\green0\blue0;}
+{\*\generator Riched20 15.0.4703}{\*\mmathPr\mwrapIndent1440 }\viewkind4\uc1 
+\pard\cf1\f0\fs20 Hi Rashmi\f1\par
+{\*\lyncflags&amp;lt;rtf=1&amp;gt;}}
+&lt;/messageInfo&gt;
+&lt;/imReceived&gt;
+&lt;imReceived xmlns="http://schemas.microsoft.com/2008/10/sip/convItems" ts="2016-10-19T09:30:26Z" from="sip:rashmi.konda@happiestminds.com" displayName="Rashmi Konda" firstMessage="true" type="text/rtf"&gt;
+&lt;messageInfo type="text/rtf" msgid="{BE1C9957-D629-4742-B74D-9828622CAC77}" sequenceid="0"&gt;{\rtf1\fbidis\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Segoe UI;}{\f1\fnil Segoe UI;}}
+{\colortbl ;\red0\green0\blue0;}
+{\*\generator Riched20 15.0.4703}{\*\mmathPr\mwrapIndent1440 }\viewkind4\uc1 
+\pard\cf1\f0\fs20 hi\f1\par
+{\*\lyncflags&amp;lt;rtf=1&amp;gt;}}
+&lt;/messageInfo&gt;
+&lt;/imReceived&gt;
+&lt;imReceived xmlns="http://schemas.microsoft.com/2008/10/sip/convItems" ts="2016-10-19T09:30:28Z" from="sip:sangeetakumari.b@happiestminds.com" displayName="Sangeetakumari Belavigi" type="text/rtf"&gt;
+&lt;messageInfo type="text/rtf" msgid="" sequenceid="2"&gt;{\rtf1\fbidis\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Segoe UI;}{\f1\fnil Segoe UI;}}
+{\colortbl ;\red0\green0\blue0;}
+{\*\generator Riched20 15.0.4703}{\*\mmathPr\mwrapIndent1440 }\viewkind4\uc1 
+\pard\cf1\f0\fs20 Forcedlogin scenario is removed\f1\par
+{\*\lyncflags&amp;lt;rtf=1&amp;gt;}}
+&lt;/messageInfo&gt;
+&lt;/imReceived&gt;
+&lt;imReceived xmlns="http://schemas.microsoft.com/2008/10/sip/convItems" ts="2016-10-19T09:32:03Z" from="sip:rashmi.konda@happiestminds.com" displayName="Rashmi Konda" type="text/rtf"&gt;
+&lt;messageInfo type="text/rtf" msgid="{E77FD7B4-22C7-4DF4-A7A1-87C3379F5FC5}" sequenceid="0"&gt;{\rtf1\fbidis\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Segoe UI;}{\f1\fnil Segoe UI;}}
+{\colortbl ;\red0\green0\blue0;}
+{\*\generator Riched20 15.0.4703}{\*\mmathPr\mwrapIndent1440 }\viewkind4\uc1 
+\pard\cf1\f0\fs20 cool thnkx\f1\par
+{\*\lyncflags&amp;lt;rtf=1&amp;gt;}}
+&lt;/messageInfo&gt;
+&lt;/imReceived&gt;
+&lt;/conversationXml&gt;&lt;/conversations&gt;</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI DistinguishedPropertySetId="PublicStrings" PropertyName="HistoryInfo.{553F3F08-FC28-41db-859E-63457407F806}" PropertyType="String"/><t:Value>sip:sangeetakumari.b@happiestminds.com</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI DistinguishedPropertySetId="PublicStrings" PropertyName="RemotePartyDeviceUri.{12AC5838-268F-4015-BFA9-B651F9ACECDC}" PropertyType="String"/><t:Value>sip:sangeetakumari.b@happiestminds.com</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI DistinguishedPropertySetId="PublicStrings" PropertyName="PreviewMessage.{55324EE5-74F0-4727-876D-20ED1469CA65}" PropertyType="String"/><t:Value>Hi Rashmi&#xD;
+&#xD;
+ / hi&#xD;
+&#xD;
+ / Forcedlogin scenario is removed&#xD;
+&#xD;
+ / cool thnkx&#xD;
+&#xD;
+</t:Value></t:ExtendedProperty><t:ExtendedProperty><t:ExtendedFieldURI PropertyTag="0xfff" PropertyType="Binary"/><t:Value>AAAAAOBHMzDwXBZLs2Fi3xFF/KcHADZc/Plw7SdIlEMc80LWZrEAAANYVYAAADZc/Plw7SdIlEMc80LWZrEAAegFlPIAAA==</t:Value></t:ExtendedProperty><t:ToRecipients><t:Mailbox><t:Name>Sangeetakumari Belavigi</t:Name><t:EmailAddress>sangeetakumari.b@happiestminds.com</t:EmailAddress><t:RoutingType>SMTP</t:RoutingType><t:MailboxType>Mailbox</t:MailboxType></t:Mailbox><t:Mailbox><t:Name>Rashmi Konda</t:Name><t:EmailAddress>Rashmi.Konda@happiestminds.com</t:EmailAddress><t:RoutingType>SMTP</t:RoutingType><t:MailboxType>Mailbox</t:MailboxType></t:Mailbox></t:ToRecipients><t:ConversationIndex>AdIp6esBuZMJN9DjTJG+K4SJXX7n7AAARqfgAAAEngAAABMQoA==</t:ConversationIndex><t:ConversationTopic>Conversation with Sangeetakumari Belavigi</t:ConversationTopic><t:From><t:Mailbox><t:Name>Sangeetakumari Belavigi</t:Name><t:EmailAddress>sangeetakumari.b@happiestminds.com</t:EmailAddress><t:RoutingType>SMTP</t:RoutingType><t:MailboxType>Mailbox</t:MailboxType></t:Mailbox></t:From><t:IsRead>true</t:IsRead></t:Message></m:Items></m:GetItemResponseMessage></m:ResponseMessages></m:GetItemResponse></s:Body></s:Envelope>

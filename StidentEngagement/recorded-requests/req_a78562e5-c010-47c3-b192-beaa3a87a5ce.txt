@@ -1,0 +1,10 @@
+GET /__ptq.gif?k=1&sd=1366x768&cd=24-bit&cs=UTF-8&ln=en-us&bfp=4273032797&v=1.1&a=1270502&r=http%3A%2F%2Fstage-www.atitesting.com%2Fati_next_gen%2FReports%2FViewResults.aspx%3Fid%3D3&t=ATI+Testing+%7C+Nursing+Education+%7C+NCLEX+Exam+Review+%7C+TEAS+Testing&cts=1476869513840&vi=77b286c550b7906c5527c2d2d186c345&nc=false&u=128800851.77b286c550b7906c5527c2d2d186c345.1475839657904.1476857096816.1476866272246.21&b=128800851.7.1476866272246 HTTP/1.1
+Host: track.hubspot.com
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
+Accept: image/webp,image/*,*/*;q=0.8
+Referer: https://stage-www.atitesting.com/home.aspx
+Accept-Encoding: gzip, deflate, sdch, br
+Accept-Language: en-US,en;q=0.8
+Cookie: _ga=GA1.2.1796158817.1444285358; __hstc=20629287.40618a1fbc2d79a77d836c8c940f94ca.1444285413359.1444285413359.1444285413359.1; hsfirstvisit=http%3A%2F%2Fblog.hubspot.com%2Fmarketing%2Fcase-studies-template|https%3A%2F%2Fwww.google.co.in%2F|1444285413352; hubspotutk=40618a1fbc2d79a77d836c8c940f94ca
+

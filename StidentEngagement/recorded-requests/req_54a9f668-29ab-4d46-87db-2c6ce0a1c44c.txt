@@ -1,0 +1,12 @@
+GET /nr-974.min.js HTTP/1.1
+Host: js-agent.newrelic.com
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
+Accept: */*
+Referer: https://stage-www.atitesting.com/ati_next_gen/general/blank.aspx
+Accept-Encoding: gzip, deflate, sdch, br
+Accept-Language: en-US,en;q=0.8
+Cookie: ajs_anonymous_id=%22c61341e5-acdc-4f70-bec8-8c6d1533a6cd%22; ajs_user_id=1673407; ajs_group_id=391171; login_service_login_newrelic_com_tokens=%7B%22token%22%3A%22LaYl7lyCPZKL3EaiNdP1h1caePlCwsW1ZK3RspzMvI4iW3K2ooriH8La%2BJDa3ELizWS%2BMPEwlApg%2FFd1GfZ4j%2FwLRRy%2BZOoOpo%2Bl5WowXn8RrDux1QkZ66MlF6kYZACq2OfmXrCJIsJL%2FDKUctjbmPTaXFGlT8G2UL8fBKKkwSPOcbOlmNLAcvxtNTj7J%2BIqHpCOUZbbvIQzsxa8HLGS3kohcmYyygxlzJf5sxzcIfv9W56kDKZ1KOfRT1sC9fxf%2BOpZTY5mE%2FQECRNpU5VNfdw4330qSgFOSanY%2FMPYtshNeBMYQiCBW6OHA6YkskLWMlmYYUcPBQd%2FDOH6DcaGGg%3D%3D%22%2C%22refresh_token%22%3A%22eM3xnVqFLQMgEXgiQ74aC%2BhwD52vfjThFWobmC5I0Sh4Yi9Rq%2FuQTh%2F89e6N11%2Fa%2Fyya%2B9WJeNc32mc%2BZUoscNUrpHM2tmH8itN7X8nJl0%2FmMwQuwjzyTIDObUpu4tLbIT1NdG94qmr4%2FVhjo8trxJnR%2FXgMhbu7%2BPjbak6l2%2FaymvgBwiZpUWV0qlcpSXDkso1HEuPa7Uu2POgfZxjGGbpJgaClR07JbbwzRDacyX1HbrHsDyopppo4rY%2BHc2snSb0ouwyKquW%2BW%2F%2BmoarT4ZtcSHcSLh3onhJBvhceAS5sEoUiXxIu0ZHGHZaV3Bt6V53haGr4K4%2Fkwn8w4uKcjw%3D%3D%22%7D; optimizelyEndUserId=oeu1474958516019r0.9738113344530184; optimizelySegments=%7B%22171941824%22%3A%22gc%22%2C%22172184284%22%3A%22false%22%2C%22172242367%22%3A%22referral%22%2C%221025373943%22%3A%22none%22%7D; optimizelyBuckets=%7B%7D; _ga=GA1.2.58926283.1470637036
+If-None-Match: "634571f9ce8c2fed916ddca30914f48a"
+If-Modified-Since: Tue, 16 Aug 2016 00:15:00 GMT
+

@@ -1,0 +1,1 @@
+{"queryInfo":{"totalRows":"3"},"resultset":[["At Risk",0,79],["Needs Improvement",80,89],["On Track",90,99]],"metadata":[{"colIndex":0,"colType":"String","colName":"CategoryName"},{"colIndex":1,"colType":"Integer","colName":"ScoreLow"},{"colIndex":2,"colType":"Integer","colName":"ScoreHigh"}]}

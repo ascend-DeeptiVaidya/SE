@@ -1,0 +1,1437 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		  <title>Faculty Dashboard</title><!-- cdf-bootstrap-script-includes -->		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js/cdf-bootstrap-script-includes.js?v=4b882a2650d4c63fce58d7802308a537"></script>
+<!-- cdf-bootstrap-ie8script-includes --><!--[if lte IE 8]>
+		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js-legacy/lib/html5shiv/html5shiv.js?v=ee68da404bd6cbdab3adb3bf9219c207"></script>
+<![endif]-->
+<!-- cdf-bootstrap-style-includes -->		<link href="/pentaho/api/repos/pentaho-cdf/css/cdf-bootstrap-style-includes.css?v=8fff571c27b55af6ffd0805ebf6f22b6" rel="stylesheet" type="text/css" />
+<!-- bootstrap.css.map --><!-- cdf-bootstrap-ie8scriptAfterLink-includes --><!--[if lte IE 8]>
+		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js-legacy/lib/respond/respond.js?v=c03b5dcc8955c34fa65e59e7e7daacf0"></script>
+<![endif]-->
+<!-- cdf-cdf-dashboard-script-includes -->
+		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js-legacy/lib/daterangepicker/daterangepicker.jQuery.js?v=9f077778b7bab42c6f5821b32aa3fda8"></script>
+		<script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf/js-legacy/lib/sparkline/jquery.sparkline.js?v=c7638b825bc7deb1cf58c990825d35b2"></script>
+<!-- cdf-cdf-dashboard-style-includes -->
+		<link href="/pentaho/api/repos/pentaho-cdf/js-legacy/lib/daterangepicker/ui.daterangepicker.css?v=52fc5b767447f35ff9b1d41168c3efb2" rel="stylesheet" type="text/css" />
+  <script language="javascript" type="text/javascript" src="/pentaho/api/repos/pentaho-cdf-dd/js/CDF.js?v=e752b25601e29d1d54a2bc6cd388b9ef"></script>
+  <link href="/pentaho/api/repos/pentaho-cdf-dd/css/CDF-CSS.css?v=f2b55b007fca25c54861edcb0831b7bc" rel="stylesheet" type="text/css" />
+
+<script language="javascript" type="text/javascript">
+Dashboards.context = {
+  "locale": "en_US",
+  "params": {},
+  "path": "/public/ascend/dashboards/faculty.wcdf",
+  "queryData": {},
+  "roles": [
+    "Authenticated",
+    "Instructor",
+    "SSOUser"
+  ],
+  "serverLocalDate": 1465881833896,
+  "serverUTCDate": 1465896233896,
+  "sessionAttributes": {},
+  "sessionTimeout": 7200,
+  "user": "jcaluyajr"
+}
+
+</script>
+
+	</head>
+	<body>
+		<script language="javascript">
+			// Init jQuery i18n plugin
+			loadMessageBundles = function(lang) {
+				jQuery.i18n.properties({
+					name:'messages',
+					path:'/pentaho/api/repos/pentaho-cdf-dd/tmp/.cache/public/ascend/dashboards/',
+					mode:'both',
+					language:(lang == 'browser' ? jQuery.i18n.browserLang() : lang),
+					callback: function() {
+						
+					}
+				});
+				Dashboards.setI18nSupport('en-US', jQuery.i18n);
+			}
+
+			$(document).ready(function(){
+				// Initialize jquery.i18n plugin - load message files
+				var userLocale = 'en-US';
+				var formProvider = cdo.format.language(userLocale);
+				cdo.format.language(formProvider);
+				moment.locale(userLocale);
+				loadMessageBundles(userLocale);
+			});
+		</script>
+	
+		
+  <div class='container'>
+    <script language="javascript" type="text/javascript" src="/pentaho/plugin/pentaho-cdf-dd/api/resources/public/ascend/dashboards/../files/iframeResizer.contentWindow.js?v=1465896233786"></script>
+    
+    <script language="javascript" type="text/javascript" src="/pentaho/plugin/pentaho-cdf-dd/api/resources/public/ascend/dashboards/../files/ascend.js?v=1465896233786"></script>
+    
+    <link rel="stylesheet" type="text/css" href="/pentaho/plugin/pentaho-cdf-dd/api/resources/public/ascend/dashboards/../files/ascend.css?v=1465896233786" />
+    
+    <div id='mainContent'  class='mainContainer row clearfix ' >
+      <div class='col-xs-12 last'><div id='mainColumn' >
+        <div id='headerRow'  class='WDheader row clearfix ' >
+        </div>
+        <div id='nameRoleObj'  class='nameRole row clearfix ' >
+        </div>
+        <div id='schoolNameRow'  class='row clearfix ' >
+          <div class='col-xs-9'><div id='schoolNameObj'  class='schoolName ' >
+          </div></div>
+          <div class='col-xs-2'><div id='feedbackButtonObj'  class='WDhidden ' >
+          </div></div>
+          <div class='col-xs-1 last'><div id='printButtonObj'  class='print ' >
+          </div></div>
+        </div>
+        <div id='headerRow'  class='WDheader topSelector row clearfix ' >
+          <div class='col-xs-2'><div id='gradText'  class='headerText ' >
+            Graduation Year 
+            
+          </div></div>
+          <div class='col-xs-3'><div id='gradSelectorObj'  class='headerSelector gradSelector ' >
+          </div></div>
+          <div class='col-xs-1'><div id='classText'  class='headerText ' >
+            Class 
+            
+          </div></div>
+          <div class='col-xs-3'><div id='classSelectorObj'  class='headerSelector classSelector ' >
+          </div></div>
+          <div class='col-xs-3 last'><div id='studentSearchObj'  class='studentButton ' >
+          </div></div>
+        </div>
+        <div id='facultyRow'  class='row clearfix ' >
+          <div class='col-xs-7'><div id='facultyColumn' >
+            <div id='facultyTitleRow'  class='row clearfix ' >
+              <div class='col-xs-5'><div id='averageTitle'  class='facultyTitle facultyText ' >
+              </div></div>
+              <div class='col-xs-7 last'><div id='studentStatusColumn'  class='studentStatus ' >
+              </div></div>
+            </div>
+            <div id='detailsRow'  class='row clearfix ' >
+            </div>
+          </div></div>
+          <div class='col-xs-5 last'><div id='studentsColumn'  class='studentsColumn ' >
+            <div id='studentsTitleRow'  class='studentsTitleRow row clearfix ' >
+              <div class='col-xs-6'><div id='studentsTitle'  class='facultyTitle ' >
+                Students at Risk 
+                
+              </div></div>
+              <div class='col-xs-1 last'><div id='studentsPopupObj'  class='titlePopup studentsPopup ' >
+              </div></div>
+            </div>
+            <div id='studentsTable'  class='row clearfix ' >
+              <div class='col-xs-12 last'><div id='studentsTableObj'  class='studentsTable ' >
+              </div></div>
+            </div>
+          </div></div>
+        </div>
+        <div id='footer'  class='row clearfix ' >
+          <div class='col-xs-12 last'><div id='footerObj'  class='footer ' >
+          </div></div>
+        </div>
+      </div></div>
+    </div>
+    <div id='hiddenElements'  class='WDhidden row clearfix ' >
+      <div class='col-xs-6'><div id='titlePopupColumnObj'  class='titlePopup ' >
+        <div id='titlePopupRowTitle'  class='popupTitle row clearfix ' >
+          Average Probability of Passing NCLEX® 
+          
+        </div>
+        <div id='titlePopupRow1Text'  class='popupText row clearfix ' >
+          Based on the current progress and performance on proctored assessments for students in this class, ATI has predicted the class's average probability of passing the NCLEX® upon completion of the nursing program. 
+          
+        </div>
+        <div id='titlePopupRow2Text'  class='popupText topMargin row clearfix ' >
+          The predicted pass rate assumes the remaining assessment scores will be similar to the current performance. 
+          
+        </div>
+        <div id='titlePopupRow3Text'  class='popupText topMargin row clearfix ' >
+          The predicted pass rate will become more accurate as more proctored assessments are completed. 
+          
+        </div>
+        <div id='titlePopupRow4Text'  class='popupText topMargin row clearfix ' >
+          Please note that results include only active cohorts for which Pulse scores are available. 
+          
+        </div>
+      </div></div>
+      <div class='col-xs-6'><div id='studentsTitlePopupObj'  class='titlePopup ' >
+        <div id='studentsPopupRowTitle'  class='popupTitle row clearfix ' >
+          Students at Risk 
+          
+        </div>
+        <div id='studentsPopupRowText'  class='popupText row clearfix ' >
+          Students identified as "At Risk" have a less than 79% probability of passing the NCLEX® 
+          
+        </div>
+      </div></div>
+      <div class='col-xs-12'><div id='studentSearchPopupObj'  class='studentPopup ' >
+        <div id='studentSearchTitleRow'  class='popupTitle row clearfix ' >
+          <span  class='studentsTitle studentsTitle ' >Student Search 
+          </span>
+        </div>
+        <div id='studentSearchDataRow'  class='popupText row clearfix ' >
+          <div class='col-xs-12 last'><div id='studentSearchDataColumn' >
+            <div id='studentSearchSelectorRow'  class='row clearfix ' >
+              <div class='col-xs-1'><div id='classLabel'  class='popupLabel ' >
+                Class 
+                
+              </div></div>
+              <div class='col-xs-4'><div id='studentSearchSelectorObj'  class='classesSelector ' >
+              </div></div>
+              <div class='col-xs-2'><div id='studentLabel'  class='popupLabel padding0 ' >
+                Student Name 
+                
+              </div></div>
+              <div class='col-xs-3'><div id='studentSearchInputObj'  class='studentSearch ' >
+              </div></div>
+              <div class='col-xs-2 last'><div id='searchButtonObj' >
+              </div></div>
+            </div>
+            <div id='studentSearchTableRow'  class='row clearfix ' >
+              <div class='col-xs-12 last'><div id='studentSearchTableObj'  class='studentsTable studentsSearchTable ' >
+              </div></div>
+            </div>
+          </div></div>
+        </div>
+      </div></div>
+      <div class='col-xs-6'><div id='commentsColumn'  class='feedback ' >
+        <div id='titleRow'  class='studentsTitle row clearfix ' >
+          <div class='col-xs-10'><div id='feedbackTitle' >
+            Feedback 
+            
+          </div></div>
+          <div class='col-xs-2 last'><div id='saveButtonObj' >
+          </div></div>
+        </div>
+        <div id='feedbackRow'  class='row clearfix ' >
+          <div class='col-xs-12 last'><div id='feedbackObj'  class='feedback ' >
+          </div></div>
+        </div>
+      </div></div>
+      <div class='col-xs-12'><div id='emptyPopupObj' >
+        Please insert feedback. 
+        
+      </div></div>
+      <div class='col-xs-12'><div id='sendOkPopupObj' >
+        Thank you for your feedback. 
+        
+      </div></div>
+      <div class='col-xs-12'><div id='sendNotOkPopupObj' >
+        Please send again your feedback. 
+        
+      </div></div>
+      <div class='col-xs-2'><div id='termsPopupObj'  class='titlePopup ' >
+        <div id='termsTitle'  class='popupTitle row clearfix ' >
+          ATI’S PULSE PRODUCT 
+          
+        </div>
+        <div id='termsText'  class='popupText row clearfix ' >
+        </div>
+      </div></div>
+      <div class='col-xs-1 last'><div id='titlePopupObj'  class='titlePopup averageTitle ' >
+      </div></div>
+    </div>
+    <div id='classesRow'  class='WDhidden row clearfix ' >
+      <div class='col-xs-12 last'><div id='classesTemplateObj' >
+        <div id='classesTitleRow'  class='classesTitle row clearfix ' >
+          <div class='col-xs-12 last'><div id='classesTitleObj' >
+          </div></div>
+        </div>
+        <div id='classesDetails'  class='classesDetail row clearfix ' >
+          <div class='col-xs-1'><div id='percentageColumnObj'  class='classPercentage ' >
+          </div></div>
+          <div class='col-xs-2'><div id='detailColumnObj'  class='detailButton ' >
+          </div></div>
+          <div class='col-xs-2'><div id='studentsColumnObj'  class='studentsCount ' >
+          </div></div>
+          <div class='col-xs-5'><div id='studentsBarObj'  class='studentsBar ' >
+          </div></div>
+          <div class='col-xs-2 last'><div id='studentsButtonObj'  class='studentButton ' >
+          </div></div>
+        </div>
+      </div></div>
+    </div>
+    <div id='Version1.01'  class='WDhidden row clearfix ' >
+    </div>
+  </div>
+<script language="javascript" type="text/javascript">
+wcdfSettings = {
+  "title": "Faculty Dashboard",
+  "author": "",
+  "description": "Faculty Dashboard",
+  "style": "Clean",
+  "widgetName": "",
+  "widget": false,
+  "rendererType": "bootstrap",
+  "require": false,
+  "widgetParameters": []
+};
+
+Dashboards.addParameter("todayParam", "2016-06-14");
+
+Dashboards.addParameter("studentExistParam", "False");
+Dashboards.setParameterViewMode("studentExistParam", "unused");
+
+Dashboards.addParameter("nameParam", "");
+Dashboards.setParameterViewMode("nameParam", "unused");
+
+Dashboards.addParameter("roleParam", "");
+Dashboards.setParameterViewMode("roleParam", "unused");
+
+Dashboards.addParameter("startDateParam", "");
+Dashboards.setParameterViewMode("startDateParam", "unused");
+
+Dashboards.addParameter("endDateParam", "");
+Dashboards.setParameterViewMode("endDateParam", "unused");
+
+Dashboards.addParameter("institutionIDParam", "");
+Dashboards.setParameterViewMode("institutionIDParam", "unused");
+
+Dashboards.addParameter("institutionNameParam", "");
+Dashboards.setParameterViewMode("institutionNameParam", "unused");
+
+Dashboards.addParameter("gradYearParam", "");
+Dashboards.setParameterViewMode("gradYearParam", "unused");
+
+Dashboards.addParameter("currentGradYearParam", "");
+Dashboards.setParameterViewMode("currentGradYearParam", "unused");
+
+Dashboards.addParameter("classIDParam", "");
+Dashboards.setParameterViewMode("classIDParam", "unused");
+
+Dashboards.addParameter("classID2Param", "");
+Dashboards.setParameterViewMode("classID2Param", "unused");
+
+Dashboards.addParameter("studentSearchParam", "");
+Dashboards.setParameterViewMode("studentSearchParam", "unused");
+
+Dashboards.addParameter("studentStatusParam", "");
+Dashboards.setParameterViewMode("studentStatusParam", "unused");
+
+Dashboards.addParameter("allClassesIDParam", "");
+Dashboards.setParameterViewMode("allClassesIDParam", "unused");
+
+Dashboards.addParameter("allClassesParam", "");
+Dashboards.setParameterViewMode("allClassesParam", "unused");
+
+Dashboards.addParameter("classesParam", "");
+Dashboards.setParameterViewMode("classesParam", "unused");
+
+Dashboards.addParameter("programTypeParam", "");
+Dashboards.setParameterViewMode("programTypeParam", "unused");
+
+Dashboards.addParameter("feedbackParam", "");
+Dashboards.setParameterViewMode("feedbackParam", "unused");
+
+Dashboards.addParameter("userParam", "");
+Dashboards.setParameterViewMode("userParam", "unused");
+
+Dashboards.addParameter("dateParam", "");
+Dashboards.setParameterViewMode("dateParam", "unused");
+
+Dashboards.addParameter("browserParam", "");
+Dashboards.setParameterViewMode("browserParam", "unused");
+
+Dashboards.addParameter("versionParam", "");
+Dashboards.setParameterViewMode("versionParam", "unused");
+
+Dashboards.addParameter("commentParam", "");
+Dashboards.setParameterViewMode("commentParam", "unused");
+
+Dashboards.addParameter("dashboardParam", "Faculty Dashboard");
+Dashboards.setParameterViewMode("dashboardParam", "unused");
+
+var render_dateRange_dummy = {
+  type: "DateRangeInput",
+  name: "render_dateRange_dummy",
+  priority: 5,
+  parameter: [],
+  listeners: [],
+  singleInput: true,
+  inputSeparator: ">",
+  canClickOutsidePopup: false,
+  earliestDate: "-1years",
+  latestDate: "+1years",
+  leftOffset: 0,
+  topOffset: 15,
+  executeAtStart: false
+};
+
+var render_feedbackText = {
+  type: "textInput",
+  name: "render_feedbackText",
+  priority: 5,
+  parameter: "feedbackParam",
+  listeners: [],
+  htmlObject: "feedbackObj",
+  executeAtStart: true
+};
+
+var render_gradSelector = {
+  type: "Select",
+  name: "render_gradSelector",
+  priority: 1,
+  parameter: "gradYearParam",
+  htmlObject: "gradSelectorObj",
+  listeners: [],
+  parameters: [["institutionIDParam","institutionIDParam"]],
+  valuesArray: [],
+  valueAsId: false,
+  externalPlugin: "chosen",
+  executeAtStart: true,
+  postExecution: function f(){
+    var param = Dashboards.getParameterValue('gradYearParam');
+    
+    if ( param == "0"){
+        Dashboards.setParameter('currentGradYearParam', 1);
+        Dashboards.setParameter('startDateParam', todayParam);
+        var end = new Date(todayParam).setYear(new Date(todayParam).getFullYear() + 2);
+        Dashboards.fireChange('endDateParam', $.datepicker.formatDate('yy-mm-dd', new Date(end)));
+    }else{
+        Dashboards.setParameter('currentGradYearParam', -1);
+        start = new Date(todayParam).setYear(param);
+        start = new Date(start).setMonth('0');
+        start = new Date(start).setDate('1');
+        Dashboards.setParameter( 'startDateParam', $.datepicker.formatDate('yy-mm-dd', new Date(start)));
+        end = new Date(todayParam).setYear(param);
+        end = new Date(end).setMonth('11');
+        end = new Date(end).setDate('31');
+        Dashboards.fireChange( 'endDateParam', $.datepicker.formatDate('yy-mm-dd', new Date(end)));
+    }
+},
+  postChange: function f(){
+    var param = Dashboards.getParameterValue('gradYearParam');
+    
+    if ( param == "0"){
+        Dashboards.setParameter('currentGradYearParam', 1);
+        Dashboards.setParameter( 'startDateParam', todayParam);
+        var end = new Date(todayParam).setYear(new Date(todayParam).getFullYear() + 2);
+        Dashboards.fireChange('endDateParam', $.datepicker.formatDate('yy-mm-dd', new Date(end)));
+    }else{
+        Dashboards.setParameter('currentGradYearParam', -1);
+        start = new Date(todayParam).setYear(param);
+        start = new Date(start).setMonth('0');
+        start = new Date(start).setDate('1');
+        Dashboards.setParameter( 'startDateParam', $.datepicker.formatDate('yy-mm-dd', new Date(start)));
+        end = new Date(todayParam).setYear(param);
+        end = new Date(end).setMonth('11');
+        end = new Date(end).setDate('31');
+        Dashboards.fireChange( 'endDateParam', $.datepicker.formatDate('yy-mm-dd', new Date(end)));
+    }
+},
+  extraOptions: [],
+  queryDefinition:  {
+    dataAccessId: "gradYearSelectorQuery",
+    path: "/public/ascend/dashboards/faculty.cda"
+  }
+};
+
+var render_classSelector = {
+  type: "Select",
+  name: "render_classSelector",
+  priority: 2,
+  parameter: "classIDParam",
+  htmlObject: "classSelectorObj",
+  listeners: ['startDateParam','endDateParam'],
+  parameters: [["institutionIDParam","institutionIDParam"],["gradYearParam","gradYearParam"],["currentGradYearParam","currentGradYearParam"]],
+  valuesArray: [],
+  valueAsId: false,
+  externalPlugin: "chosen",
+  executeAtStart: true,
+  extraOptions: [],
+  queryDefinition:  {
+    dataAccessId: "classSelectorQuery",
+    path: "/public/ascend/dashboards/faculty.cda"
+  }
+};
+
+var render_class2Selector = {
+  type: "Select",
+  name: "render_class2Selector",
+  priority: 2,
+  parameter: "classID2Param",
+  htmlObject: "studentSearchSelectorObj",
+  listeners: ['startDateParam','endDateParam'],
+  parameters: [["institutionIDParam","institutionIDParam"],["gradYearParam","gradYearParam"],["currentGradYearParam","currentGradYearParam"]],
+  valuesArray: [],
+  valueAsId: false,
+  externalPlugin: "chosen",
+  executeAtStart: true,
+  extraOptions: [],
+  queryDefinition:  {
+    dataAccessId: "class2SelectorQuery",
+    path: "/public/ascend/dashboards/faculty.cda"
+  }
+};
+
+var render_studentSearchTextComponent = {
+  type: "textInput",
+  name: "render_studentSearchTextComponent",
+  priority: 5,
+  parameter: "studentSearchParam",
+  listeners: [],
+  htmlObject: "studentSearchInputObj",
+  executeAtStart: true
+};
+
+var render_nameSessionVarQueryComponent = {
+  type: "Query",
+  name: "render_nameSessionVarQueryComponent",
+  priority: 0,
+  parameters: [],
+  executeAtStart: true,
+  listeners: [],
+  asynchronousMode: true,
+  postFetch: function f(data){
+    var result = data.resultset;
+    
+    Dashboards.setParameter("institutionIDParam", result[0][1]);
+    Dashboards.setParameter("roleParam", result[1][1]);
+    Dashboards.setParameter("userIDParam", result[3][1]);
+        
+    return data;
+} ,
+  queryDefinition:  {
+    dataAccessId: "nameSessionVariables",
+    path: "/public/ascend/dashboards/faculty.cda"
+  }
+};
+
+var render_studentNameQueryComponent = {
+  type: "Query",
+  name: "render_studentNameQueryComponent",
+  priority: 1,
+  parameters: [],
+  executeAtStart: true,
+  listeners: [],
+  asynchronousMode: true,
+  postFetch: function f(data){
+    var result = data.resultset;
+    
+    Dashboards.setParameter("nameParam", result[0][0]);
+        
+    return data;
+} ,
+  queryDefinition:  {
+    dataAccessId: "studentNameQuery",
+    path: "/public/ascend/dashboards/faculty.cda"
+  }
+};
+
+var render_nameRoleHeader = {
+  type: "textComponent",
+  name: "render_nameRoleHeader",
+  priority: 2,
+  expression: function f(){
+    var ph = $('#nameRoleObj');
+    
+    var $welcome = $("<div class='welcomeRole'>Welcome</div>").appendTo(ph);
+    var $name =$("<div class='textRole'></div>").appendTo(ph);
+    $name.text ( nameParam.split(',').slice(-1) + (" ") + nameParam.split(',').slice(0,-1) + (" (") + roleParam + ("). "));
+    var $text =$("<div class='textRole1'></div>").appendTo(ph);
+    if ( nameParam.split(',').length == 1 ){
+        $text.text ("If you are not " + nameParam + (", click"));
+    }else{
+        $text.text ("If you are not " + nameParam.split(',').slice(-1) + " " + nameParam.split(',').slice(0,-1) + (", click"));
+    }
+    
+    var MyEnv = ascend.whichEnvironmentText;
+    
+   /* var $here =$("<div> <a class='hereRole' href='http://www.atitesting.com/ati_next_gen/Logout.aspx'> here </a> </div>").appendTo(ph);  */
+     var $here =$("<div> <a class='hereRole' href='https://" + MyEnv + ".atitesting.com/pentaho/Logout'> here </a> </div>").appendTo(ph);
+        
+/*    var $here =$("<div> <a class='hereRole' href='"+webAppPath+"/Logout''> here </a> </div>").appendTo(ph);*/
+} ,
+  htmlObject: "nameRoleObj",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_instNameQueryComponent = {
+  type: "Query",
+  name: "render_instNameQueryComponent",
+  priority: 1,
+  parameters: [["institutionIDParam","institutionIDParam"]],
+  resultvar: "institutionNameParam",
+  executeAtStart: true,
+  listeners: [],
+  asynchronousMode: true,
+  queryDefinition:  {
+    dataAccessId: "institutionNameQuery",
+    path: "/public/ascend/dashboards/faculty.cda"
+  }
+};
+
+var render_schoolNameTextComponent = {
+  type: "textComponent",
+  name: "render_schoolNameTextComponent",
+  priority: 2,
+  expression: function f(){
+    return Dashboards.getParameterValue("institutionNameParam").toString();
+},
+  htmlObject: "schoolNameObj",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_studentStatusQueryComponent = {
+  type: "Query",
+  name: "render_studentStatusQueryComponent",
+  priority: 1,
+  parameters: [],
+  resultvar: "studentStatusParam",
+  executeAtStart: true,
+  listeners: [],
+  asynchronousMode: true,
+  queryDefinition:  {
+    dataAccessId: "studentStatusQuery",
+    path: "/public/ascend/dashboards/faculty.cda"
+  }
+};
+
+var render_studentsFreeformComponent = {
+  type: "freeform",
+  name: "render_studentsFreeformComponent",
+  priority: 2,
+  parameters: [],
+  manageCallee: true,
+  executeAtStart: true,
+  customfunction: function f(){
+    
+    var ph = $('.studentStatus');
+    
+    var $topRow = $("<div class='studentsText'># of students</div>").appendTo(ph);
+    
+    var $middleRow = $("<div class='middleRow'>&nbsp;</div>").appendTo(ph);
+    var $prof = $("<div class='prof'>&nbsp;</div>").appendTo($middleRow);
+    var $profText = $("<div class='profText'>&nbsp;</div>").appendTo($middleRow);
+    $profText.text(studentStatusParam[2][0]);
+    
+    var $imp = $("<div class='imp'>&nbsp;</div>").appendTo($middleRow);
+    var $impText = $("<div class='impText'>&nbsp;</div>").appendTo($middleRow);
+    $impText.text(studentStatusParam[1][0]);
+    
+    var $risk = $("<div class='risk'>&nbsp;</div>").appendTo($middleRow);
+    var $riskText = $("<div class='riskText'>At Risk</div>").appendTo($middleRow);
+    $riskText.text(studentStatusParam[0][0]);
+        
+    var $bottomRow = $("<div class='bottomRow'>&nbsp;</div>").appendTo(ph);
+    var $profPercent = $("<div class='profPercent'>&nbps;</div>").appendTo($bottomRow);
+    $profPercent.text(studentStatusParam[2][1] + '% - ' + studentStatusParam[2][2] + '%');
+    var $impPercent = $("<div class='impPercent'>&nbps;</div>").appendTo($bottomRow);
+    $impPercent.text(studentStatusParam[1][1] + '% - ' + studentStatusParam[1][2] + '%');
+    var $riskPercent = $("<div class='riskPercent'> < 79% </div>").appendTo($bottomRow);
+    $riskPercent.text('< ' + studentStatusParam[0][2] + '%');
+    
+},
+  listeners: [],
+  queryDefinition:  {
+
+  }
+};
+
+var render_feedbackPopupButton = {
+  type: "buttonComponent",
+  name: "render_feedbackPopupButton",
+  priority: 5,
+  label: "Feedback",
+  htmlObject: "feedbackButtonObj",
+  buttonStyle: "classic",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [],
+  expression: function f(){
+    render_feedbackPopup.popup($('.WDheader'));
+},
+  actionDefinition:  {
+
+  }
+};
+
+var render_feedbackPopup = {
+  type: "popup",
+  name: "render_feedbackPopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "commentsColumn",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_saveButtonComponent = {
+  type: "buttonComponent",
+  name: "render_saveButtonComponent",
+  priority: 5,
+  label: "Save",
+  htmlObject: "saveButtonObj",
+  buttonStyle: "classic",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [["userParam","userParam"],["dateParam","dateParam"],["browserParam","browserParam"],["versionParam","versionParam"],["commentParam","commentParam"],["dashboardParam","dashboardParam"]],
+  expression: function f(){
+    if ( feedbackParam === "" ){
+        render_emptyFeedbackPopup.popup($('.feedback input'));
+    }else{
+        Dashboards.setParameter('userParam', Dashboards.context.user );
+        Dashboards.setParameter('dateParam', new Date().toString('yyyy-MM-dd HH:mm:ss.sss') );
+        Dashboards.setParameter('browserParam', navigator.sayswho.split(' ')[0] );
+        Dashboards.setParameter('versionParam', navigator.sayswho.split(' ')[1] );
+        Dashboards.setParameter('commentParam', Dashboards.getParameterValue('feedbackParam') );
+        render_sendOkPopup.popup($('.feedback input'));
+    }
+    feedbackParam = "";
+    render_feedbackText.update();
+    //this.block();
+}
+,
+  successCallback: function() { return " "; },
+  actionDefinition:  {
+    dataAccessId: "sendCommentQuery",
+    path: "/public/ascend/dashboards/faculty.cda"
+  }
+};
+
+var render_emptyFeedbackPopup = {
+  type: "popup",
+  name: "render_emptyFeedbackPopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "emptyPopupObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_sendOkPopup = {
+  type: "popup",
+  name: "render_sendOkPopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "sendOkPopupObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_sendNotOkPopup = {
+  type: "popup",
+  name: "render_sendNotOkPopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "sendNotOkPopupObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_printButton = {
+  type: "buttonComponent",
+  name: "render_printButton",
+  priority: 5,
+  label: "Print",
+  htmlObject: "printButtonObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [],
+  expression: function f(){
+    window.print();    
+},
+  actionDefinition:  {
+
+  }
+};
+
+var render_averageTitleQueryComponent = {
+  type: "Query",
+  name: "render_averageTitleQueryComponent",
+  priority: 0,
+  parameters: [],
+  resultvar: "programTypeParam",
+  executeAtStart: true,
+  listeners: [],
+  asynchronousMode: true,
+  queryDefinition:  {
+    dataAccessId: "programTypeQuery",
+    path: "/public/ascend/dashboards/faculty.cda"
+  }
+};
+
+var render_averageTitle = {
+  type: "textComponent",
+  name: "render_averageTitle",
+  priority: 5,
+  expression: function f(){
+    if (programTypeParam ==3){
+        type = "-PN";
+    }else{
+        type = "-RN";
+    }
+    return "Pulse: Probability of Passing NCLEX" + type + "®"; 
+} ,
+  htmlObject: "averageTitle",
+  listeners: [],
+  executeAtStart: true
+};
+
+var render_titlePopupButton = {
+  type: "buttonComponent",
+  name: "render_titlePopupButton",
+  priority: 5,
+  label: "i",
+  htmlObject: "titlePopupObj",
+  buttonStyle: "classic",
+  executeAtStart: true,
+  listeners: [],
+  postExecution: function f(){
+    var a = $('#averageTitle');
+        $('#titlePopupObj').appendTo(a);
+},
+  actionParameters: [],
+  expression: function f(){
+    render_titlePopup.popup($('#titlePopupObj'));
+},
+  actionDefinition:  {
+
+  }
+};
+
+var render_titlePopup = {
+  type: "popup",
+  name: "render_titlePopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "titlePopupColumnObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_studentsSearchPopupButton = {
+  type: "buttonComponent",
+  name: "render_studentsSearchPopupButton",
+  priority: 5,
+  label: "STUDENT SEARCH",
+  htmlObject: "studentSearchObj",
+  buttonStyle: "classic",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [],
+  expression: function f(){
+    Dashboards.setParameter('studentSearchParam','');
+    render_studentSearchTextComponent.update();
+    $('#studentSearchTableObj').addClass('WDhidden');
+    render_studentSearchPopup.popup($('.WDheader'));
+} ,
+  actionDefinition:  {
+
+  }
+};
+
+var render_studentSearchPopup = {
+  type: "popup",
+  name: "render_studentSearchPopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "studentSearchPopupObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_allClassesIDQueryComponent = {
+  type: "Query",
+  name: "render_allClassesIDQueryComponent",
+  priority: 3,
+  parameters: [["institutionIDParam","institutionIDParam"],["gradYearParam","gradYearParam"],["currentGradYearParam","currentGradYearParam"],["classIDParam","classIDParam"]],
+  resultvar: "allClassesIDParam",
+  executeAtStart: true,
+  listeners: ['startDateParam','endDateParam'],
+  asynchronousMode: true,
+  queryDefinition:  {
+    dataAccessId: "allClassesIDQuery",
+    path: "/public/ascend/dashboards/faculty.cda"
+  }
+};
+
+var render_allClassesQueryComponent = {
+  type: "Query",
+  name: "render_allClassesQueryComponent",
+  priority: 3,
+  parameters: [["institutionIDParam","institutionIDParam"],["gradYearParam","gradYearParam"],["currentGradYearParam","currentGradYearParam"],["classIDParam","classIDParam"]],
+  resultvar: "allClassesParam",
+  executeAtStart: true,
+  listeners: ['startDateParam','endDateParam','classIDParam'],
+  asynchronousMode: true,
+  preExecution: function f(){
+    $('#detailsRow').removeClass('errorMessage');
+    $('#detailsRow').empty();
+},
+  postFetch: function f(data){
+    var result = data.resultset,
+        length = result.length;
+    if ( length === 0 ){
+        $('#detailsRow').addClass('errorMessage');
+        $('#detailsRow').text('Pulse scores not yet available');
+    }
+    data.resultset = result;
+    return data;
+} ,
+  queryDefinition:  {
+    dataAccessId: "allClassesQuery",
+    path: "/public/ascend/dashboards/faculty.cda"
+  }
+};
+
+var render_classTitleComponent = {
+  type: "textComponent",
+  name: "render_classTitleComponent",
+  priority: 5,
+  expression: function f(){
+    var add = this.name.slice(26,this.name.length);
+    var param = 'classesParam' + add;
+    return "Class: " + Dashboards.getParameterValue(param)[0];
+},
+  htmlObject: "classesTitleObj",
+  listeners: [],
+  executeAtStart: false
+};
+
+var render_classPercentComponent = {
+  type: "textComponent",
+  name: "render_classPercentComponent",
+  priority: 5,
+  expression: function f(){
+    var add = this.name.slice(28,this.name.length);
+    var param = 'classesParam' + add;
+    return Dashboards.getParameterValue(param)[1].toFixed() + "%";
+},
+  htmlObject: "percentageColumnObj",
+  listeners: [],
+  executeAtStart: false
+};
+
+var render_detailsButton = {
+  type: "buttonComponent",
+  name: "render_detailsButton",
+  priority: 5,
+  label: "DETAILS",
+  htmlObject: "detailColumnObj",
+  buttonStyle: "classic",
+  executeAtStart: false,
+  listeners: [],
+  actionParameters: [],
+  expression: function f() {
+    var institutionID = Dashboards.getParameterValue('institutionIDParam');
+    var gradYear = Dashboards.getParameterValue('gradYearParam');
+    var currentGradYear = Dashboards.getParameterValue('currentGradYearParam');
+    var add = this.htmlObject.slice(15,this.htmlObject.length);
+    var param = "classesParam" + add;
+    var className = Dashboards.getParameterValue(param)[0];
+    var length = allClassesIDParam.length;
+    var classID;
+    
+    
+    for ( var i = 0; i < length; i++ ){
+        if ( className == allClassesIDParam[i][1] ){
+            classID = allClassesIDParam[i][0];
+        }
+    }
+    
+    var bookmark = '{"impl"%3A"client"%2C"params"%3A {"classIDParam"%3A+' + '"' + classID + '"' + '+%2C"institutionIDParam"%3A+' + '"' + institutionID + '"' + '+%2C"gradYearParam"%3A+' + '"' + gradYear + '"' + '+%2C"currentGradYearParam"%3A+' + '"' + currentGradYear + '"' + '}}';
+    window.open(webAppPath+"/api/repos/:public:ascend:dashboards:faculty_class_details.wcdf/generatedContent?" + '&bookmarkState=' + bookmark, "_self");
+    
+}
+ ,
+  actionDefinition:  {
+
+  }
+};
+
+var render_studentsComponent = {
+  type: "textComponent",
+  name: "render_studentsComponent",
+  priority: 5,
+  expression: function f(){
+    var add = this.name.slice(24,this.name.length);
+    var param = 'classesParam' + add;
+    return Dashboards.getParameterValue(param)[2] + " Students >";
+},
+  htmlObject: "studentsColumnObj",
+  listeners: [],
+  executeAtStart: false
+};
+
+var render_studentsBarFreeformComponent = {
+  type: "freeform",
+  name: "render_studentsBarFreeformComponent",
+  priority: 5,
+  parameters: [],
+  manageCallee: true,
+  executeAtStart: false,
+  customfunction: function f(){
+    var add = this.name.slice(35,this.name.length);
+    var param = 'classesParam' + add;
+    
+    var totalStudents = Dashboards.getParameterValue(param)[2];
+    var profValue = Dashboards.getParameterValue(param)[3];
+    var impValue = Dashboards.getParameterValue(param)[4];
+    var riskValue = Dashboards.getParameterValue(param)[5];
+    var totalStudentsCategory = profValue + impValue + riskValue;
+    
+    var ph = $('#studentsBarObj' + add);
+    
+    var $externalBarHolder = $("<div class='externalBar'>&nbsp;</div>").appendTo(ph);
+    var $profBar = $("<div class='profBar'>&nbsp;</div>").appendTo($externalBarHolder);
+    var $impBar = $("<div class='impBar'>&nbsp;</div>").appendTo($externalBarHolder);
+    var $riskBar = $("<div class='riskBar'>&nbsp;</div>").appendTo($externalBarHolder);
+    
+    if ( profValue !== 0 ) $profBar.text(profValue);
+    if ( impValue !== 0 ) $impBar.text(impValue);
+    if ( riskValue !== 0 ) $riskBar.text(riskValue);
+    
+    var maxWidth = $externalBarHolder.width();
+    if ( profValue !== 0 ) {
+        $profBar.width(Math.floor(99 / totalStudentsCategory * profValue - 1) + '%');
+    }else{
+        $profBar.width(0);
+    }
+    if ( impValue !== 0 ) {
+        $impBar.width(Math.floor(99 / totalStudentsCategory * impValue - 1) + '%');
+    }else{
+        $impBar.width(0);
+    }
+    if ( riskValue !== 0 ) {
+        $riskBar.width(Math.floor(99 / totalStudentsCategory * riskValue - 1) + '%');
+    }else{
+        $riskBar.width(0);
+    }
+    
+    //Bind the click function to each of the students risk category bar
+    var statusParam;
+    $profBar.click(function f(){
+        var institutionID = Dashboards.getParameterValue('institutionIDParam');
+        var name = $(this).parents('.studentsBar').attr('id');
+        var add = name.slice(14,name.length);
+        var param = "classesParam" + add;
+        var className = Dashboards.getParameterValue(param)[0];
+        var length = allClassesIDParam.length;
+        var classID;
+        
+        for ( var i = 0; i < length; i++ ){
+            if ( className == allClassesIDParam[i][1] ){
+                classID = allClassesIDParam[i][0];
+            }
+        }
+        statusParam = "On Track";
+        
+        var bookmark = '{"impl"%3A"client"%2C"params"%3A {"classIDParam"%3A+' + '"' + classID + '"' + '+%2C"institutionIDParam"%3A+' + '"' + institutionID + '"' + '+%2C"contentAreaParam"%3A+' + '"' + statusParam + '"'  + '+%2C"gradYearParam"%3A+' + '"' + gradYearParam + '"' + '+%2C"currentGradYearParam"%3A+' + '"' + currentGradYearParam + '"' + '}}';
+        window.open(webAppPath+"/api/repos/:public:ascend:dashboards:faculty_students.wcdf/generatedContent?" + '&bookmarkState=' + bookmark, "_self");
+    });
+    
+    $impBar.click(function f(){
+        var institutionID = Dashboards.getParameterValue('institutionIDParam');
+        var name = $(this).parents('.studentsBar').attr('id');
+        var add = name.slice(14,name.length);
+        var param = "classesParam" + add;
+        var className = Dashboards.getParameterValue(param)[0];
+        var length = allClassesIDParam.length;
+        var classID;
+        
+        for ( var i = 0; i < length; i++ ){
+            if ( className == allClassesIDParam[i][1] ){
+                classID = allClassesIDParam[i][0];
+            }
+        }
+        statusParam = "Needs Improvement";
+        
+            var bookmark = '{"impl"%3A"client"%2C"params"%3A {"classIDParam"%3A+' + '"' + classID + '"' + '+%2C"institutionIDParam"%3A+' + '"' + institutionID + '"' + '+%2C"contentAreaParam"%3A+' + '"' + statusParam + '"'  + '+%2C"gradYearParam"%3A+' + '"' + gradYearParam + '"' + '+%2C"currentGradYearParam"%3A+' + '"' + currentGradYearParam + '"' + '}}';
+        window.open(webAppPath+"/api/repos/:public:ascend:dashboards:faculty_students.wcdf/generatedContent?" + '&bookmarkState=' + bookmark, "_self");
+    });
+    
+    $riskBar.click(function f(){
+        var institutionID = Dashboards.getParameterValue('institutionIDParam');
+        var name = $(this).parents('.studentsBar').attr('id');
+        var add = name.slice(14,name.length);
+        var param = "classesParam" + add;
+        var className = Dashboards.getParameterValue(param)[0];
+        var length = allClassesIDParam.length;
+        var classID;
+        
+        for ( var i = 0; i < length; i++ ){
+            if ( className == allClassesIDParam[i][1] ){
+                classID = allClassesIDParam[i][0];
+            }
+        }
+        statusParam = "At Risk";
+        
+            var bookmark = '{"impl"%3A"client"%2C"params"%3A {"classIDParam"%3A+' + '"' + classID + '"' + '+%2C"institutionIDParam"%3A+' + '"' + institutionID + '"' + '+%2C"contentAreaParam"%3A+' + '"' + statusParam + '"'  + '+%2C"gradYearParam"%3A+' + '"' + gradYearParam + '"' + '+%2C"currentGradYearParam"%3A+' + '"' + currentGradYearParam + '"' + '}}';
+        window.open(webAppPath+"/api/repos/:public:ascend:dashboards:faculty_students.wcdf/generatedContent?" + '&bookmarkState=' + bookmark, "_self");
+    });
+    
+} ,
+  listeners: ['allClassesParam'],
+  queryDefinition:  {
+
+  }
+};
+
+var render_studentsButton = {
+  type: "buttonComponent",
+  name: "render_studentsButton",
+  priority: 5,
+  label: "STUDENTS",
+  htmlObject: "studentsButtonObj",
+  buttonStyle: "classic",
+  executeAtStart: false,
+  listeners: [],
+  actionParameters: [],
+  expression: function f() {
+    var institutionID = Dashboards.getParameterValue('institutionIDParam');
+    var gradYear = Dashboards.getParameterValue('gradYearParam');
+    var currentGradYear = Dashboards.getParameterValue('currentGradYearParam');
+    var add = this.htmlObject.slice(17,this.htmlObject.length);
+    var param = "classesParam" + add;
+    var className = Dashboards.getParameterValue(param)[0];
+    var length = allClassesIDParam.length;
+    var classID;
+    
+    
+    for ( var i = 0; i < length; i++ ){
+        if ( className == allClassesIDParam[i][1] ){
+            classID = allClassesIDParam[i][0];
+        }
+    }
+    
+    var bookmark = '{"impl"%3A"client"%2C"params"%3A {"classIDParam"%3A+' + '"' + classID + '"' + '+%2C"institutionIDParam"%3A+' + '"' + institutionID + '"' + '+%2C"gradYearParam"%3A+' + '"' + gradYear + '"' + '+%2C"currentGradYearParam"%3A+' + '"' + currentGradYear + '"' + '}}';
+    window.open(webAppPath+"/api/repos/:public:ascend:dashboards:faculty_students.wcdf/generatedContent?" + '&bookmarkState=' + bookmark, "_self"); 
+}
+ ,
+  actionDefinition:  {
+
+  }
+};
+
+var render_classesDuplicateComponent = {
+  type: "duplicate",
+  name: "render_classesDuplicateComponent",
+  priority: 5,
+  executeAtStart: true,
+  components: ["classTitleComponent","classPercentComponent","detailsButton","studentsComponent","studentsBarFreeformComponent","studentsButton"],
+  parameters: ["classesParam"],
+  targetHtmlObject: "classesTemplateObj",
+  targetContainer: "detailsRow",
+  postExecution: function f(){
+    
+    var classesList = Dashboards.getParameterValue('allClassesParam'),
+        duplicator = this;
+        
+    _.each( classesList, function(cat){
+        duplicator.duplicate({classesParam:cat});
+    });
+    
+},
+  listeners: ['startDateParam','endDateParam','classIDParam']
+};
+
+var render_studentsPopupButton = {
+  type: "buttonComponent",
+  name: "render_studentsPopupButton",
+  priority: 5,
+  label: "i",
+  htmlObject: "studentsPopupObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [],
+  expression: function f(){
+    render_studentsPopup.popup($('#studentsPopupObj'));
+},
+  actionDefinition:  {
+
+  }
+};
+
+var render_studentsPopup = {
+  type: "popup",
+  name: "render_studentsPopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "studentsTitlePopupObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_studentsAtRiskTable = {
+  type: "Table",
+  name: "render_studentsAtRiskTable",
+  priority: 5,
+  htmlObject: "studentsTableObj",
+  listeners: ['startDateParam','endDateParam','classIDParam'],
+  parameters: [["institutionIDParam","institutionIDParam"],["classIDParam","classIDParam"],["currentGradYearParam","currentGradYearParam"],["gradYearParam","gradYearParam"]],
+  executeAtStart: true,
+  preExecution: function f(){
+    this.setAddInOptions("colType","dialChart", function(){
+        
+        return {
+            textFormat: function(v,st) {
+            return v;
+            }
+        };
+    });    
+    
+} ,
+  postExecution: function f(){
+   $("#"+this.htmlObject).find('th.column4').removeClass("dialChart");
+} ,
+  extraOptions: [],
+  expandParameters: [],
+  expandOnClick: false,
+  chartDefinition:  {
+    dataAccessId: "studentsAtRiskQuery",
+    path: "/public/ascend/dashboards/faculty.cda",
+    clickAction: function f(a){
+    var studentIDParam = a.rawData.resultset[a.rowIdx][5],
+        classIDParam = a.rawData.resultset[a.rowIdx][6],
+        bookmark = '{"impl"%3A"client"%2C"params"%3A {"institutionIDParam"%3A+' + '"' + institutionIDParam + '"' + '+%2C"classIDParam"%3A+' + '"' + classIDParam + '"' + '+%2C"studentIDParam"%3A+' + '"' + studentIDParam + '"' + '}}';
+    if ( a.colIdx === 0 ){
+        window.open(webAppPath+"/api/repos/:public:ascend:dashboards:student_drilldown.wcdf/generatedContent?"+'bookmarkState='+ bookmark,"_self");
+    } else if ( a.colIdx === 4 ){
+        if ( a.value === null ){
+            return;
+        } else {
+            window.open(webAppPath+"/api/repos/:public:ascend:dashboards:usage.wcdf/generatedContent?"+'bookmarkState='+ bookmark,"_self");
+        }
+    }
+} ,
+    colHeaders: ["Student","Class"," <br>Probability<br>of Passing<br>NCLEX®","Trending","Student Usage"],
+    colTypes: ["formattedText","formattedText","numeric","trendArrow","dialChart"],
+    colFormats: [null,null,"%0.0f%",null,null],
+    colWidths: [],
+    colSortable: [],
+    colSearchable: [],
+    paginate: true,
+    paginateServerside: false,
+    paginationType: "two_button",
+    filter: false,
+    info: true,
+    sort: true,
+    sortBy: [["2","asc"]],
+    lengthChange: false,
+    tableStyle: "classic"
+  }
+};
+
+var render_searchButtonComponent = {
+  type: "buttonComponent",
+  name: "render_searchButtonComponent",
+  priority: 5,
+  label: "Search",
+  htmlObject: "searchButtonObj",
+  buttonStyle: "classic",
+  executeAtStart: true,
+  listeners: [],
+  preExecution: function f(){
+    $('#studentSearchTableObj').addClass('WDhidden');
+},
+  actionParameters: [],
+  expression: function f(){
+    if ( studentSearchParam === "" ){
+        $('#studentSearchTableObj').addClass('WDhidden');
+    }else{
+        $('#studentSearchTableObj').removeClass('WDhidden');
+    }
+    render_studentsSearchTable.update();
+},
+  actionDefinition:  {
+
+  }
+};
+
+var render_studentsSearchTable = {
+  type: "Table",
+  name: "render_studentsSearchTable",
+  priority: 5,
+  htmlObject: "studentSearchTableObj",
+  listeners: ['classID2Param'],
+  parameters: [["institutionIDParam","institutionIDParam"],["classID2Param","classID2Param"],["studentSearchParam","studentSearchParam"]],
+  executeAtStart: true,
+  postFetch: function f(data){
+    var result = data.resultset,
+        length = result.length;
+    for (var i = 0; i < length; i++){
+        if (!isNaN(result[i][4])){
+            result[i][4] = parseFloat(Math.round(result[i][4])) + "%";
+        }
+        if (result[i][6] !== null ){
+            result[i][6] = parseFloat(Math.round(result[i][6]));
+        }
+    }
+    
+    data.resultset = result;
+    return data;
+} ,
+  postExecution: function f(){
+   $("#"+this.htmlObject).find('th.column6').removeClass("dialChart");
+} ,
+  extraOptions: [],
+  expandParameters: [],
+  expandOnClick: false,
+  chartDefinition:  {
+    dataAccessId: "studentSearchQuery",
+    path: "/public/ascend/dashboards/faculty.cda",
+    clickAction: function f(a){
+    var result = Dashboards.getParameterValue('allClassesIDParam'),
+        length = result.length;
+    var classIDParam = a.rawData.resultset[a.rowIdx][8];
+    var studentIDParam = a.rawData.resultset[a.rowIdx][7];             
+    var bookmark = '{"impl"%3A"client"%2C"params"%3A {"institutionIDParam"%3A+' + '"' + institutionIDParam + '"' + '+%2C"classIDParam"%3A+' + '"' + classIDParam + '"' + '+%2C"studentIDParam"%3A+' + '"' + studentIDParam + '"' + '}}';
+    if ( a.colIdx === 0 ){
+        window.open(webAppPath+"/api/repos/:public:ascend:dashboards:student_drilldown.wcdf/generatedContent?"+'bookmarkState='+ bookmark,"_self");
+    } else if ( a.colIdx === 6 ){
+        if ( a.value === null ){
+            return;
+        } else {
+            window.open(webAppPath+"/api/repos/:public:ascend:dashboards:usage.wcdf/generatedContent?"+'bookmarkState='+ bookmark,"_self");
+        }
+    }
+} ,
+    colHeaders: ["Student","Email","StudentID","Class"," <br>Probability<br>of Passing<br>NCLEX","Trending","Student Usage"],
+    colTypes: ["formattedText","formattedText","formattedText","formattedText","formattedText","trendArrow","dialChart"],
+    colFormats: [null,null,null,null,null,null,null],
+    colWidths: [],
+    colSortable: [],
+    colSearchable: ["0"],
+    paginate: true,
+    paginateServerside: false,
+    paginationType: "two_button",
+    filter: false,
+    info: true,
+    sort: true,
+    sortBy: [],
+    lengthChange: false,
+    tableStyle: "classic",
+    drawCallback: function f() {
+    var myself = this,
+        table = $("#" + myself.htmlObject + " table");
+    
+    table.find("tbody tr").each(function(idx,e) {
+        var email = $(e).find("td.column1").text(),
+            emailLength = email.length;
+        
+        if ( emailLength > 30 ){
+                $(e).find('td.column1').text(email.slice(0,30) + '...');
+                $(e).find('td.column1').attr('title', email);
+        }
+    });
+} 
+  }
+};
+
+var render_termsButton = {
+  type: "buttonComponent",
+  name: "render_termsButton",
+  priority: 5,
+  label: "User terms and conditions",
+  htmlObject: "footerObj",
+  buttonStyle: "themeroller",
+  executeAtStart: true,
+  listeners: [],
+  actionParameters: [],
+  expression: function f(){
+    render_termsPopup.popup($('#footerObj'));
+}
+,
+  actionDefinition:  {
+
+  }
+};
+
+var render_termsPopup = {
+  type: "popup",
+  name: "render_termsPopup",
+  priority: 5,
+  executeAtStart: true,
+  htmlObject: "termsPopupObj",
+  gravity: "S",
+  draggable: false,
+  closeOnClickOutside: true,
+  parameters: [],
+  listeners: [],
+  horizontalScroll: false,
+  verticalScroll: false
+};
+
+var render_termsText = {
+  type: "textComponent",
+  name: "render_termsText",
+  priority: 5,
+  expression: function (){
+    return ascend.termsText;
+    },
+  htmlObject: "termsText",
+  listeners: [],
+  executeAtStart: true
+};
+
+Dashboards.addComponents([render_dateRange_dummy, render_feedbackText, render_gradSelector, render_classSelector, render_class2Selector, render_studentSearchTextComponent, render_nameSessionVarQueryComponent, render_studentNameQueryComponent, render_nameRoleHeader, render_instNameQueryComponent, render_schoolNameTextComponent, render_studentStatusQueryComponent, render_studentsFreeformComponent, render_feedbackPopupButton, render_feedbackPopup, render_saveButtonComponent, render_emptyFeedbackPopup, render_sendOkPopup, render_sendNotOkPopup, render_printButton, render_averageTitleQueryComponent, render_averageTitle, render_titlePopupButton, render_titlePopup, render_studentsSearchPopupButton, render_studentSearchPopup, render_allClassesIDQueryComponent, render_allClassesQueryComponent, render_classTitleComponent, render_classPercentComponent, render_detailsButton, render_studentsComponent, render_studentsBarFreeformComponent, render_studentsButton, render_classesDuplicateComponent, render_studentsPopupButton, render_studentsPopup, render_studentsAtRiskTable, render_searchButtonComponent, render_studentsSearchTable, render_termsButton, render_termsPopup, render_termsText]);
+
+</script>
+
+<script language="javascript" type="text/javascript">
+Dashboards.init();
+</script>
+
+		
+				<script type="text/javascript">
+		$( function(){
+				//$(".round").corner();
+				$(".cdfdd-round").corner();
+				$(".cdfdd-bevel").corner("bevel");
+				$(".cdfdd-notch").corner("notch");
+				$(".cdfdd-bite").corner("bite");
+				$(".cdfdd-bevel_top").corner("bevel top");
+				$(".cdfdd-dog_tr").corner("dog tr");
+			} ) ;
+		</script>
+		
+
+	</body>
+</html>
+
+

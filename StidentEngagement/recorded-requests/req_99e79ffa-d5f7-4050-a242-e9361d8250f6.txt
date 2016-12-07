@@ -1,0 +1,9 @@
+GET http://download.cdn.mozilla.net/pub/firefox/releases/47.0/update/win32/en-US/firefox-47.0.complete.mar HTTP/1.1
+Host: download.cdn.mozilla.net
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Range: bytes=15300000-15599999
+If-Range: "bb02ec7d7367c1c95986663a8fbf87cf"
+Connection: keep-alive
+

@@ -1,0 +1,10 @@
+GET http://stage-www.atitesting.com/ati_next_gen/Includes/Images/genericBtnHov.png HTTP/1.1
+Host: stage-www.atitesting.com
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0
+Accept: image/png,image/*;q=0.8,*/*;q=0.5
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://stage-www.atitesting.com/ati_next_gen/Includes/CSS/dashboardFacultyAndStudent.css
+Cookie: ASP.NET_SessionId=cvuly1ugrx5faujpskrsoo55; _ga=GA1.3.464979468.1465896111; _dc_gtm_UA-6539623-2=1; __hstc=128800851.76700dbca6e65c91f2d36b54c1d26c23.1465896112520.1465896112520.1465896112520.1; __hssrc=1; __hssc=128800851.1.1465896112521; hsfirstvisit=https%3A%2F%2Fstage-www.atitesting.com%2FHome.aspx||1465896112514; hubspotutk=76700dbca6e65c91f2d36b54c1d26c23; .ASPXAUTH=D36FB29EDF2E20FCED5759937F4F23B1963B6E6362C5D5F60A97EEAF6045DF38F42E0672CE7BF7385A18603D0D6BD0A1F5419BA56A7DD475D72AE085134503A631FEA7F2AE466E7AD7DF60E7B5D98B68; UserFullName=Juan C Caluya Jr; UserRole=Instructor; UserPortalLink=/ati_next_gen/Faculty/FacultyLanding.aspx; ATINextGenSessionID=cvuly1ugrx5faujpskrsoo55; ATINextGenSessionUserID=1189251; ATINextGenWorkStationID=WScvuly1ugrx5faujpskrsoo55; ATINextGenWorkStationUserID=1189251
+Connection: keep-alive
+
